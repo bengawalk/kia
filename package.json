@@ -1,0 +1,25 @@
+{
+  "name": "kia",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:bengawalk/kia.git",
+  "author": "Deep <deep@euclidxr.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "vite --mode development --host 0.0.0.0 --port 3000",
+    "build": "vite build",
+    "preview": "vite preview",
+    "publish": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "geolib": "^3.3.3",
+    "gh-pages": "^4.0.0",
+    "google-polyline": "^1.0.3",
+    "lodash": "^4.17.21",
+    "mapbox-gl": "^2.10.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.55.0",
+    "vite": "^3.1.0"
+  }
+}
