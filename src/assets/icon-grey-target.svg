@@ -1,0 +1,11 @@
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+  <g id="invisible_box" data-name="invisible box">
+    <rect id="Rectangle_60" data-name="Rectangle 60" width="18" height="18" fill="none"/>
+  </g>
+  <g id="icons_Q2" data-name="icons Q2" transform="translate(0.75 0.75)">
+    <g id="Group_82" data-name="Group 82">
+      <path id="Path_29" data-name="Path 29" d="M17.75,9.5H16.213A6.038,6.038,0,0,0,11,4.288h0V2.75a.75.75,0,1,0-1.5,0v1.5h0A6.038,6.038,0,0,0,4.287,9.5H2.75a.75.75,0,1,0,0,1.5H4.288A6.037,6.037,0,0,0,9.5,16.212h0v1.5a.75.75,0,1,0,1.5,0V16.25h0A6.038,6.038,0,0,0,16.212,11H17.75a.75.75,0,1,0,0-1.5Zm-7.5,5.25a4.5,4.5,0,1,1,4.5-4.5A4.5,4.5,0,0,1,10.25,14.75Z" transform="translate(-2 -2)" fill="#ddd"/>
+      <circle id="Ellipse_172" data-name="Ellipse 172" cx="2.625" cy="2.625" r="2.625" transform="translate(5.625 5.625)" fill="#ddd"/>
+    </g>
+  </g>
+</svg>

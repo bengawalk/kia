@@ -1,6 +1,7 @@
 import React from "react";
-import IconBus from "./icon-bus";
-import {STOPS_DATA} from "./contants";
+import IconBus from "../assets/icon-bus";
+import IconOpenLink from "../assets/icon-open-link.svg"
+import {STOPS_DATA} from "../utils/constants";
 import BusItemTime from "./bus-item-time";
 
 const BusItem = ({ busDetails, selectedBus, setSelectedBus, toAirport, currentTime }) => {
@@ -32,6 +33,33 @@ const BusItem = ({ busDetails, selectedBus, setSelectedBus, toAirport, currentTi
             ))
           }
         </div>
+        <h3 className="mb-2">
+          {
+            toAirport ? "Boarding point" : "Final stop"
+          }
+        </h3>
+        {
+          toAirport ? (
+            <a
+              className="route-item-location"
+              href={`https://www.google.com/maps/search/?api=1&query=${start.loc[0]},${start.loc[1]}`}
+              target="_blank"
+            >
+              {start.name}
+              <img src={IconOpenLink} alt="Open" />
+            </a>
+          ) : (
+            <a
+              className="route-item-location"
+              href={`https://www.google.com/maps/search/?api=1&query=${end.loc[0]},${end.loc[1]}`}
+              target="_blank"
+            >
+              {end.name}
+              <img src={IconOpenLink} alt="Open" />
+            </a>
+          )
+        }
+
       </div>
     </div>
   );
