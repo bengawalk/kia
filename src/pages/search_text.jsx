@@ -8,9 +8,10 @@ import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocomplet
 import {APP_SCREENS} from "../utils/constants";
 
 const SearchText = ({
-                      setCurrentScreen,
+  selectedTab,
+  setCurrentScreen,
   setInputLocation,
-                    }) => {
+}) => {
   const [input, setInput] = useState("");
 
   const {
@@ -58,7 +59,9 @@ const SearchText = ({
           <img src={IconBack} alt="Back" />
         </button>
         <h3 id="search-heading-text">
-          Enter starting point
+          {
+            selectedTab === 'ta' ? "Enter starting point" : "Enter destination"
+          }
         </h3>
       </div>
       <div id="search-input-wrapper">
@@ -80,8 +83,9 @@ const SearchText = ({
       <div id="search-results">
         {
           isPlacePredictionsLoading && (
-            <div>
-              Loading....
+            <div id="search-loading">
+              <div className="spin" />
+              Loading...
             </div>
           )
         }

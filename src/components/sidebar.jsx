@@ -6,6 +6,8 @@ import {HELPLINE_NUMBER, TABS} from "../utils/constants";
 import {getCurrentMsm} from "../utils";
 import BusItem from "./bus-item";
 
+const COLLAPSED_HEIGHT = 120;
+
 const getCoordinatesFromEvent = (e) => {
   let [x, y] = [0, 0];
   if(e.clientX) {
@@ -25,7 +27,6 @@ class Sidebar extends React.PureComponent {
       x: null,
       y: null,
       move: 0,
-      // sidebarOpen: false,
       currentTime: getCurrentMsm(),
       resized: 0,
     };
@@ -73,7 +74,7 @@ class Sidebar extends React.PureComponent {
     }
     const [x, y] = getCoordinatesFromEvent(e);
     this.setState(({ move }) => ({
-      move: Math.max(move + y - this.state.y, -window.innerHeight + 90),
+      move: Math.max(move + y - this.state.y, -window.innerHeight + COLLAPSED_HEIGHT),
       y,
     }));
   }
@@ -89,7 +90,7 @@ class Sidebar extends React.PureComponent {
       if(this.state.move < -200) {
         // Touch moved up by a significant value
         this.setState({
-          move: -window.innerHeight + 90,
+          move: -window.innerHeight + COLLAPSED_HEIGHT,
         });
       } else {
         // Touch moved up but not significant
@@ -99,13 +100,13 @@ class Sidebar extends React.PureComponent {
       }
   }
   render() {
-    const { selectedTab, setSelectedTab, sortedTabData, selectedBus, setSelectedBus, locationState } = this.props;
+    const { selectedTab, setSelectedTab, sortedTabData, selectedBus, setSelectedBus, suggestedBus, suggestedBusDetails } = this.props;
     const { currentTime, move } = this.state;
     return (
       <div
         id="sidebar"
         style={{
-          top: `calc(100% - ${90 - move}px)`
+          top: `calc(100% - ${COLLAPSED_HEIGHT - move}px)`
         }}
         className={classNames({
           "sharp-corners": move < -200,
@@ -135,21 +136,39 @@ class Sidebar extends React.PureComponent {
           </div>
         </div>
         <div id="sidebar-content">
-          <h4 className="mb-4 plr">Routes and Schedules</h4>
-          <div id="sidebar-bus-list">
-            {
-              sortedTabData.map(bus => (
+          {
+            suggestedBus && (
+              <>
+                <h4 className="mb-4">
+                  Suggested bus
+                </h4>
                 <BusItem
-                  key={bus.name}
-                  busDetails={bus}
+                  busDetails={suggestedBusDetails}
                   selectedBus={selectedBus}
                   setSelectedBus={setSelectedBus}
                   toAirport={selectedTab === "ta"}
                   currentTime={currentTime}
                 />
-              ))
+              </>
+            )
+          }
+          <h4 className="mb-4">
+            {
+              suggestedBus ? "Other Buses" : "Routes and Schedules"
             }
-          </div>
+          </h4>
+          {
+            sortedTabData.map(bus => bus.name === suggestedBus ? null : (
+              <BusItem
+                key={bus.name}
+                busDetails={bus}
+                selectedBus={selectedBus}
+                setSelectedBus={setSelectedBus}
+                toAirport={selectedTab === "ta"}
+                currentTime={currentTime}
+              />
+            ))
+          }
         </div>
         <div className="padding text">
           <h4 className="mb-2">BMTC Vayu Vajra Helpline</h4>

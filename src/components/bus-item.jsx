@@ -33,7 +33,7 @@ const BusItem = ({ busDetails, selectedBus, setSelectedBus, toAirport, currentTi
             ))
           }
         </div>
-        <h3 className="mb-2">
+        <h3>
           {
             toAirport ? "Boarding point" : "Final stop"
           }

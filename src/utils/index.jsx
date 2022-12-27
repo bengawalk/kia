@@ -1,5 +1,8 @@
 import polyline from "google-polyline";
+import _ from "lodash";
 import {useEffect, useState} from "react";
+import {STOPS_DATA} from "./constants";
+import {getDistance} from "geolib";
 
 export const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -16,6 +19,20 @@ export const useDebounce = (value, delay) => {
   );
   return debouncedValue;
 }
+
+export const getSuggestedBus = (buses, targetLocation) => {
+  // Get the most optimum bus to take to reach the airport
+  // At present this is the combination of the closest routes to the location
+  // and the next available time. Lower distance and lower time is better.
+  if(!targetLocation) {
+    return null;
+  }
+  const pointToCompare = buses[0].start === STOPS_DATA.airport ? "end" : "start";
+  return _.minBy(buses, b => getDistance(
+    { latitude: targetLocation.lat, longitude: targetLocation.lng },
+    { latitude: b[pointToCompare].loc[0], longitude: b[pointToCompare].loc[1] }
+  )).name;
+};
 
 export const getRoutesGeojson = (busData) => ({
   type: "geojson",
@@ -35,18 +52,18 @@ export const getRoutesGeojson = (busData) => ({
   },
 });
 
-export const getStopsGeoJson = (busData) => ({
+export const getStopsGeoJson = (busData, selectedTab) => ({
   type: "geojson",
   data: {
     "type": "FeatureCollection",
     "features": busData.map(b => ({
       'type': 'Feature',
       'properties': {
-        name: b.start.name,
+        name: selectedTab === 'ta' ? b.start.name : b.end.name,
       },
       'geometry': {
         type: "Point",
-        'coordinates': b.start.loc.reverse(),
+        'coordinates': selectedTab === 'ta' ? Array.from(b.start.loc).reverse() : Array.from(b.end.loc).reverse(),
       }
     }))
   },

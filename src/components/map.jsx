@@ -1,7 +1,7 @@
 import * as React from "react";
 import mapboxgl from 'mapbox-gl';
 import {getRoutesGeojson, getStopsGeoJson} from "../utils";
-import {MAP_STYLE_HIGHLIGHTED_ROUTE, MAP_STYPE_ROUTE, MAP_STYPE_STOP} from "../utils/constants";
+import {MAP_STYLE_HIGHLIGHTED_ROUTE, MAP_STYPE_ROUTE, MAP_STYPE_STOP, STOPS_DATA} from "../utils/constants";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -9,8 +9,8 @@ class Map extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      lng: 77.57475793027761,
-      lat: 12.97724955890747,
+      lat: STOPS_DATA.majestic.loc[0],
+      lng: STOPS_DATA.majestic.loc[1],
       zoom: 11
     };
     this.mapContainer = React.createRef();
@@ -48,21 +48,32 @@ class Map extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { location, selectedBus, selectedTab } = this.props;
-    const { location: prevLocation, selectedBus: prevSelectedBus, selectedTab: prevSelectedTab } = prevProps;
+    const { userLocation, inputLocation, selectedBus, selectedTab } = this.props;
+    const {
+      userLocation: prevUserLocation,
+      selectedBus: prevSelectedBus,
+      selectedTab: prevSelectedTab,
+      inputLocation: prevInputLocation,
+    } = prevProps;
 
     if(prevSelectedTab !== selectedTab) {
       this.refreshMapData();
     }
 
-    if(location && !prevLocation) {
+    if(userLocation && !prevUserLocation) {
       const el = document.createElement('div');
       el.className = 'location-indicator';
 
-      this.locationMarker = new mapboxgl.Marker(el)
-        .setLngLat(location)
-        .addTo(this.map);
+      this.userLocationMarker.setLngLat(userLocation);
     }
+
+    if(inputLocation && !prevInputLocation) {
+      const el = document.createElement('div');
+      el.className = 'input-location-indicator';
+
+      this.inputLocationMarker.setLngLat(inputLocation);
+    }
+
     if(selectedBus !== prevSelectedBus) {
       this.map.setFilter('routes-highlighted', [
         '==',
@@ -76,6 +87,9 @@ class Map extends React.PureComponent {
     const {
       busData,
       selectedBus,
+      selectedTab,
+      userLocation,
+      inputLocation,
     } = this.props;
 
     this.map.addSource("routes", getRoutesGeojson(busData));
@@ -94,13 +108,35 @@ class Map extends React.PureComponent {
       },
     );
 
-    this.map.addSource("stops", getStopsGeoJson(busData));
+    this.map.addSource("stops", getStopsGeoJson(busData, selectedTab));
 
     this.map.addLayer({
       'id': 'stops',
       'source': 'stops',
       ...MAP_STYPE_STOP,
     });
+
+    // Show user location on the map
+    const el = document.createElement('div');
+    el.className = 'user-location-indicator';
+    this.userLocationMarker = new mapboxgl.Marker(el)
+      .setLngLat({ lat: 0, lng: 0 })
+      .addTo(this.map);
+
+    if(userLocation) {
+      this.userLocationMarker.setLngLat(userLocation);
+    }
+
+    // Show input location on the map
+    const el2 = document.createElement('div');
+    el2.className = 'input-location-indicator';
+    this.inputLocationMarker = new mapboxgl.Marker(el2)
+      .setLngLat({ lat: 0, lng: 0 })
+      .addTo(this.map);
+
+    if(inputLocation) {
+      this.inputLocationMarker.setLngLat(inputLocation);
+    }
   }
 
   addMapEvents = () => {
@@ -165,13 +201,14 @@ class Map extends React.PureComponent {
 
   refreshMapData = () => {
     const {
-      busData
+      busData,
+      selectedTab,
     } = this.props;
 
     const routeSource = this.map.getSource('routes');
     const stopsSource = this.map.getSource('stops');
-    routeSource.setData(getRoutesGeojson(busData));
-    stopsSource.setData(getStopsGeoJson(busData));
+    routeSource.setData(getRoutesGeojson(busData).data);
+    stopsSource.setData(getStopsGeoJson(busData, selectedTab).data);
   }
 
   render() {

@@ -2,33 +2,50 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import {useEffect, useState} from "react";
 import InitialScreen from "./pages/initial";
-import {APP_SCREENS, LOCATION_STATES} from "./utils/constants";
+import {APP_SCREENS, LOCATION_STATES, STOPS_DATA, TABS} from "./utils/constants";
 import SearchText from "./pages/search_text";
 import SearchMap from "./pages/search_map";
+import getDistance from "geolib/es/getDistance";
 
 const Container = () => {
   const [currentScreen, setCurrentScreen] = useState(APP_SCREENS.INITIAL);
+  const [selectedTab, setSelectedTab] = useState(TABS[0].id);
   const [inputLocation, setInputLocation] = useState(null);
   const [userLocationState, setUserLocationState] = useState(LOCATION_STATES.PENDING);
-
-  // const [userLocation, setUserLocation] = useState(null); // Not shown at the moment. Just here for later.
+  const [userLocation, setUserLocation] = useState(null);
 
   const getUserLocation = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-        setInputLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        });
-        setUserLocationState(LOCATION_STATES.APPROVED);
-      },
-      (error) => {
-        if(error.code === 1) {
-          setUserLocationState(LOCATION_STATES.DENIED);
-        }
-        else {
-          console.log(error);
-        }
-      });
+    // TODO: The location is only retrieved once on load and never again.
+    //  This works fine as of now since the app is not expected to be used while the user is in motion
+    //  Later, the current position must be polled to update frequently
+    navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const {
+        latitude: lat,
+        longitude: lng,
+      } = position.coords;
+      const distanceToAirport = getDistance(
+        { latitude: lat, longitude: lng },
+        { latitude: STOPS_DATA.airport.loc[0], longitude: STOPS_DATA.airport.loc[1] }
+      );
+      if(distanceToAirport < 1000) {
+        // If user is near the airport, we set the current location but not input location
+        // User has to manually enter the destination in the input box
+        setSelectedTab(TABS[1].id);
+      } else {
+        setInputLocation({ lat, lng });
+      }
+      setUserLocation({ lat, lng });
+      setUserLocationState(LOCATION_STATES.APPROVED);
+    },
+    (error) => {
+      if(error.code === 1) {
+        setUserLocationState(LOCATION_STATES.DENIED);
+      }
+      else {
+        console.log(error);
+      }
+    });
   }
 
   useEffect(() => {
@@ -46,7 +63,9 @@ const Container = () => {
       {
         currentScreen === APP_SCREENS.INITIAL && (
           <InitialScreen
-            userLocationState={userLocationState}
+            userLocation={userLocation}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
             inputLocation={inputLocation}
             setCurrentScreen={setCurrentScreen}
           />
@@ -54,12 +73,21 @@ const Container = () => {
       }
       {
         currentScreen === APP_SCREENS.LOCATION_TEXT && (
-          <SearchText setCurrentScreen={setCurrentScreen} setInputLocation={setInputLocation} />
+          <SearchText
+            selectedTab={selectedTab}
+            setCurrentScreen={setCurrentScreen}
+            setInputLocation={setInputLocation}
+          />
         )
       }
       {
         currentScreen === APP_SCREENS.LOCATION_MAP && (
-          <SearchMap />
+          <SearchMap
+            selectedTab={selectedTab}
+            inputLocation={inputLocation}
+            setInputLocation={setInputLocation}
+            setCurrentScreen={setCurrentScreen}
+          />
         )
       }
     </div>
