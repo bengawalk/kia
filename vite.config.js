@@ -1,6 +1,18 @@
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
 // import { VitePWA } from 'vite-plugin-pwa';
 
-export default {
+export default defineConfig({
+  envDir: resolve(__dirname),
+  publicDir: resolve(__dirname, 'public'),
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'src/index.html'),
+        "privacy-policy": resolve(__dirname, 'src/privacy-policy/index.html'),
+      },
+    },
+  },
   plugins: [
     // VitePWA({
     //   // injectRegister: 'inline',
@@ -43,4 +55,4 @@ export default {
     //   },
     // }),
   ],
-};
+});
