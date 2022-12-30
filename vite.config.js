@@ -12,6 +12,7 @@ export default defineConfig({
         "privacy-policy": resolve(__dirname, 'src/privacy-policy/index.html'),
       },
     },
+    outDir: resolve(__dirname, 'dist'),
   },
   plugins: [
     // VitePWA({
