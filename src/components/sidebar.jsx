@@ -145,7 +145,7 @@ class Sidebar extends React.PureComponent {
         id="sidebar"
         style={{
           top: `calc(100% - ${COLLAPSED_HEIGHT - move}px)`,
-          height: `${-move + 120}px`
+          height: `${move < -400 ? -move + 120 : -move + 120 + 90}px`
         }}
         className={classNames({
           "sharp-corners": move < -200,
