@@ -2,11 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Privacy Policy | </title>
+    <title>Privacy Policy | KIA Vayu Vajra</title>
+    <style>
+        *{
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        h3 {
+            margin: 50px 0 10px;
+        }
+
+        #content-wrapper {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+    </style>
 </head>
 <body>
 
-Privacy policy
+<div id="content-wrapper">
+    <h1>Privacy policy</h1>
+    <p>
+        The purpose of this privacy policy is to be transparent and give an accurate detail of how the website handles the data you provide while using it.
+    </p>
+
+    <h3>Information collected</h3>
+    <p>
+        No information is collected or sent remotely by the application. For enhanced user experience and performance, some information is locally stored.<br />
+        This primarily includes <b>the metadata of past locations the user has entered in the application</b>. The user's current location is not stored. For every visit, the application tries to get the current location again.
+        None of the timing for actions is stored. When a user selects a location as a starting/drop location, we use Google API services to get a name and ID of the location. To prevent avoidable API calls to Google and reduce costs, this [Name, ID, Coordinates] data is stored locally so on subsequent visit, if the application notices the user is closer to any of these past locations, instead of showing a lat,lng coordinate it shows the name of the place.<br />
+        This data is not used for any other inferences, not linked to the device/session, or user in any way.
+    </p>
+
+
+    <h3>Data collection</h3>
+    <p>
+        This application collect or store user data.<br />
+        <b>Cookies</b>: The application does not use cookies<br />
+        <b>Inputs</b>: None of the inputs provided on the site are persistent.<br />
+        <b>Server</b>: The application is entirely client-based and hence does not store information on the server.<br />
+        <b>Local storage</b>: The browser provided <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API">Web storage API</a> for persistent data across user sessions is used to store the information listed above. this data is not accessible by the server or other sites.
+    </p>
+
+    <h3>Verification</h3>
+    <p>To verify the technical implementation of the privacy aspects of the site, and ensure the above data collection details are accurate, you could checkout the source code for the website at <a href="https://github.com/bengawalk/kia">the Github repo</a></p>
+
+
+    <h3>GDPR</h3>
+    <p>By default, we are GDPR compliant because we do not collect any data and hence cannot use/misuse/leak it.</p>
+
+    <h3>Contact</h3>
+    <p>For any clarification and information regarding privacy, please reach out to <a href="mailto:deep@euclidxr.com">deep@euclidxr.com</a></p>
+
+</div>
 
 </body>
 </html>
