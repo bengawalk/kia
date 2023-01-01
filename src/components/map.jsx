@@ -1,7 +1,16 @@
 import * as React from "react";
 import mapboxgl from 'mapbox-gl';
+import { find as lFind } from "lodash";
+
 import {getRoutesGeojson, getStopsGeoJson} from "../utils";
-import {MAP_STYLE_HIGHLIGHTED_ROUTE, MAP_STYPE_ROUTE, MAP_STYPE_STOP, STOPS_DATA} from "../utils/constants";
+import {
+  BUS_DATA,
+  MAP_STYLE_HIGHLIGHTED_ROUTE,
+  MAP_STYPE_ROUTE,
+  MAP_STYPE_STOP,
+  STOPS_DATA,
+  TABS
+} from "../utils/constants";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -84,6 +93,18 @@ class Map extends React.PureComponent {
         'name',
         selectedBus || '',
       ]);
+
+      if(selectedBus) {
+        const busesList = selectedTab === 'ta' ? BUS_DATA.to : BUS_DATA.from
+        const busDetails = lFind(busesList, { name: selectedBus });
+        this.map.setFilter('stops', [
+          '==',
+          'name',
+          busDetails.start.name || busDetails.end.name,
+        ]);
+      } else {
+        this.map.setFilter('stops', true);
+      }
     }
   }
 
@@ -118,6 +139,7 @@ class Map extends React.PureComponent {
       'id': 'stops',
       'source': 'stops',
       ...MAP_STYPE_STOP,
+      filter: true
     });
 
     this.initLocationMarkers();

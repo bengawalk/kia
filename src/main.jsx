@@ -106,6 +106,9 @@ const Container = () => {
           });
         })
         .catch(e => {
+          // Ignore the error than notify user. It might not matter much to the user when location lat lng is shown instead
+          // of text but would be an unnecessary information overload/distraction if the user is notified of the background api call failing
+          // which doesn't affect the core functionality.
           console.log("Error");
           console.log(e);
         });

@@ -24,6 +24,41 @@ export const LOCATION_STATES = {
   APPROVED: "APPROVED", // Successfully got user's permission
 };
 
+const PHONE_CONTACTS = {
+  jp_nagar: {
+    text: "J P Nagar 5th phase",
+    phone: "7760991265"
+  },
+  kempegowda: {
+    text: "Kempegowda Bus Station",
+    phone: "7760991170",
+  },
+  ecity: {
+    text: "Electronic City(Infosys Main Gate)",
+    phone: "7760991268",
+  },
+  hsr: {
+    text: "H.S.R BDA Complex",
+    phone: "7760991267",
+  },
+  mysore_road: {
+    text: "Mysore road Satellite Bus Station",
+    phone: "7760991262",
+  },
+  hal: {
+    text: "H.A.L Main Gate",
+    phone: "7760991264",
+  },
+  airport: {
+    text: "International Airport",
+    phone: "7760991269",
+  },
+  bmtc: {
+    text: "BMTC helpline",
+    phone: "1800 425 1663",
+  }
+};
+
 export const STOPS_DATA = {
   majestic: {
     name: "Majestic Bus Stand",
@@ -36,6 +71,7 @@ export const STOPS_DATA = {
   airport: {
     name: "Airport Bus Stand",
     loc: [13.199110535079635, 77.70822021568426],
+    phone: "7760991269",
   },
   hal: {
     name: "HAL Main Gate",
@@ -1059,10 +1095,10 @@ const COLOR_MUTED = "#aaaaaa";
 export const MAP_STYPE_STOP = {
   'type': 'circle',
   'paint': {
-    'circle-color': COLOR_HIGHLIGHT,
+    'circle-color': '#ffffff',
     'circle-radius': 8,
-    'circle-stroke-width': 2,
-    'circle-stroke-color': '#ffffff'
+    'circle-stroke-width': 3,
+    'circle-stroke-color': COLOR_HIGHLIGHT
   }
 };
 
