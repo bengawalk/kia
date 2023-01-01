@@ -59,11 +59,15 @@ class Sidebar extends React.PureComponent {
     const {
       selectedBus
     } = this.props;
+    const {
+      selectedBus: prevSelectedBus
+    } = prevProps;
+    const { move } = this.state;
     if(selectedBus) {
       const sidebarItem = document.querySelector(`.bus-${selectedBus}`);
       const bounds = sidebarItem.getBoundingClientRect();
       if (
-        bounds.top >= 120 &&
+        bounds.top >= window.innerHeight + move &&
         bounds.top <= window.innerHeight - 100
       ) {
         // Already in the sidebar view
@@ -73,6 +77,14 @@ class Sidebar extends React.PureComponent {
           behavior: 'smooth'
         })
       }
+    }
+    if(
+      (selectedBus !== prevSelectedBus) &&
+      (move < -200)
+    ) {
+      this.setState({
+        move: -200,
+      });
     }
   }
 
@@ -108,10 +120,15 @@ class Sidebar extends React.PureComponent {
       x: null,
       y: null,
     });
-      if(this.state.move < -200) {
+      if(this.state.move < -300) {
         // Touch moved up by a significant value
         this.setState({
           move: -window.innerHeight + COLLAPSED_HEIGHT,
+        });
+      } else if(this.state.move < -100) {
+        // Touch moved up by a significant value
+        this.setState({
+          move: -200,
         });
       } else {
         // Touch moved up but not significant
@@ -127,7 +144,8 @@ class Sidebar extends React.PureComponent {
       <div
         id="sidebar"
         style={{
-          top: `calc(100% - ${COLLAPSED_HEIGHT - move}px)`
+          top: `calc(100% - ${COLLAPSED_HEIGHT - move}px)`,
+          height: `${-move + 120}px`
         }}
         className={classNames({
           "sharp-corners": move < -200,
@@ -156,7 +174,8 @@ class Sidebar extends React.PureComponent {
             }
           </div>
         </div>
-        <div id="sidebar-content">
+        <div id="sidebar-content"
+        >
           {
             suggestedBus && (
               <>
