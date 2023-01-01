@@ -34,6 +34,20 @@ export const getSuggestedBus = (buses, targetLocation) => {
   )).name;
 };
 
+export const saveLocationMedata = (placeId, name, location) => {
+  const locations = JSON.parse(localStorage.getItem("locations") || "[]");
+  const hasSamePlaceId = _.some(locations, { placeId });
+  // If there already exists a location in the list with the exact place id, don't add it again
+  localStorage.setItem("locations", JSON.stringify([
+    ...locations,
+    ...(hasSamePlaceId ? [] : [{
+      placeId,
+      name,
+      location,
+    }])
+  ]))
+};
+
 export const getRoutesGeojson = (busData) => ({
   type: "geojson",
   data: {

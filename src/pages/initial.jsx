@@ -14,6 +14,7 @@ const InitialScreen = ({
   userLocation,
   inputLocation,
   setCurrentScreen,
+  inputLocationMetadata,
 }) => {
   const [selectedBus, setSelectedBus] = useState(null);
   const selectedTabData = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
@@ -40,7 +41,11 @@ const InitialScreen = ({
         setSelectedBus={setSelectedBus}
         selectedTab={selectedTab}
       />
-      <MapLocationInput setCurrentScreen={setCurrentScreen} inputLocation={inputLocation} />
+      <MapLocationInput
+        setCurrentScreen={setCurrentScreen}
+        inputLocation={inputLocation}
+        inputLocationMetadata={inputLocationMetadata}
+      />
     </>
   )
 }

@@ -6,6 +6,7 @@ import LogoGoogle from "../assets/logo-google.svg";
 
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import {APP_SCREENS} from "../utils/constants";
+import {saveLocationMedata} from "../utils";
 
 const SearchText = ({
   selectedTab,
@@ -42,7 +43,16 @@ const SearchText = ({
         placeId,
       },
       (placeDetails) => {
-        const { lat, lng } = placeDetails.geometry.location;
+        const {
+          geometry: {
+            location: {
+              lat, lng
+            }
+          },
+          name,
+          place_id: placeId,
+        } = placeDetails;
+        saveLocationMedata(placeId, name, [lat(), lng()]);
         setInputLocation({
           lat: lat(),
           lng: lng()

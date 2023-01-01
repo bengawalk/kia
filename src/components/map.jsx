@@ -60,6 +60,10 @@ class Map extends React.PureComponent {
       this.refreshMapData();
     }
 
+    if(!this.userLocationMarker) {
+      this.initLocationMarkers();
+    }
+
     if(userLocation && !prevUserLocation) {
       const el = document.createElement('div');
       el.className = 'location-indicator';
@@ -116,6 +120,19 @@ class Map extends React.PureComponent {
       ...MAP_STYPE_STOP,
     });
 
+    this.initLocationMarkers();
+
+    if(userLocation) {
+      this.userLocationMarker.setLngLat(userLocation);
+    }
+
+    if(inputLocation) {
+      this.inputLocationMarker.setLngLat(inputLocation);
+    }
+  }
+
+
+  initLocationMarkers = () => {
     // Show user location on the map
     const el = document.createElement('div');
     el.className = 'user-location-indicator';
@@ -123,20 +140,12 @@ class Map extends React.PureComponent {
       .setLngLat({ lat: 0, lng: 0 })
       .addTo(this.map);
 
-    if(userLocation) {
-      this.userLocationMarker.setLngLat(userLocation);
-    }
-
     // Show input location on the map
     const el2 = document.createElement('div');
     el2.className = 'input-location-indicator';
     this.inputLocationMarker = new mapboxgl.Marker(el2)
       .setLngLat({ lat: 0, lng: 0 })
       .addTo(this.map);
-
-    if(inputLocation) {
-      this.inputLocationMarker.setLngLat(inputLocation);
-    }
   }
 
   addMapEvents = () => {

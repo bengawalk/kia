@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import {APP_SCREENS} from "../utils/constants";
 
-const MapLocationInput = ({ inputLocation, setCurrentScreen }) => (
+const MapLocationInput = ({ inputLocation, setCurrentScreen, inputLocationMetadata }) => (
   <div id="li-wrapper">
     <input
       id="li-input"
@@ -11,7 +11,7 @@ const MapLocationInput = ({ inputLocation, setCurrentScreen }) => (
       })}
       placeholder={
         inputLocation ?
-          `${inputLocation.lat}, ${inputLocation.lng}` :
+          inputLocationMetadata.name || `${inputLocation.lat}, ${inputLocation.lng}` :
           "Select a starting point"
       }
       onClick={() => setCurrentScreen(APP_SCREENS.LOCATION_TEXT)}
