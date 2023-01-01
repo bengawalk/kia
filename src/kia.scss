@@ -168,8 +168,13 @@ h4 {
 #sidebar {
     width: 408px;
     display: flex;
-    height: 100%;
     flex-direction: column;
+}
+
+@media screen and (min-width: 1000px) {
+    #sidebar {
+        height: 100% !important;
+    }
 }
 
 #logo-banner {
