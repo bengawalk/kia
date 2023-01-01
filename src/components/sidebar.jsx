@@ -55,6 +55,27 @@ class Sidebar extends React.PureComponent {
     window.removeEventListener("resize", this.onResize);
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const {
+      selectedBus
+    } = this.props;
+    if(selectedBus) {
+      const sidebarItem = document.querySelector(`.bus-${selectedBus}`);
+      const bounds = sidebarItem.getBoundingClientRect();
+      if (
+        bounds.top >= 120 &&
+        bounds.top <= window.innerHeight - 100
+      ) {
+        // Already in the sidebar view
+        // We don't scroll it if it's already in view since it might cause unintentional shift in layout
+      } else {
+        sidebarItem.scrollIntoView({
+          behavior: 'smooth'
+        })
+      }
+    }
+  }
+
   onResize = () => {
     this.setState(({ resized }) => ({ resized: resized + 1 }));
   }

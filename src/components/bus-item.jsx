@@ -13,7 +13,7 @@ const BusItem = ({ busDetails, selectedBus, setSelectedBus, toAirport, currentTi
   } = busDetails;
   const busSelected = name === selectedBus;
   return (
-    <div className={`route-item ${busSelected ? "selected" : ""}`}>
+    <div className={`route-item bus-${name} ${busSelected ? "selected" : ""}`}>
       <div className="route-item-header" onClick={() => setSelectedBus(busSelected ? null : name)}>
         <IconBus selected={busSelected} />
         <div className="route-item-bus-name">
