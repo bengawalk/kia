@@ -1,4 +1,6 @@
 const knTranslations = {
+  "BMTC VAYU VAJRA": "ಬಿಎಂಟಿಸಿ ವಾಯು ವಜ್ರ",
+
   "To airport": "ವಿಮಾನ ನಿಲ್ದಾಣಕ್ಕೆ",
   "From airport": "ವಿಮಾನ ನಿಲ್ದಾಣದಿಂದ",
   "Suggested bus": "ಸೂಚಿಸಿದ ಬಸ್",

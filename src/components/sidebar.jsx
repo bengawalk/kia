@@ -160,7 +160,7 @@ class Sidebar extends React.PureComponent {
         >
           <div id="logo-banner" className="mb-4">
             <img src="/bmtc_logo.svg" alt="BMTC logo" id="bmtc-logo" />
-            BMTC VAYU VAJRA
+            <Trans t={t} i18nKey="BMTC VAYU VAJRA" />
           </div>
           <div className="tabs">
             {
