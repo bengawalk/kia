@@ -171,6 +171,31 @@ h4 {
     flex-direction: column;
 }
 
+#lang-sel {
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.lang-btn {
+    background: transparent;
+    border: 0;
+    font-size: 0.7rem;
+    padding: 0 10px;
+    vertical-align: text-top;
+    color: var(--color-grey-medium);
+    cursor: pointer;
+    &.kn {
+        padding-top: 5px;
+    }
+    &.selected{
+        color: var(--color-primary);
+        text-decoration: underline;
+    }
+    &:hover {
+        color: var(--color-primary);
+    }
+}
+
 @media screen and (min-width: 1000px) {
     #sidebar {
         height: 100% !important;

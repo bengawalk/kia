@@ -8,12 +8,15 @@ import SearchText from "./pages/search_text";
 import SearchMap from "./pages/search_map";
 import getDistance from "geolib/es/getDistance";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
+import i18n from "i18next";
 import {saveLocationMedata} from "./utils";
+import "./utils/i18n";
 
 const Container = () => {
   const [currentScreen, setCurrentScreen] = useState(APP_SCREENS.INITIAL);
   const [selectedTab, setSelectedTab] = useState(TABS[0].id);
   const [inputLocation, setInputLocation] = useState(null);
+  const [lang, setLang] = useState(localStorage.getItem('lang'));
   const [inputLocationMetadata, setInputLocationMetadata] = useState({
     name: "",
     placeId: "",
@@ -59,6 +62,11 @@ const Container = () => {
       }
     });
   }
+
+  useEffect(() => {
+    localStorage.setItem('lang', lang);
+    i18n.changeLanguage(lang);
+  }, [lang]);
 
   useEffect(() => {
     // When the app opens, try to get user's location
@@ -126,6 +134,8 @@ const Container = () => {
             inputLocation={inputLocation}
             setCurrentScreen={setCurrentScreen}
             inputLocationMetadata={inputLocationMetadata}
+            lang={lang}
+            setLang={setLang}
           />
         )
       }

@@ -5,12 +5,14 @@ import {APP_SCREENS, STOPS_DATA} from "../utils/constants";
 
 import IconMarker from "../assets/icon-marker.svg";
 import IconBack from "../assets/icon-back.svg";
+import {Trans, withTranslation} from "react-i18next";
 
 const SearchMap = ({
   selectedTab,
   inputLocation,
   setCurrentScreen,
   setInputLocation,
+  t,
 }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -45,9 +47,12 @@ const SearchMap = ({
           <img src={IconBack} alt="Back" />
         </button>
         <h3 id="search-heading-text">
-          {
-            selectedTab === 'ta' ? 'Adjust start location': "Adjust destination location"
-          }
+          <Trans
+            t={t}
+            i18nKey={
+              selectedTab === 'ta' ? 'Adjust start location': "Adjust destination location"
+            }
+          />
 
         </h3>
       </div>
@@ -57,11 +62,11 @@ const SearchMap = ({
         </div>
       </div>
       <button id="search-confirm-button" onClick={onConfirm}>
-        Confirm
+        <Trans t={t} i18nKey="Confirm" />
       </button>
     </div>
   )
 };
 
-export default SearchMap;
+export default withTranslation()(SearchMap);
 

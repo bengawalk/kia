@@ -9,6 +9,17 @@ export const TABS = [
   },
 ];
 
+export const LANGUAGES = [
+  {
+    code: "en",
+    text: "English",
+  },
+  {
+    code: "kn",
+    text: "ಕನ್ನಡ",
+  }
+]
+
 export const HELPLINE_NUMBER = "1800 425 1663";
 
 export const APP_SCREENS = {

@@ -2,9 +2,10 @@ import React from "react";
 import classNames from "classnames";
 
 import IconCall from "../assets/icon-call.svg";
-import {HELPLINE_NUMBER, TABS} from "../utils/constants";
+import {HELPLINE_NUMBER, LANGUAGES, TABS} from "../utils/constants";
 import {getCurrentMsm} from "../utils";
 import BusItem from "./bus-item";
+import {Trans, withTranslation} from "react-i18next";
 
 const COLLAPSED_HEIGHT = 120;
 
@@ -63,7 +64,7 @@ class Sidebar extends React.PureComponent {
       selectedBus: prevSelectedBus
     } = prevProps;
     const { move } = this.state;
-    if(selectedBus) {
+    if(selectedBus && (selectedBus !== prevSelectedBus)) {
       const sidebarItem = document.querySelector(`.bus-${selectedBus}`);
       const bounds = sidebarItem.getBoundingClientRect();
       if (
@@ -80,7 +81,7 @@ class Sidebar extends React.PureComponent {
     }
     if(
       (selectedBus !== prevSelectedBus) &&
-      (move < -200)
+      (move !== -200)
     ) {
       this.setState({
         move: -200,
@@ -138,7 +139,7 @@ class Sidebar extends React.PureComponent {
       }
   }
   render() {
-    const { selectedTab, setSelectedTab, sortedTabData, selectedBus, setSelectedBus, suggestedBus, suggestedBusDetails } = this.props;
+    const { lang, selectedTab, setSelectedTab, sortedTabData, selectedBus, setSelectedBus, suggestedBus, suggestedBusDetails, setLang, t } = this.props;
     const { currentTime, move } = this.state;
     return (
       <div
@@ -161,26 +162,31 @@ class Sidebar extends React.PureComponent {
             <img src="/bmtc_logo.svg" alt="BMTC logo" id="bmtc-logo" />
             BMTC VAYU VAJRA
           </div>
-          {/*<h1 className="mb-4">Bengaluru Airport Bus</h1>*/}
           <div className="tabs">
             {
-              TABS.map(t => (
-                <div key={t.id} className={`tab-item ${selectedTab === t.id ? "selected" : ""}`} onClick={() => setSelectedTab(t.id)}>
-                  {
-                    t.text
-                  }
+              TABS.map(ta => (
+                <div key={ta.id} className={`tab-item ${selectedTab === ta.id ? "selected" : ""}`} onClick={() => setSelectedTab(ta.id)}>
+                  <Trans t={t} i18nKey={
+                    ta.text
+                  } />
                 </div>
               ))
             }
           </div>
         </div>
-        <div id="sidebar-content"
-        >
+        <div id="sidebar-content">
+          <div id="lang-sel">
+            {
+              LANGUAGES.map(({ code, text }) => (
+                <button className={`lang-btn ${code} ${lang === code ? "selected" : ""}`} key={code} onClick={() => setLang(code)}>{ text }</button>
+              ))
+            }
+          </div>
           {
             suggestedBus && (
               <>
                 <h4 className="mb-4">
-                  Suggested bus
+                  <Trans t={t} i18nKey="Suggested bus" />
                 </h4>
                 <BusItem
                   busDetails={suggestedBusDetails}
@@ -193,9 +199,12 @@ class Sidebar extends React.PureComponent {
             )
           }
           <h4 className="mb-4">
-            {
-              suggestedBus ? "Other Buses" : "Routes and Schedules"
-            }
+            <Trans
+              t={t}
+              i18nKey={
+                suggestedBus ? "Other Buses" : "Routes and Schedules"
+              }
+            />
           </h4>
           {
             sortedTabData.map(bus => bus.name === suggestedBus ? null : (
@@ -211,7 +220,9 @@ class Sidebar extends React.PureComponent {
           }
         </div>
         <div className="padding text">
-          <h4 className="mb-2">BMTC Vayu Vajra Helpline</h4>
+          <h4 className="mb-2">
+            <Trans t={t} i18nKey="BMTC Vayu Vajra Helpline" />
+          </h4>
           <a href={`tel:${HELPLINE_NUMBER}`} id="sidebar-tel">
             <img src={IconCall} alt="" />
             {HELPLINE_NUMBER}
@@ -222,4 +233,4 @@ class Sidebar extends React.PureComponent {
   }
 }
 
-export default Sidebar;
+export default withTranslation()(Sidebar);

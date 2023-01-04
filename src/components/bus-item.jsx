@@ -3,8 +3,9 @@ import IconBus from "../assets/icon-bus";
 import IconOpenLink from "../assets/icon-open-link.svg"
 import {STOPS_DATA} from "../utils/constants";
 import BusItemTime from "./bus-item-time";
+import {withTranslation, Trans} from "react-i18next";
 
-const BusItem = ({ busDetails, selectedBus, setSelectedBus, toAirport, currentTime }) => {
+const BusItem = ({ busDetails, selectedBus, setSelectedBus, toAirport, currentTime, t }) => {
   const {
     name,
     start,
@@ -20,12 +21,18 @@ const BusItem = ({ busDetails, selectedBus, setSelectedBus, toAirport, currentTi
           {name}
         </div>
         <div className="route-item-bus-route">
-          <span className="text-light">from</span> {toAirport ? start.name : STOPS_DATA.airport.name}<br />
-          <span className="text-light">to</span> {toAirport ? STOPS_DATA.airport.name : end.name}
+          <span className="text-light">
+            <Trans t={t} i18nKey="from" />
+          </span> <Trans t={t} i18nKey={toAirport ? start.name : STOPS_DATA.airport.name} /><br />
+          <span className="text-light">
+                        <Trans t={t} i18nKey="to" />
+          </span> <Trans t={t} i18nKey={toAirport ? STOPS_DATA.airport.name : end.name} />
         </div>
       </div>
       <div className="route-item-details">
-        <h3 className="mb-2">Departure times</h3>
+        <h3 className="mb-2">
+          <Trans t={t} i18nKey="Departure times" />
+        </h3>
         <div className="flex">
           {
             timings.map(time => (
@@ -34,9 +41,12 @@ const BusItem = ({ busDetails, selectedBus, setSelectedBus, toAirport, currentTi
           }
         </div>
         <h3>
-          {
-            toAirport ? "Boarding point" : "Final stop"
-          }
+          <Trans
+            t={t}
+            i18nKey={
+              toAirport ? "Boarding point" : "Final stop"
+            }
+          />
         </h3>
         {
           toAirport ? (
@@ -45,7 +55,7 @@ const BusItem = ({ busDetails, selectedBus, setSelectedBus, toAirport, currentTi
               href={`https://www.google.com/maps/search/?api=1&query=${start.loc[0]},${start.loc[1]}`}
               target="_blank"
             >
-              {start.name}
+              <Trans t={t} i18nKey={start.name} />
               <img src={IconOpenLink} alt="Open" />
             </a>
           ) : (
@@ -54,7 +64,7 @@ const BusItem = ({ busDetails, selectedBus, setSelectedBus, toAirport, currentTi
               href={`https://www.google.com/maps/search/?api=1&query=${end.loc[0]},${end.loc[1]}`}
               target="_blank"
             >
-              {end.name}
+              <Trans t={t} i18nKey={end.name} />
               <img src={IconOpenLink} alt="Open" />
             </a>
           )
@@ -65,4 +75,4 @@ const BusItem = ({ busDetails, selectedBus, setSelectedBus, toAirport, currentTi
   );
 }
 
-export default BusItem;
+export default withTranslation()(BusItem);

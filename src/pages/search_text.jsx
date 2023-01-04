@@ -7,11 +7,13 @@ import LogoGoogle from "../assets/logo-google.svg";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import {APP_SCREENS} from "../utils/constants";
 import {saveLocationMedata} from "../utils";
+import {Trans, withTranslation} from "react-i18next";
 
 const SearchText = ({
   selectedTab,
   setCurrentScreen,
   setInputLocation,
+  t,
 }) => {
   const [input, setInput] = useState("");
 
@@ -69,15 +71,15 @@ const SearchText = ({
           <img src={IconBack} alt="Back" />
         </button>
         <h3 id="search-heading-text">
-          {
+          <Trans t={t} i18nKey={
             selectedTab === 'ta' ? "Enter starting point" : "Enter destination"
-          }
+          } />
         </h3>
       </div>
       <div id="search-input-wrapper">
         <input
           id="search-input"
-          placeholder="Search..."
+          placeholder={`${t("Search")}...`}
           value={input}
           onChange={e => setInput(e.target.value)}
           autoFocus
@@ -95,7 +97,7 @@ const SearchText = ({
           isPlacePredictionsLoading && (
             <div id="search-loading">
               <div className="spin" />
-              Loading...
+              <Trans t={t} i18nKey="Loading" />...
             </div>
           )
         }
@@ -108,7 +110,7 @@ const SearchText = ({
         {
           !isPlacePredictionsLoading && input && placePredictions.length < 1 && (
             <div>
-              No results found
+              <Trans t={t} i18nKey="No results found" />
             </div>
           )
         }
@@ -120,7 +122,7 @@ const SearchText = ({
       <div id="search-footer">
         <button className="search-footer-item" onClick={() => setCurrentScreen(APP_SCREENS.LOCATION_MAP)}>
           <img src={IconGreyPin} alt="" />
-          Locate on map
+          <Trans t={t} i18nKey="Locate on map" />
         </button>
       </div>
 
@@ -128,5 +130,5 @@ const SearchText = ({
   )
 };
 
-export default SearchText;
+export default withTranslation()(SearchText);
 

@@ -15,6 +15,8 @@ const InitialScreen = ({
   inputLocation,
   setCurrentScreen,
   inputLocationMetadata,
+  lang,
+  setLang,
 }) => {
   const [selectedBus, setSelectedBus] = useState(null);
   const selectedTabData = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
@@ -32,6 +34,8 @@ const InitialScreen = ({
         setSelectedBus={setSelectedBus}
         suggestedBus={suggestedBus}
         sortedTabData={selectedTabData}
+        lang={lang}
+        setLang={setLang}
       />
       <Map
         inputLocation={inputLocation}
