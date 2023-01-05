@@ -61,7 +61,7 @@ const SearchText = ({
           lng: lng(),
         });
         setCurrentScreen(APP_SCREENS.LOCATION_MAP);
-      }
+      },
     );
   };
 

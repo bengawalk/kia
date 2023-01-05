@@ -110,7 +110,7 @@ class Sidebar extends React.PureComponent {
     this.setState(({ move }) => ({
       move: Math.max(
         move + y - this.state.y,
-        -window.innerHeight + COLLAPSED_HEIGHT
+        -window.innerHeight + COLLAPSED_HEIGHT,
       ),
       y,
     }));
@@ -236,7 +236,7 @@ class Sidebar extends React.PureComponent {
                 toAirport={selectedTab === "ta"}
                 currentTime={currentTime}
               />
-            )
+            ),
           )}
         </div>
         <div className="padding text">

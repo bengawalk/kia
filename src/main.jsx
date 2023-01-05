@@ -24,7 +24,7 @@ const Container = () => {
   const [selectedTab, setSelectedTab] = useState(TABS[0].id);
   const [inputLocation, setInputLocation] = useState(null);
   const [lang, setLang] = useState(
-    localStorage.getItem("lang") || LANGUAGES[0].code
+    localStorage.getItem("lang") || LANGUAGES[0].code,
   );
   const [inputLocationMetadata, setInputLocationMetadata] = useState({
     name: "",
@@ -32,7 +32,7 @@ const Container = () => {
     location: [0, 0],
   });
   const [userLocationState, setUserLocationState] = useState(
-    LOCATION_STATES.PENDING
+    LOCATION_STATES.PENDING,
   );
   const [userLocation, setUserLocation] = useState(null);
 
@@ -52,7 +52,7 @@ const Container = () => {
           {
             latitude: STOPS_DATA.airport.loc[0],
             longitude: STOPS_DATA.airport.loc[1],
-          }
+          },
         );
         if (distanceToAirport < 1000) {
           // If user is near the airport, we set the current location but not input location
@@ -70,7 +70,7 @@ const Container = () => {
         } else {
           console.log(error);
         }
-      }
+      },
     );
   };
 
@@ -118,10 +118,10 @@ const Container = () => {
         ...l,
         distance: getDistance(
           { latitude: inputLocation.lat, longitude: inputLocation.lng },
-          { latitude: l.location[0], longitude: l.location[1] }
+          { latitude: l.location[0], longitude: l.location[1] },
         ),
       })),
-      "distance"
+      "distance",
     );
     const closestLocation = sortedLocations[0];
 

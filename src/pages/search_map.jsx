@@ -24,7 +24,7 @@ const SearchMap = ({
     inputLocation || {
       lat: STOPS_DATA.majestic.loc[0],
       lng: STOPS_DATA.majestic.loc[1],
-    }
+    },
   );
 
   useEffect(() => {

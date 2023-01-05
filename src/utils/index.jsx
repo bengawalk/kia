@@ -32,8 +32,8 @@ export const getSuggestedBus = (buses, targetLocation) => {
       {
         latitude: b[pointToCompare].loc[0],
         longitude: b[pointToCompare].loc[1],
-      }
-    )
+      },
+    ),
   ).name;
 };
 
@@ -54,7 +54,7 @@ export const saveLocationMedata = (placeId, name, location) => {
               location,
             },
           ]),
-    ])
+    ]),
   );
 };
 
