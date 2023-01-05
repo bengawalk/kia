@@ -3,10 +3,10 @@ import Map from "../components/map";
 import _ from "lodash";
 import { useState } from "react";
 
-import {BUS_DATA, LOCATION_STATES, TABS} from "../utils/constants";
+import { BUS_DATA, LOCATION_STATES, TABS } from "../utils/constants";
 import Sidebar from "../components/sidebar";
 import MapLocationInput from "../components/map-location-input";
-import {getSuggestedBus} from "../utils";
+import { getSuggestedBus } from "../utils";
 
 const InitialScreen = ({
   selectedTab,
@@ -53,7 +53,7 @@ const InitialScreen = ({
         inputLocationMetadata={inputLocationMetadata}
       />
     </>
-  )
-}
+  );
+};
 
 export default InitialScreen;

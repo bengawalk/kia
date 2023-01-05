@@ -1,19 +1,19 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
-import knLocaleStrings from '../assets/locales/kn';
-import enLocaleStrings from '../assets/locales/en';
+import knLocaleStrings from "../assets/locales/kn";
+import enLocaleStrings from "../assets/locales/en";
 
 i18n.use(initReactI18next).init({
   resources: {
-    "en": {
+    en: {
       translation: enLocaleStrings,
     },
-    "kn": {
+    kn: {
       translation: knLocaleStrings,
     },
   },
-  fallbackLng: 'en',
+  fallbackLng: "en",
   debug: false, // process.env.NODE_ENV === 'development',
 
   interpolation: {

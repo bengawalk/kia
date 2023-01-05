@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from "react";
-import mapboxgl from 'mapbox-gl';
+import React, { useEffect, useRef, useState } from "react";
+import mapboxgl from "mapbox-gl";
 
-import {APP_SCREENS, STOPS_DATA} from "../utils/constants";
+import { APP_SCREENS, STOPS_DATA } from "../utils/constants";
 
 import IconMarker from "../assets/icon-marker.svg";
 import IconBack from "../assets/icon-back.svg";
-import {Trans, withTranslation} from "react-i18next";
+import { Trans, withTranslation } from "react-i18next";
 
 const SearchMap = ({
   selectedTab,
@@ -20,18 +20,20 @@ const SearchMap = ({
   const [zoom, setZoom] = useState(16);
 
   // Location currently at the center of the map
-  const [tempLocation, setTempLocation] = useState(inputLocation || {
-    lat: STOPS_DATA.majestic.loc[0],
-    lng: STOPS_DATA.majestic.loc[1],
-  });
+  const [tempLocation, setTempLocation] = useState(
+    inputLocation || {
+      lat: STOPS_DATA.majestic.loc[0],
+      lng: STOPS_DATA.majestic.loc[1],
+    }
+  );
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
+      style: "mapbox://styles/mapbox/streets-v12",
       center: [tempLocation.lng, tempLocation.lat],
-      zoom: zoom
+      zoom: zoom,
     });
   });
 
@@ -42,19 +44,23 @@ const SearchMap = ({
   };
 
   return (
-    <div id="search-page" style={{ height: `${bodyHeight}px`}}>
+    <div id="search-page" style={{ height: `${bodyHeight}px` }}>
       <div id="search-heading">
-        <button id="search-back" onClick={() => setCurrentScreen(APP_SCREENS.LOCATION_TEXT)}>
+        <button
+          id="search-back"
+          onClick={() => setCurrentScreen(APP_SCREENS.LOCATION_TEXT)}
+        >
           <img src={IconBack} alt="Back" />
         </button>
         <h3 id="search-heading-text">
           <Trans
             t={t}
             i18nKey={
-              selectedTab === 'ta' ? 'Adjust start location': "Adjust destination location"
+              selectedTab === "ta"
+                ? "Adjust start location"
+                : "Adjust destination location"
             }
           />
-
         </h3>
       </div>
       <div id="search-map" ref={mapContainer}>
@@ -66,8 +72,7 @@ const SearchMap = ({
         <Trans t={t} i18nKey="Confirm" />
       </button>
     </div>
-  )
+  );
 };
 
 export default withTranslation()(SearchMap);
-

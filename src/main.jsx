@@ -1,15 +1,21 @@
 import * as React from "react";
 import { sortBy as lSortBy, map as lMap } from "lodash";
 import { createRoot } from "react-dom/client";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import InitialScreen from "./pages/initial";
-import {APP_SCREENS, LANGUAGES, LOCATION_STATES, STOPS_DATA, TABS} from "./utils/constants";
+import {
+  APP_SCREENS,
+  LANGUAGES,
+  LOCATION_STATES,
+  STOPS_DATA,
+  TABS,
+} from "./utils/constants";
 import SearchText from "./pages/search_text";
 import SearchMap from "./pages/search_map";
 import getDistance from "geolib/es/getDistance";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import i18n from "i18next";
-import {saveLocationMedata} from "./utils";
+import { saveLocationMedata } from "./utils";
 import "./utils/i18n";
 
 const Container = () => {
@@ -17,13 +23,17 @@ const Container = () => {
   const [bodyHeight, setBodyHeight] = useState(null);
   const [selectedTab, setSelectedTab] = useState(TABS[0].id);
   const [inputLocation, setInputLocation] = useState(null);
-  const [lang, setLang] = useState(localStorage.getItem('lang') || LANGUAGES[0].code);
+  const [lang, setLang] = useState(
+    localStorage.getItem("lang") || LANGUAGES[0].code
+  );
   const [inputLocationMetadata, setInputLocationMetadata] = useState({
     name: "",
     placeId: "",
     location: [0, 0],
   });
-  const [userLocationState, setUserLocationState] = useState(LOCATION_STATES.PENDING);
+  const [userLocationState, setUserLocationState] = useState(
+    LOCATION_STATES.PENDING
+  );
   const [userLocation, setUserLocation] = useState(null);
 
   usePlacesService({
@@ -35,38 +45,38 @@ const Container = () => {
     //  This works fine as of now since the app is not expected to be used while the user is in motion
     //  Later, the current position must be polled to update frequently
     navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const {
-        latitude: lat,
-        longitude: lng,
-      } = position.coords;
-      const distanceToAirport = getDistance(
-        { latitude: lat, longitude: lng },
-        { latitude: STOPS_DATA.airport.loc[0], longitude: STOPS_DATA.airport.loc[1] }
-      );
-      if(distanceToAirport < 1000) {
-        // If user is near the airport, we set the current location but not input location
-        // User has to manually enter the destination in the input box
-        setSelectedTab(TABS[1].id);
-      } else {
-        setInputLocation({ lat, lng });
+      (position) => {
+        const { latitude: lat, longitude: lng } = position.coords;
+        const distanceToAirport = getDistance(
+          { latitude: lat, longitude: lng },
+          {
+            latitude: STOPS_DATA.airport.loc[0],
+            longitude: STOPS_DATA.airport.loc[1],
+          }
+        );
+        if (distanceToAirport < 1000) {
+          // If user is near the airport, we set the current location but not input location
+          // User has to manually enter the destination in the input box
+          setSelectedTab(TABS[1].id);
+        } else {
+          setInputLocation({ lat, lng });
+        }
+        setUserLocation({ lat, lng });
+        setUserLocationState(LOCATION_STATES.APPROVED);
+      },
+      (error) => {
+        if (error.code === 1) {
+          setUserLocationState(LOCATION_STATES.DENIED);
+        } else {
+          console.log(error);
+        }
       }
-      setUserLocation({ lat, lng });
-      setUserLocationState(LOCATION_STATES.APPROVED);
-    },
-    (error) => {
-      if(error.code === 1) {
-        setUserLocationState(LOCATION_STATES.DENIED);
-      }
-      else {
-        console.log(error);
-      }
-    });
-  }
+    );
+  };
 
   const onResize = () => {
     setBodyHeight(window.visualViewport.height);
-  }
+  };
 
   useEffect(() => {
     window.visualViewport.addEventListener("resize", onResize);
@@ -74,7 +84,6 @@ const Container = () => {
     return () => {
       window.visualViewport.removeEventListener("resize", onResize);
     };
-
 
     // const bodyObserver = new ResizeObserver(onResize);
     // bodyObserver.observe(document.body);
@@ -84,7 +93,7 @@ const Container = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('lang', lang);
+    localStorage.setItem("lang", lang);
     document.documentElement.setAttribute("lang", lang);
     i18n.changeLanguage(lang);
   }, [lang]);
@@ -100,20 +109,23 @@ const Container = () => {
   }, []);
 
   useEffect(() => {
-    if(!inputLocation) {
+    if (!inputLocation) {
       return;
     }
     const locations = JSON.parse(localStorage.getItem("locations") || "[]");
-    const sortedLocations = lSortBy(lMap(locations, l => ({
-      ...l,
-      distance: getDistance(
-        { latitude: inputLocation.lat, longitude: inputLocation.lng },
-        { latitude: l.location[0], longitude: l.location[1] }
-      )
-    })), "distance");
+    const sortedLocations = lSortBy(
+      lMap(locations, (l) => ({
+        ...l,
+        distance: getDistance(
+          { latitude: inputLocation.lat, longitude: inputLocation.lng },
+          { latitude: l.location[0], longitude: l.location[1] }
+        ),
+      })),
+      "distance"
+    );
     const closestLocation = sortedLocations[0];
 
-    if(closestLocation && closestLocation.distance < 50) {
+    if (closestLocation && closestLocation.distance < 50) {
       // There's a location in the past list within 50m of the current location input
       setInputLocationMetadata(closestLocation);
     } else {
@@ -122,19 +134,20 @@ const Container = () => {
       // if the user cleared local storage
       const geocoder = new google.maps.Geocoder();
       geocoder
-        .geocode({ location: inputLocation})
+        .geocode({ location: inputLocation })
         .then(({ results }) => {
-          const {
-            formatted_address, place_id,
-          } = results[0] || {};
-          saveLocationMedata(place_id, formatted_address, [inputLocation.lat, inputLocation.lng]);
+          const { formatted_address, place_id } = results[0] || {};
+          saveLocationMedata(place_id, formatted_address, [
+            inputLocation.lat,
+            inputLocation.lng,
+          ]);
           setInputLocationMetadata({
             placeId: place_id,
             name: formatted_address,
             location: [inputLocation.lat, inputLocation.lng],
           });
         })
-        .catch(e => {
+        .catch((e) => {
           // Ignore the error than notify user. It might not matter much to the user when location lat lng is shown instead
           // of text but would be an unnecessary information overload/distraction if the user is notified of the background api call failing
           // which doesn't affect the core functionality.
@@ -146,47 +159,39 @@ const Container = () => {
 
   return (
     <div id="app-container">
-      {
-        currentScreen === APP_SCREENS.INITIAL && (
-          <InitialScreen
-            userLocation={userLocation}
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
-            inputLocation={inputLocation}
-            setCurrentScreen={setCurrentScreen}
-            inputLocationMetadata={inputLocationMetadata}
-            lang={lang}
-            setLang={setLang}
-            bodyHeight={bodyHeight}
-          />
-        )
-      }
-      {
-        currentScreen === APP_SCREENS.LOCATION_TEXT && (
-          <SearchText
-            selectedTab={selectedTab}
-            setCurrentScreen={setCurrentScreen}
-            setInputLocation={setInputLocation}
-            bodyHeight={bodyHeight}
-          />
-        )
-      }
-      {
-        currentScreen === APP_SCREENS.LOCATION_MAP && (
-          <SearchMap
-            selectedTab={selectedTab}
-            inputLocation={inputLocation}
-            setInputLocation={setInputLocation}
-            setCurrentScreen={setCurrentScreen}
-            bodyHeight={bodyHeight}
-          />
-        )
-      }
+      {currentScreen === APP_SCREENS.INITIAL && (
+        <InitialScreen
+          userLocation={userLocation}
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          inputLocation={inputLocation}
+          setCurrentScreen={setCurrentScreen}
+          inputLocationMetadata={inputLocationMetadata}
+          lang={lang}
+          setLang={setLang}
+          bodyHeight={bodyHeight}
+        />
+      )}
+      {currentScreen === APP_SCREENS.LOCATION_TEXT && (
+        <SearchText
+          selectedTab={selectedTab}
+          setCurrentScreen={setCurrentScreen}
+          setInputLocation={setInputLocation}
+          bodyHeight={bodyHeight}
+        />
+      )}
+      {currentScreen === APP_SCREENS.LOCATION_MAP && (
+        <SearchMap
+          selectedTab={selectedTab}
+          inputLocation={inputLocation}
+          setInputLocation={setInputLocation}
+          setCurrentScreen={setCurrentScreen}
+          bodyHeight={bodyHeight}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
-const root = createRoot(
-  document.getElementById('root')
-);
+const root = createRoot(document.getElementById("root"));
 root.render(<Container />);

@@ -9,7 +9,8 @@
     "start": "vite serve src --mode development --host 0.0.0.0 --port 3000 --config vite.config.js",
     "build": "vite build src --config vite.config.js",
     "preview": "vite preview",
-    "publish": "gh-pages -d dist"
+    "publish": "gh-pages -d dist",
+    "prettier": "prettier --write src"
   },
   "dependencies": {
     "classnames": "^2.3.2",
@@ -19,6 +20,7 @@
     "i18next": "^22.4.8",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.10.0",
+    "prettier": "^2.8.1",
     "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

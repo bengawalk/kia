@@ -1,5 +1,3 @@
-const enTranslations = {
-
-};
+const enTranslations = {};
 
 export default enTranslations;
