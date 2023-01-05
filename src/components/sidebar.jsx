@@ -30,6 +30,7 @@ class Sidebar extends React.PureComponent {
       move: 0,
       currentTime: getCurrentMsm(),
       resized: 0,
+      bodyHeight: null,
     };
     this.secondInterval = null;
   }
@@ -44,7 +45,10 @@ class Sidebar extends React.PureComponent {
     window.addEventListener("touchmove", this.onPointerMove, {passive: true});
     window.addEventListener("mouseup", this.onPointerUp, {passive: true});
     window.addEventListener("touchend", this.onPointerUp, {passive: true});
-    window.addEventListener("resize", this.onResize);
+
+    this.bodyObserver = new ResizeObserver(this.onResize);
+    this.bodyObserver.observe(document.body);
+    this.onResize();
   }
 
   componentWillUnmount() {
@@ -53,7 +57,7 @@ class Sidebar extends React.PureComponent {
     window.removeEventListener("touchmove", this.onPointerMove, {passive: true});
     window.removeEventListener("mouseup", this.onPointerUp, {passive: true});
     window.removeEventListener("touchend", this.onPointerUp, {passive: true});
-    window.removeEventListener("resize", this.onResize);
+    this.bodyObserver?.disconnect();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -90,7 +94,13 @@ class Sidebar extends React.PureComponent {
   }
 
   onResize = () => {
-    this.setState(({ resized }) => ({ resized: resized + 1 }));
+    const { bodyHeight, move } = this.state;
+    const newHeight = window.visualViewport.height;
+    const delta = bodyHeight ? newHeight - bodyHeight : 0;
+    this.setState({
+      bodyHeight: newHeight,
+      move: move < -400 ? move - delta : move,
+    });
   }
 
   onPointerDown = (e) => {
@@ -140,12 +150,12 @@ class Sidebar extends React.PureComponent {
   }
   render() {
     const { lang, selectedTab, setSelectedTab, sortedTabData, selectedBus, setSelectedBus, suggestedBus, suggestedBusDetails, setLang, t } = this.props;
-    const { currentTime, move } = this.state;
+    const { currentTime, move, bodyHeight } = this.state;
     return (
       <div
         id="sidebar"
         style={{
-          top: `calc(100% - ${COLLAPSED_HEIGHT - move}px)`,
+          top: `${bodyHeight - COLLAPSED_HEIGHT + move}px`,
           height: `${move < -400 ? -move + 120 : -move + 120 + 90}px`
         }}
         className={classNames({

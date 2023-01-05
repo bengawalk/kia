@@ -65,6 +65,7 @@ const Container = () => {
 
   useEffect(() => {
     localStorage.setItem('lang', lang);
+    document.documentElement.setAttribute("lang", lang);
     i18n.changeLanguage(lang);
   }, [lang]);
 
