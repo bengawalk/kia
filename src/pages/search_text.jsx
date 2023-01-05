@@ -14,6 +14,7 @@ const SearchText = ({
   setCurrentScreen,
   setInputLocation,
   t,
+                      bodyHeight,
 }) => {
   const [input, setInput] = useState("");
 
@@ -67,7 +68,7 @@ const SearchText = ({
   }
 
   return (
-    <div id="search-page">
+    <div id="search-page" style={{ height: `${bodyHeight}px`}}>
       <div id="search-heading">
         <button id="search-back" onClick={() => setCurrentScreen(APP_SCREENS.INITIAL)}>
           <img src={IconBack} alt="Back" />

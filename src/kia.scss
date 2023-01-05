@@ -19,6 +19,7 @@
 html {
     font-size: 20px;
     overscroll-behavior-y: none;
+    height: -webkit-fill-available;
 }
 
 button, input {
@@ -39,6 +40,8 @@ button, input {
 
 body {
     margin: 0; padding: 0;
+    height: 100vh;
+    height: -webkit-fill-available;
     font-family: 'IBM Plex Sans', sans-serif;
     overflow: hidden;
     overscroll-behavior-y: none;
@@ -117,6 +120,7 @@ h4 {
 #root, #app-container {
     width: 100%;
     height: 100vh;
+    height: -webkit-fill-available;
     display: flex;
     position: relative;
     overflow: hidden;

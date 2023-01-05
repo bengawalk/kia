@@ -14,9 +14,10 @@ import "./utils/i18n";
 
 const Container = () => {
   const [currentScreen, setCurrentScreen] = useState(APP_SCREENS.INITIAL);
+  const [bodyHeight, setBodyHeight] = useState(null);
   const [selectedTab, setSelectedTab] = useState(TABS[0].id);
   const [inputLocation, setInputLocation] = useState(null);
-  const [lang, setLang] = useState(localStorage.getItem('lang'));
+  const [lang, setLang] = useState(localStorage.getItem('lang') || "en");
   const [inputLocationMetadata, setInputLocationMetadata] = useState({
     name: "",
     placeId: "",
@@ -62,6 +63,25 @@ const Container = () => {
       }
     });
   }
+
+  const onResize = () => {
+    setBodyHeight(window.visualViewport.height);
+  }
+
+  useEffect(() => {
+    window.visualViewport.addEventListener("resize", onResize);
+    onResize();
+    return () => {
+      window.visualViewport.removeEventListener("resize", onResize);
+    };
+
+
+    // const bodyObserver = new ResizeObserver(onResize);
+    // bodyObserver.observe(document.body);
+    // return () => {
+    //   bodyObserver?.disconnect();
+    // };
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('lang', lang);
@@ -137,6 +157,7 @@ const Container = () => {
             inputLocationMetadata={inputLocationMetadata}
             lang={lang}
             setLang={setLang}
+            bodyHeight={bodyHeight}
           />
         )
       }
@@ -146,6 +167,7 @@ const Container = () => {
             selectedTab={selectedTab}
             setCurrentScreen={setCurrentScreen}
             setInputLocation={setInputLocation}
+            bodyHeight={bodyHeight}
           />
         )
       }
@@ -156,6 +178,7 @@ const Container = () => {
             inputLocation={inputLocation}
             setInputLocation={setInputLocation}
             setCurrentScreen={setCurrentScreen}
+            bodyHeight={bodyHeight}
           />
         )
       }

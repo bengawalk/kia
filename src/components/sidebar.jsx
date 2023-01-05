@@ -45,10 +45,6 @@ class Sidebar extends React.PureComponent {
     window.addEventListener("touchmove", this.onPointerMove, {passive: true});
     window.addEventListener("mouseup", this.onPointerUp, {passive: true});
     window.addEventListener("touchend", this.onPointerUp, {passive: true});
-
-    this.bodyObserver = new ResizeObserver(this.onResize);
-    this.bodyObserver.observe(document.body);
-    this.onResize();
   }
 
   componentWillUnmount() {
@@ -57,17 +53,26 @@ class Sidebar extends React.PureComponent {
     window.removeEventListener("touchmove", this.onPointerMove, {passive: true});
     window.removeEventListener("mouseup", this.onPointerUp, {passive: true});
     window.removeEventListener("touchend", this.onPointerUp, {passive: true});
-    this.bodyObserver?.disconnect();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const {
-      selectedBus
+      selectedBus,
+      bodyHeight: newBodyHeight,
     } = this.props;
     const {
-      selectedBus: prevSelectedBus
+      selectedBus: prevSelectedBus,
+      bodyHeight,
     } = prevProps;
     const { move } = this.state;
+
+    // Hand resize for bottom tray sizing
+    const delta = bodyHeight ? newBodyHeight - bodyHeight : 0;
+    this.setState({
+      move: move < -400 ? move - delta : move,
+    });
+
+    // Handle change in selected buses to show and hide tray
     if(selectedBus && (selectedBus !== prevSelectedBus)) {
       const sidebarItem = document.querySelector(`.bus-${selectedBus}`);
       const bounds = sidebarItem.getBoundingClientRect();
@@ -91,16 +96,6 @@ class Sidebar extends React.PureComponent {
         move: -200,
       });
     }
-  }
-
-  onResize = () => {
-    const { bodyHeight, move } = this.state;
-    const newHeight = window.visualViewport.height;
-    const delta = bodyHeight ? newHeight - bodyHeight : 0;
-    this.setState({
-      bodyHeight: newHeight,
-      move: move < -400 ? move - delta : move,
-    });
   }
 
   onPointerDown = (e) => {
@@ -149,8 +144,8 @@ class Sidebar extends React.PureComponent {
       }
   }
   render() {
-    const { lang, selectedTab, setSelectedTab, sortedTabData, selectedBus, setSelectedBus, suggestedBus, suggestedBusDetails, setLang, t } = this.props;
-    const { currentTime, move, bodyHeight } = this.state;
+    const { bodyHeight, lang, selectedTab, setSelectedTab, sortedTabData, selectedBus, setSelectedBus, suggestedBus, suggestedBusDetails, setLang, t } = this.props;
+    const { currentTime, move } = this.state;
     return (
       <div
         id="sidebar"
