@@ -5,7 +5,7 @@ import IconGreyPin from "../assets/icon-grey-pin.svg";
 import LogoGoogle from "../assets/logo-google.svg";
 
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
-import {APP_SCREENS} from "../utils/constants";
+import {APP_SCREENS, STOPS_DATA} from "../utils/constants";
 import {saveLocationMedata} from "../utils";
 import {Trans, withTranslation} from "react-i18next";
 
@@ -26,6 +26,8 @@ const SearchText = ({
     apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
     debounce: 1000,
     options: {
+      location: new window.google.maps.LatLng(...STOPS_DATA.majestic.loc),
+      radius: 60000,
       componentRestrictions: {
         country: "in",
       },
