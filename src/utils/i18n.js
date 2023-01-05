@@ -6,10 +6,10 @@ import enLocaleStrings from '../assets/locales/en';
 
 i18n.use(initReactI18next).init({
   resources: {
-    en: {
+    "en": {
       translation: enLocaleStrings,
     },
-    kn: {
+    "kn": {
       translation: knLocaleStrings,
     },
   },

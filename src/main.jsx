@@ -3,7 +3,7 @@ import { sortBy as lSortBy, map as lMap } from "lodash";
 import { createRoot } from "react-dom/client";
 import {useEffect, useState} from "react";
 import InitialScreen from "./pages/initial";
-import {APP_SCREENS, LOCATION_STATES, STOPS_DATA, TABS} from "./utils/constants";
+import {APP_SCREENS, LANGUAGES, LOCATION_STATES, STOPS_DATA, TABS} from "./utils/constants";
 import SearchText from "./pages/search_text";
 import SearchMap from "./pages/search_map";
 import getDistance from "geolib/es/getDistance";
@@ -17,7 +17,7 @@ const Container = () => {
   const [bodyHeight, setBodyHeight] = useState(null);
   const [selectedTab, setSelectedTab] = useState(TABS[0].id);
   const [inputLocation, setInputLocation] = useState(null);
-  const [lang, setLang] = useState(localStorage.getItem('lang') || "en");
+  const [lang, setLang] = useState(localStorage.getItem('lang') || LANGUAGES[0].code);
   const [inputLocationMetadata, setInputLocationMetadata] = useState({
     name: "",
     placeId: "",

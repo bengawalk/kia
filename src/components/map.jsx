@@ -100,7 +100,7 @@ class Map extends React.PureComponent {
         this.map.setFilter('stops', [
           '==',
           'name',
-          busDetails.start.name || busDetails.end.name,
+          selectedTab === 'ta' ? busDetails.start.name : busDetails.end.name,
         ]);
       } else {
         this.map.setFilter('stops', true);
