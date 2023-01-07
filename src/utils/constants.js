@@ -149,7 +149,8 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        370, 430, 460, 490, 560, 640, 1020, 1050, 1140, 1160, 1210, 1330, 1380,
+        180, 240, 300, 330, 360, 390, 420, 450, 480, 540, 600, 630, 690, 795,
+        1020, 1065, 1140, 1170, 1200, 1270, 1330, 1390,
       ],
     },
     {
@@ -160,7 +161,7 @@ export const BUS_DATA = {
       end: STOPS_DATA.airport,
       stops: [],
       contact: "",
-      timings: [330, 610, 680, 760, 800, 830, 870, 900, 960, 1040, 1070],
+      timings: [505, 735, 760, 815, 855, 870, 940, 970, 1040, 1090, 1110],
     },
     {
       name: "KIA-5",
@@ -171,8 +172,8 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        240, 300, 330, 360, 420, 480, 510, 540, 570, 600, 630, 665, 690, 720,
-        750, 780, 825, 855, 885, 915, 930, 945, 960, 975, 1005, 1035, 1065,
+        240, 300, 330, 360, 390, 420, 480, 510, 540, 570, 600, 630, 665, 690,
+        720, 750, 780, 825, 855, 885, 915, 930, 945, 960, 975, 1005, 1035, 1065,
         1095, 1125, 1155, 1185, 1215, 1245, 1275, 1380,
       ],
     },
@@ -184,7 +185,7 @@ export const BUS_DATA = {
       end: STOPS_DATA.airport,
       stops: [],
       contact: "",
-      timings: [245, 430, 555, 615, 1005, 1200, 1270, 1330],
+      timings: [245, 430, 1155, 615, 1005, 1200, 1270, 1330],
     },
     {
       name: "KIA-6",
@@ -195,8 +196,8 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        360, 420, 480, 520, 540, 600, 810, 890, 920, 940, 1030, 1080, 1120,
-        1170, 1200, 1260, 1410,
+        300, 360, 405, 470, 540, 720, 960, 1005, 1050, 1080, 1170, 1230, 1290,
+        1380,
       ],
     },
     {
@@ -206,7 +207,7 @@ export const BUS_DATA = {
       end: STOPS_DATA.airport,
       stops: [],
       contact: "",
-      timings: [240, 300, 660, 730, 990, 1100],
+      timings: [210, 330, 660, 740, 990, 1110],
     },
     {
       name: "KIA-7",
@@ -229,8 +230,9 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        270, 330, 380, 420, 480, 530, 560, 590, 640, 680, 740, 805, 855, 915,
-        965, 1005, 1060, 1110, 1140, 1170, 1220, 1260, 1320, 1380,
+        60, 270, 330, 380, 420, 480, 530, 560, 590, 640, 680, 740, 805, 855,
+        915, 965, 1005, 1060, 1080, 1110, 1140, 1170, 1200, 1220, 1260, 1320,
+        1350, 1380,
       ],
     },
     {
@@ -242,10 +244,9 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        5, 30, 60, 90, 210, 440, 480, 520, 560, 570, 600, 620, 650, 670, 680,
-        700, 710, 740, 750, 780, 800, 860, 920, 980, 1110, 1040, 1180, 1200,
-        1210, 1220, 1240, 1260, 1280, 1300, 1320, 1330, 1340, 1360, 1380, 1420,
-        1430,
+        5, 40, 80, 120, 140, 160, 200, 240, 295, 325, 370, 410, 445, 490, 520,
+        565, 610, 620, 650, 680, 730, 770, 820, 860, 1080, 1095, 1130, 1180,
+        1210, 1260, 1280, 1320, 1340, 1360, 1410,
       ],
     },
     // {
@@ -266,7 +267,7 @@ export const BUS_DATA = {
       end: STOPS_DATA.airport,
       stops: [],
       contact: "",
-      timings: [300, 360, 460, 510, 990, 1050, 1130, 1230],
+      timings: [310, 355, 460, 505, 990, 1055, 1140, 1190],
     },
     {
       name: "KIA-8D",
@@ -276,7 +277,7 @@ export const BUS_DATA = {
       end: STOPS_DATA.airport,
       stops: [],
       contact: "",
-      timings: [540, 640, 960, 1060, 1380],
+      timings: [550, 585, 960, 1070, 1380],
     },
     {
       name: "KIA-8E",
@@ -286,7 +287,7 @@ export const BUS_DATA = {
       end: STOPS_DATA.airport,
       stops: [],
       contact: "",
-      timings: [270, 325, 380, 410, 940, 1070, 1110, 1150],
+      timings: [180, 260, 390, 430, 950, 975, 1150, 1230],
     },
     {
       name: "KIA-9",
@@ -297,12 +298,13 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        5, 25, 50, 80, 100, 120, 260, 280, 305, 320, 340, 360, 375, 390, 405,
-        425, 445, 465, 480, 495, 510, 525, 540, 555, 570, 585, 600, 620, 640,
-        660, 680, 705, 720, 740, 760, 780, 795, 810, 820, 830, 840, 855, 870,
-        885, 900, 915, 930, 945, 955, 965, 975, 990, 1005, 1020, 1035, 1050,
-        1065, 1080, 1090, 1100, 1115, 1110, 1140, 1155, 1170, 1185, 1200, 1215,
-        1230, 1245, 1260, 1275, 1290, 1305, 1320, 1340, 1360, 1380, 1400, 1440,
+        5, 25, 50, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 305,
+        320, 340, 360, 375, 390, 405, 425, 445, 465, 480, 495, 510, 525, 540,
+        555, 570, 585, 600, 620, 640, 660, 680, 690, 705, 720, 740, 760, 780,
+        790, 800, 810, 820, 830, 840, 855, 870, 885, 900, 915, 930, 945, 955,
+        965, 975, 990, 1005, 1020, 1035, 1050, 1065, 1080, 1090, 1100, 1115,
+        1130, 1140, 1155, 1170, 1185, 1200, 1215, 1230, 1245, 1260, 1275, 1290,
+        1305, 1320, 1340, 1360, 1380, 1400, 1420,
       ],
     },
     {
@@ -314,21 +316,21 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        240, 300, 330, 360, 390, 420, 480, 510, 540, 570, 600, 630, 660, 690,
-        750, 780, 810, 855, 885, 915, 945, 975, 1005, 1035, 1065, 1095, 1125,
-        1155, 1185, 1215, 1245, 1275, 1320, 1380,
+        5, 60, 240, 300, 330, 360, 390, 420, 480, 510, 540, 570, 600, 630, 660,
+        690, 750, 780, 810, 855, 885, 915, 945, 975, 1005, 1035, 1065, 1095,
+        1125, 1155, 1170, 1185, 1215, 1230, 1245, 1275, 1320, 1380,
       ],
     },
-    {
-      name: "KIA-12",
-      route:
-        "okvxMwrymAGoAVApCO~GWrZOzt@_@b@AlBA@N@f@AXCbBEdCCzAJd@LjMOjF_@vHWvFk@tC[l@aD|Ds@dA]jAJNVk@bAgBrA}AnBeCX@c@CRy@L_ABc@Zk@h@aMZ}FFuBB}@SCDcABw@AyDN_HEsCGa@tEC~GGtAA`EGfOAdROpCE?Y?wAIyEGsKDeAAqHCqLEoN?AfBaBp@SjDKx@Yp@y@Ru@^QxFShG?hDAOsDIeOE}F_@uJ?gBHwDcEAAACCEAQw\\CyIF_AHI?YUM_@qCa@gAcAwAu@k@oC}@s@[cDo@yCKwEMsAeAcDwCoFmBsDuBsAs@[t@{AzDWx@yA~BoCdCc@\\s@qAyJgOzC_DpB{AnEmDpCoC}AsAwAyAjAcAnCcCxDuC|CkCvB_BRIK]IWIc@cC}IcCoIgCqJaA}C@WUOcBu@aEqDgB}Ck@kBn@C~@Eh@Qp@m@`BmCt@oBhA_BlAgAx@i@hCq@hEk@hBIvCb@vAXlCNjBHvDbApBnBL@f@QP[P{BdA}AvAeBjBwAlDsCfIaHhGgFdCcBjBu@aBkCsBkDwGoJuBeDcGoMgEqHqByDsAwDoDkJwAiE[mA@}@LMnI{GzEgEd@kCr@}Jp@_Gb@y@HkBUo@`CeQv@uIRk@d@eDIcASiA@}AA}DDuDO}Dz@k`@FeJQwNMoMLkWG{CQsAeBwLa@_DoAiHS{AHWUeBoAoGaDkK}CmJeCuGs@mDMuAsAqF_A{CSkBO{G?]S@KaB_AeJkByJoB{Fw@iCc@{CMiB[sDyF}OU{A?_@DY{AgJg@cEB_DTcGDcHKiPE}H\\sITmSf@cO~@y^AwJmB_h@YiDi@gCwBmHqBkGgG_RsAgF[gBi@sGiAmHs@uDaA_DsBcHwA_FgAkF}EsYaAyCgCoGiFeK_JkQoZ}k@mKoWwFiOgHwR{@gA_AwB_CmGqCsH]}@iEiLmDsKg@oCCmELuEHMN_LAiOc@wJw@eKwAkEcHmP}DmJkCqFsCwEgFmIsDgFqHkKkGqJkIyKgFwHsDoJsIuU_AgC}D_MyAkDmC{DoBcCUEsBkCyDkGqWo`@iLqQcBeCcDcFVMmE}GqBwCmAuAwC}Bm@KgAaAyG{EgCsBwC_ByEmBsAkAuIiFiBaAeCqA{MeImB{BsAeDiAuGc@qAk@q@}@c@cAMkBVgAv@eDbFmEvG{BtBoAt@sCz@aCZqOF_s@XeWSc@Ue@Se@D_Ah@ytAZga@Jq@[YOw@Hu@^sZHs@Ym@m@g@kAiAo@{J@YQQO",
-      start: STOPS_DATA.btm,
-      end: STOPS_DATA.airport,
-      stops: [],
-      contact: "",
-      timings: [340, 400, 460, 590, 650, 710, 925, 985, 1045, 1175, 1235, 1315],
-    },
+    // {
+    //   name: "KIA-12",
+    //   route:
+    //     "okvxMwrymAGoAVApCO~GWrZOzt@_@b@AlBA@N@f@AXCbBEdCCzAJd@LjMOjF_@vHWvFk@tC[l@aD|Ds@dA]jAJNVk@bAgBrA}AnBeCX@c@CRy@L_ABc@Zk@h@aMZ}FFuBB}@SCDcABw@AyDN_HEsCGa@tEC~GGtAA`EGfOAdROpCE?Y?wAIyEGsKDeAAqHCqLEoN?AfBaBp@SjDKx@Yp@y@Ru@^QxFShG?hDAOsDIeOE}F_@uJ?gBHwDcEAAACCEAQw\\CyIF_AHI?YUM_@qCa@gAcAwAu@k@oC}@s@[cDo@yCKwEMsAeAcDwCoFmBsDuBsAs@[t@{AzDWx@yA~BoCdCc@\\s@qAyJgOzC_DpB{AnEmDpCoC}AsAwAyAjAcAnCcCxDuC|CkCvB_BRIK]IWIc@cC}IcCoIgCqJaA}C@WUOcBu@aEqDgB}Ck@kBn@C~@Eh@Qp@m@`BmCt@oBhA_BlAgAx@i@hCq@hEk@hBIvCb@vAXlCNjBHvDbApBnBL@f@QP[P{BdA}AvAeBjBwAlDsCfIaHhGgFdCcBjBu@aBkCsBkDwGoJuBeDcGoMgEqHqByDsAwDoDkJwAiE[mA@}@LMnI{GzEgEd@kCr@}Jp@_Gb@y@HkBUo@`CeQv@uIRk@d@eDIcASiA@}AA}DDuDO}Dz@k`@FeJQwNMoMLkWG{CQsAeBwLa@_DoAiHS{AHWUeBoAoGaDkK}CmJeCuGs@mDMuAsAqF_A{CSkBO{G?]S@KaB_AeJkByJoB{Fw@iCc@{CMiB[sDyF}OU{A?_@DY{AgJg@cEB_DTcGDcHKiPE}H\\sITmSf@cO~@y^AwJmB_h@YiDi@gCwBmHqBkGgG_RsAgF[gBi@sGiAmHs@uDaA_DsBcHwA_FgAkF}EsYaAyCgCoGiFeK_JkQoZ}k@mKoWwFiOgHwR{@gA_AwB_CmGqCsH]}@iEiLmDsKg@oCCmELuEHMN_LAiOc@wJw@eKwAkEcHmP}DmJkCqFsCwEgFmIsDgFqHkKkGqJkIyKgFwHsDoJsIuU_AgC}D_MyAkDmC{DoBcCUEsBkCyDkGqWo`@iLqQcBeCcDcFVMmE}GqBwCmAuAwC}Bm@KgAaAyG{EgCsBwC_ByEmBsAkAuIiFiBaAeCqA{MeImB{BsAeDiAuGc@qAk@q@}@c@cAMkBVgAv@eDbFmEvG{BtBoAt@sCz@aCZqOF_s@XeWSc@Ue@Se@D_Ah@ytAZga@Jq@[YOw@Hu@^sZHs@Ym@m@g@kAiAo@{J@YQQO",
+    //   start: STOPS_DATA.btm,
+    //   end: STOPS_DATA.airport,
+    //   stops: [],
+    //   contact: "",
+    //   timings: [340, 400, 460, 590, 650, 710, 925, 985, 1045, 1175, 1235, 1315],
+    // },
     {
       name: "KIA-14",
       route:
@@ -338,8 +340,9 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        240, 280, 330, 390, 420, 450, 510, 540, 580, 615, 660, 690, 735, 780,
-        930, 1050, 1090, 1120, 1185, 1240, 1270, 1310, 1340, 1410,
+        95, 210, 240, 280, 330, 310, 390, 420, 450, 480, 510, 540, 580, 615,
+        660, 690, 735, 780, 930, 950, 1055, 1070, 1090, 1120, 1185, 1240, 1270,
+        1310, 1340, 1410,
       ],
     },
     {
@@ -351,10 +354,11 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        255, 315, 375, 495, 555, 615, 675, 810, 870, 930, 990, 1050, 1110, 1170,
-        1230,
+        255, 315, 375, 435, 495, 555, 615, 675, 810, 870, 930, 990, 1050, 1110,
+        1170, 1230,
       ],
     },
+    // 15-A
     {
       name: "KIA-17",
       route:
@@ -376,7 +380,8 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        360, 420, 480, 870, 910, 990, 1030, 1060, 1160, 1180, 1220, 1260, 1335,
+        240, 300, 330, 360, 405, 440, 510, 620, 900, 960, 990, 1020, 1080, 1110,
+        1140, 1170, 1200, 1230, 1260, 1315, 1380,
       ],
     },
     {
@@ -387,7 +392,7 @@ export const BUS_DATA = {
       end: STOPS_DATA.whitefield,
       stops: [],
       contact: "",
-      timings: [510, 525, 555, 585, 610, 690, 720, 765, 825, 925, 1130, 1280],
+      timings: [5, 90, 420, 480, 540, 570, 600, 660, 720, 750, 810, 860, 915],
     },
     {
       name: "KIA-5",
@@ -399,8 +404,8 @@ export const BUS_DATA = {
       contact: "",
       timings: [
         50, 360, 420, 460, 480, 500, 520, 560, 580, 600, 640, 680, 700, 720,
-        735, 750, 780, 810, 840, 870, 900, 960, 1000, 1020, 1040, 1080, 1140,
-        1200, 1230, 1260, 1280, 1320, 1340, 1380, 1400,
+        735, 750, 780, 810, 840, 870, 900, 960, 1000, 1020, 1040, 1080, 1100,
+        1140, 1200, 1230, 1260, 1280, 1320, 1340, 1380, 1400,
       ],
     },
     {
@@ -422,8 +427,8 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        30, 60, 180, 600, 660, 705, 750, 780, 960, 1020, 1050, 1105, 1200, 1305,
-        1350, 1365, 1390, 1410,
+        60, 125, 180, 390, 450, 525, 585, 630, 690, 875, 930, 975, 1050, 1095,
+        1155, 1230, 1330, 1370,
       ],
     },
     {
@@ -433,7 +438,7 @@ export const BUS_DATA = {
       end: STOPS_DATA.kadugodi,
       stops: [],
       contact: "",
-      timings: [390, 450, 800, 890],
+      timings: [770, 830, 890],
     },
     {
       name: "KIA-7",
@@ -454,8 +459,9 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        5, 60, 390, 450, 500, 540, 600, 660, 690, 720, 770, 810, 870, 930, 980,
-        1040, 1090, 1185, 1235, 1265, 1295, 1340, 1385,
+        5, 60, 120, 180, 390, 450, 500, 540, 600, 660, 690, 720, 770, 810, 870,
+        930, 980, 1040, 1090, 1130, 1185, 1205, 1235, 1265, 1295, 1340, 1360,
+        1385,
       ],
     },
     {
@@ -537,12 +543,12 @@ export const BUS_DATA = {
       contact: "",
       timings: [
         10, 30, 50, 70, 90, 110, 130, 150, 170, 190, 220, 240, 260, 280, 300,
-        320, 340, 360, 380, 400, 420, 435, 450, 465, 480, 495, 515, 535, 555,
-        570, 585, 600, 615, 625, 640, 655, 670, 685, 700, 715, 730, 745, 760,
-        775, 790, 805, 820, 835, 850, 865, 880, 895, 910, 925, 940, 960, 980,
-        1000, 1020, 1040, 1060, 1080, 1100, 1120, 1140, 1160, 1175, 1190, 1205,
-        1220, 1235, 1250, 1265, 1280, 1295, 1310, 1325, 1340, 1355, 1370, 1385,
-        1400, 1415, 1430,
+        320, 340, 360, 380, 400, 420, 435, 450, 465, 480, 495, 510, 525, 540,
+        555, 570, 585, 600, 610, 620, 630, 640, 655, 670, 685, 700, 715, 730,
+        745, 760, 775, 790, 805, 820, 835, 850, 865, 880, 895, 910, 925, 940,
+        960, 980, 1000, 1020, 1040, 1060, 1080, 1100, 1120, 1140, 1160, 1175,
+        1190, 1205, 1220, 1235, 1250, 1265, 1280, 1295, 1310, 1325, 1340, 1355,
+        1370, 1385, 1400, 1415, 1430,
       ],
     },
     {
@@ -554,9 +560,9 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        5, 40, 360, 420, 450, 480, 510, 540, 570, 600, 630, 660, 690, 720, 750,
-        780, 810, 840, 870, 900, 960, 990, 1020, 1050, 1080, 1110, 1140, 1170,
-        1200, 1230, 1260, 1290, 1320, 1350, 1380, 1410,
+        5, 40, 120, 180, 360, 420, 450, 480, 510, 540, 570, 600, 630, 660, 690,
+        720, 750, 780, 810, 840, 870, 900, 960, 990, 1020, 1050, 1080, 1110,
+        1140, 1170, 1200, 1230, 1260, 1290, 1305, 1320, 1350, 1365, 1380, 1410,
       ],
     },
     {
@@ -568,8 +574,9 @@ export const BUS_DATA = {
       stops: [],
       contact: "",
       timings: [
-        25, 300, 380, 440, 470, 500, 540, 590, 620, 660, 740, 920, 980, 1060,
-        1090, 1120, 1160, 1180, 1220, 1250, 1270, 1300, 1360, 1425,
+        25, 200, 300, 350, 380, 440, 470, 500, 540, 590, 620, 660, 740, 800,
+        920, 940, 980, 1040, 1070, 1090, 1120, 1160, 1180, 1200, 1220, 1250,
+        1270, 1300, 1360, 1425,
       ],
     },
     {
