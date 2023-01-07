@@ -1,7 +1,7 @@
 import * as React from "react";
 import Map from "../components/map";
 import _ from "lodash";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { BUS_DATA, LOCATION_STATES, TABS } from "../utils/constants";
 import Sidebar from "../components/sidebar";
@@ -24,6 +24,12 @@ const InitialScreen = ({
 
   const suggestedBus = getSuggestedBus(selectedTabData, inputLocation);
   const suggestedBusDetails = _.find(selectedTabData, { name: suggestedBus });
+
+  useEffect(() => {
+    if (suggestedBus) {
+      setSelectedBus(suggestedBus);
+    }
+  }, [suggestedBus, inputLocation]);
 
   return (
     <>

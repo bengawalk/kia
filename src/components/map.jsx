@@ -87,29 +87,56 @@ class Map extends React.PureComponent {
       el.className = "input-location-indicator";
 
       this.inputLocationMarker.setLngLat(inputLocation);
+      this.callFnIfMapLoaded(this.centerMapOnInput);
     }
 
     if (selectedBus !== prevSelectedBus) {
-      this.map.setFilter("routes-highlighted", [
-        "==",
-        "name",
-        selectedBus || "",
-      ]);
-
-      // this.map.setFilter("highlighted-bus", ["==", "name", selectedBus || ""]);
-
-      if (selectedBus) {
-        const busesList = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
-        const busDetails = lFind(busesList, { name: selectedBus });
-        this.map.setFilter("stops", [
+      this.callFnIfMapLoaded(() => {
+        this.map.setFilter("routes-highlighted", [
           "==",
           "name",
-          selectedTab === "ta" ? busDetails.start.name : busDetails.end.name,
+          selectedBus || "",
         ]);
-      } else {
-        this.map.setFilter("stops", true);
-      }
+
+        // this.map.setFilter("highlighted-bus", ["==", "name", selectedBus || ""]);
+
+        if (selectedBus && this.map.getLayer("stops")) {
+          const busesList = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
+          const busDetails = lFind(busesList, { name: selectedBus });
+          this.map.setFilter("stops", [
+            "==",
+            "name",
+            selectedTab === "ta" ? busDetails.start.name : busDetails.end.name,
+          ]);
+        } else {
+          this.map.setFilter("stops", true);
+        }
+      });
     }
+  }
+
+  centerMapOnInput = () => {
+    const { inputLocation } = this.props;
+    this.map.flyTo({
+      center: [inputLocation.lng, inputLocation.lat],
+      zoom: 12,
+      pitch: 0,
+      bearing: 0,
+      duration: 500,
+      essential: true,
+    });
+  };
+
+  callFnIfMapLoaded = (fn) => {
+    if (this.map.loaded()) {
+      fn();
+    } else {
+      this.map.on("load", fn);
+    }
+  };
+
+  componentWillUnmount() {
+    this.map?.remove();
   }
 
   renderMapData = () => {
@@ -170,6 +197,7 @@ class Map extends React.PureComponent {
 
     if (inputLocation) {
       this.inputLocationMarker.setLngLat(inputLocation);
+      this.centerMapOnInput();
     }
   };
 

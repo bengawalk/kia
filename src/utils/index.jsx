@@ -1,21 +1,8 @@
 import polyline from "google-polyline";
 import _ from "lodash";
-import { useEffect, useState } from "react";
-import { STOPS_DATA } from "./constants";
-import { getDistance } from "geolib";
 
-export const useDebounce = (value, delay) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-  return debouncedValue;
-};
+import { getDistance } from "geolib";
+import { STOPS_DATA } from "./constants";
 
 export const getSuggestedBus = (buses, targetLocation) => {
   // Get the most optimum bus to take to reach the airport
@@ -24,17 +11,41 @@ export const getSuggestedBus = (buses, targetLocation) => {
   if (!targetLocation) {
     return null;
   }
-  const pointToCompare =
-    buses[0].start === STOPS_DATA.airport ? "end" : "start";
-  return _.minBy(buses, (b) =>
+
+  const distanceToTarget = (lat, lng) =>
     getDistance(
       { latitude: targetLocation.lat, longitude: targetLocation.lng },
       {
-        latitude: b[pointToCompare].loc[0],
-        longitude: b[pointToCompare].loc[1],
+        latitude: lat,
+        longitude: lng,
       },
-    ),
-  ).name;
+    );
+
+  const busParameters = _.map(buses, (b) => {
+    const pointToCompare =
+      buses[0].start === STOPS_DATA.airport ? "end" : "start";
+    const routePoints = polyline.decode(decodeURIComponent(b.route));
+    const nearestPoint = _.minBy(routePoints, (r) =>
+      distanceToTarget(r[1], r[0]),
+    );
+    return {
+      minDistance: distanceToTarget(nearestPoint[1], nearestPoint[0]),
+      stopDistance: distanceToTarget(
+        b[pointToCompare].loc[0],
+        b[pointToCompare].loc[1],
+      ),
+      name: b.name,
+    };
+  });
+
+  const sortedBuses = _.sortBy(busParameters, [
+    // Use a 50m accuracy. There are some routes with the nearest point
+    // slightly higher than the closest but a much closer bus stop
+    (b) => Math.ceil(b.minDistance / 50) * 50,
+    "stopDistance",
+  ]);
+
+  return sortedBuses[0].name;
 };
 
 export const saveLocationMedata = (placeId, name, location) => {
