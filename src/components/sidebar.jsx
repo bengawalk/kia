@@ -36,6 +36,7 @@ class Sidebar extends React.PureComponent {
       resized: 0,
       bodyHeight: null,
     };
+    this.mouseTime = 0;
     this.secondInterval = null;
   }
 
@@ -102,6 +103,7 @@ class Sidebar extends React.PureComponent {
       return;
     }
     const [x, y] = getCoordinatesFromEvent(e);
+    this.mouseTime = performance.now();
     this.setState({ x, y });
   };
 
@@ -128,6 +130,14 @@ class Sidebar extends React.PureComponent {
       x: null,
       y: null,
     });
+    const timeDiff = performance.now() - this.mouseTime;
+    if (timeDiff < 150 && this.state.move === 0) {
+      // Short tap on the tray when it's closed
+      this.setState({
+        move: -MIDWAY_HEIGHT,
+      });
+      return;
+    }
     if (this.state.move < -MIDWAY_HEIGHT - 100) {
       // Touch moved up by a significant value above the midway height
       this.setState({
@@ -186,7 +196,13 @@ class Sidebar extends React.PureComponent {
             <Trans t={t} i18nKey="BENGALURU AIRPORT BUS" />
             <div
               id="tab-selection"
-              onClick={() => setSelectedTab(selectedTab === "ta" ? "fa" : "ta")}
+              onMouseDown={(e) => {
+                e.stopPropagation();
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedTab(selectedTab === "ta" ? "fa" : "ta");
+              }}
             >
               <img
                 src={IconTabArrow}

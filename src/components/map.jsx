@@ -128,7 +128,7 @@ class Map extends React.PureComponent {
   };
 
   callFnIfMapLoaded = (fn) => {
-    if (this.map.loaded()) {
+    if (this.map._loaded) {
       fn();
     } else {
       this.map.on("load", fn);
