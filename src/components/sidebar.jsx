@@ -1,13 +1,17 @@
 import React from "react";
 import classNames from "classnames";
+import _ from "lodash";
 
+import IconTabArrow from "../assets/icon-tab-arrow.svg";
 import IconCall from "../assets/icon-call.svg";
 import { HELPLINE_NUMBER, LANGUAGES, TABS } from "../utils/constants";
 import { getCurrentMsm } from "../utils";
 import BusItem from "./bus-item";
 import { Trans, withTranslation } from "react-i18next";
 
-const COLLAPSED_HEIGHT = 120;
+const COLLAPSED_HEIGHT = 55;
+const FOOTER_HEIGHT = 90;
+const MIDWAY_HEIGHT = 200;
 
 const getCoordinatesFromEvent = (e) => {
   let [x, y] = [0, 0];
@@ -64,10 +68,10 @@ class Sidebar extends React.PureComponent {
     const { selectedBus: prevSelectedBus, bodyHeight } = prevProps;
     const { move } = this.state;
 
-    // Hand resize for bottom tray sizing
+    // Handle resize for bottom tray sizing
     const delta = bodyHeight ? newBodyHeight - bodyHeight : 0;
     this.setState({
-      move: move < -400 ? move - delta : move,
+      move: move < -(MIDWAY_HEIGHT + 200) ? move - delta : move,
     });
 
     // Handle change in selected buses to show and hide tray
@@ -86,9 +90,9 @@ class Sidebar extends React.PureComponent {
         });
       }
     }
-    if (selectedBus !== prevSelectedBus && move !== -200) {
+    if (selectedBus !== prevSelectedBus && move !== -MIDWAY_HEIGHT) {
       this.setState({
-        move: -200,
+        move: -MIDWAY_HEIGHT,
       });
     }
   }
@@ -124,15 +128,15 @@ class Sidebar extends React.PureComponent {
       x: null,
       y: null,
     });
-    if (this.state.move < -300) {
-      // Touch moved up by a significant value
+    if (this.state.move < -MIDWAY_HEIGHT - 100) {
+      // Touch moved up by a significant value above the midway height
       this.setState({
         move: -window.innerHeight + COLLAPSED_HEIGHT,
       });
-    } else if (this.state.move < -100) {
+    } else if (this.state.move < -(MIDWAY_HEIGHT * 0.5)) {
       // Touch moved up by a significant value
       this.setState({
-        move: -200,
+        move: -MIDWAY_HEIGHT,
       });
     } else {
       // Touch moved up but not significant
@@ -161,10 +165,14 @@ class Sidebar extends React.PureComponent {
         id="sidebar"
         style={{
           top: `${bodyHeight - COLLAPSED_HEIGHT + move}px`,
-          height: `${move < -400 ? -move + 120 : -move + 120 + 90}px`,
+          height: `${
+            move < -(MIDWAY_HEIGHT + 200)
+              ? -move + COLLAPSED_HEIGHT
+              : -move + COLLAPSED_HEIGHT + FOOTER_HEIGHT
+          }px`,
         }}
         className={classNames({
-          "sharp-corners": move < -200,
+          "sharp-corners": move < -MIDWAY_HEIGHT,
         })}
       >
         <div id="sidebar-drag-indicator" />
@@ -174,25 +182,23 @@ class Sidebar extends React.PureComponent {
           onMouseDown={this.onPointerDown}
           onTouchStart={this.onPointerDown}
         >
-          <div id="logo-banner" className="mb-4">
-            <img src="/bmtc_logo.svg" alt="BMTC logo" id="bmtc-logo" />
-            <Trans t={t} i18nKey="BMTC VAYU VAJRA" />
-          </div>
-          <div className="tabs">
-            {TABS.map((ta) => (
-              <div
-                key={ta.id}
-                className={`tab-item ${
-                  selectedTab === ta.id ? "selected" : ""
-                }`}
-                onClick={() => setSelectedTab(ta.id)}
-              >
-                <Trans t={t} i18nKey={ta.text} />
-              </div>
-            ))}
+          <div id="logo-banner">
+            <Trans t={t} i18nKey="BENGALURU AIRPORT BUS" />
+            <div
+              id="tab-selection"
+              onClick={() => setSelectedTab(selectedTab === "ta" ? "fa" : "ta")}
+            >
+              <img
+                src={IconTabArrow}
+                id="tab-arrow"
+                className={selectedTab}
+                alt=""
+              />
+              <Trans t={t} i18nKey={_.find(TABS, { id: selectedTab }).text} />
+            </div>
           </div>
         </div>
-        <div id="sidebar-content">
+        <div id="sidebar-content" className="padding">
           <div id="lang-sel">
             {LANGUAGES.map(({ code, text }) => (
               <button

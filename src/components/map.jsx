@@ -1,6 +1,7 @@
 import * as React from "react";
 import mapboxgl from "mapbox-gl";
 import { find as lFind } from "lodash";
+import IconBus from "../assets/icon-bus.png";
 
 import { getRoutesGeojson, getStopsGeoJson } from "../utils";
 import {
@@ -95,6 +96,8 @@ class Map extends React.PureComponent {
         selectedBus || "",
       ]);
 
+      // this.map.setFilter("highlighted-bus", ["==", "name", selectedBus || ""]);
+
       if (selectedBus) {
         const busesList = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
         const busDetails = lFind(busesList, { name: selectedBus });
@@ -126,6 +129,29 @@ class Map extends React.PureComponent {
       ...MAP_STYLE_HIGHLIGHTED_ROUTE,
       filter: ["==", "name", selectedBus || ""],
     });
+
+    // this.map.loadImage(IconBus, (error, image) => {
+    //   if (error) throw error;
+    //   this.map.addImage("route-bus", image);
+    //
+    //   this.map.addLayer({
+    //     id: "highlighted-bus",
+    //     type: "symbol",
+    //     source: "routes",
+    //     layout: {
+    //       "symbol-placement": "line-center",
+    //       "icon-image": "route-bus",
+    //       "icon-rotation-alignment": "map",
+    //       "icon-keep-upright": true,
+    //       "text-keep-upright": true,
+    //       // "text-font": ["IBM Plex Sans"],
+    //       "text-field": `{name}`,
+    //       "text-size": 32,
+    //     },
+    //     paint: {},
+    //     // filter: ["==", "name", selectedBus || ""],
+    //   });
+    // });
 
     this.map.addSource("stops", getStopsGeoJson(busData, selectedTab));
 
