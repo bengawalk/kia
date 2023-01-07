@@ -5,9 +5,9 @@
     "orientation": "portrait",
     "scope": "/",
     "start_url": "/",
-    "name": "KIA Vayu Vajra Airport bus helper",
-    "short_name": "Airport bus",
-    "description": "App to track timings and routes of Vayu vajra buses to KIA airport",
+    "name": "Bengaluru Airport Bus",
+    "short_name": "BLR Airport bus",
+    "description": "Route and timings of the BMTC Vayu vajra bus from Bengaluru city to Kempegowda International Airport",
     "icons": [
        {
         "src": "/icons/android-icon-36x36.png",
