@@ -3,6 +3,7 @@ import { sortBy as lSortBy, map as lMap } from "lodash";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 import getDistance from "geolib/es/getDistance";
+import { loadGoogleMapScript } from "react-google-autocomplete/lib/utils";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import i18n from "i18next";
 import * as Sentry from "@sentry/react";
@@ -144,28 +145,32 @@ const Container = () => {
       // Get the name of place from input location.
       // This happens if the user selects a lat,lng on the map and adjusts it farther from previously input text or
       // if the user cleared local storage
-      const geocoder = new google.maps.Geocoder();
-      geocoder
-        .geocode({ location: inputLocation })
-        .then(({ results }) => {
-          const { formatted_address, place_id } = results[0] || {};
-          saveLocationMedata(place_id, formatted_address, [
-            inputLocation.lat,
-            inputLocation.lng,
-          ]);
-          setInputLocationMetadata({
-            placeId: place_id,
-            name: formatted_address,
-            location: [inputLocation.lat, inputLocation.lng],
+      const geocodeInput = async () => {
+        await loadGoogleMapScript();
+        const geocoder = new google.maps.Geocoder();
+        geocoder
+          .geocode({ location: inputLocation })
+          .then(({ results }) => {
+            const { formatted_address, place_id } = results[0] || {};
+            saveLocationMedata(place_id, formatted_address, [
+              inputLocation.lat,
+              inputLocation.lng,
+            ]);
+            setInputLocationMetadata({
+              placeId: place_id,
+              name: formatted_address,
+              location: [inputLocation.lat, inputLocation.lng],
+            });
+          })
+          .catch((e) => {
+            // Ignore the error than notify user. It might not matter much to the user when location lat lng is shown instead
+            // of text but would be an unnecessary information overload/distraction if the user is notified of the background api call failing
+            // which doesn't affect the core functionality.
+            console.log("Error");
+            console.log(e);
           });
-        })
-        .catch((e) => {
-          // Ignore the error than notify user. It might not matter much to the user when location lat lng is shown instead
-          // of text but would be an unnecessary information overload/distraction if the user is notified of the background api call failing
-          // which doesn't affect the core functionality.
-          console.log("Error");
-          console.log(e);
-        });
+      };
+      geocodeInput();
     }
   }, [inputLocation]);
 
