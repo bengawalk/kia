@@ -84,14 +84,17 @@ const Container = () => {
   };
 
   const onResize = () => {
-    setBodyHeight(window.visualViewport.height);
+    setBodyHeight(window.visualViewport?.height || window.innerHeight);
   };
 
   useEffect(() => {
-    window.visualViewport.addEventListener("resize", onResize);
+    // Fallback for older devices that don't support visualViewport API.
+    // visualViewport is still preferred because it gives the size excluding other UI elements like soft keyboards and
+    // works well for embeds/split screens
+    (window.visualViewport || window).addEventListener("resize", onResize);
     onResize();
     return () => {
-      window.visualViewport.removeEventListener("resize", onResize);
+      (window.visualViewport || window).removeEventListener("resize", onResize);
     };
 
     // const bodyObserver = new ResizeObserver(onResize);
