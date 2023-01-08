@@ -2,6 +2,12 @@ import * as React from "react";
 import { sortBy as lSortBy, map as lMap } from "lodash";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
+import getDistance from "geolib/es/getDistance";
+import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
+import i18n from "i18next";
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
+
 import InitialScreen from "./pages/initial";
 import {
   APP_SCREENS,
@@ -12,11 +18,14 @@ import {
 } from "./utils/constants";
 import SearchText from "./pages/search_text";
 import SearchMap from "./pages/search_map";
-import getDistance from "geolib/es/getDistance";
-import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
-import i18n from "i18next";
 import { saveLocationMedata } from "./utils";
 import "./utils/i18n";
+
+Sentry.init({
+  dsn: import.meta.env.VITE_SENTRY_DSN,
+  integrations: [new BrowserTracing()],
+  tracesSampleRate: 0.5,
+});
 
 const Container = () => {
   const [currentScreen, setCurrentScreen] = useState(APP_SCREENS.INITIAL);
