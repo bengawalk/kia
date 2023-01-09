@@ -20,7 +20,7 @@ export const LANGUAGES = [
   },
 ];
 
-export const HELPLINE_NUMBER = "1800 425 1663";
+export const HELPLINE_NUMBER = "77609 91269";
 
 export const APP_SCREENS = {
   INITIAL: "INITIAL", // Screen with the map and list of buses. Default screen as soon as the app opens
