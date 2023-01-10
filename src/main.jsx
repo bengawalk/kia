@@ -12,8 +12,10 @@ import { BrowserTracing } from "@sentry/tracing";
 import InitialScreen from "./pages/initial";
 import {
   APP_SCREENS,
+  GOOGLE_API_KEY,
   LANGUAGES,
   LOCATION_STATES,
+  SENTRY_DSN,
   STOPS_DATA,
   TABS,
 } from "./utils/constants";
@@ -22,11 +24,13 @@ import SearchMap from "./pages/search_map";
 import { saveLocationMetadata } from "./utils";
 import "./utils/i18n";
 
-Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN,
-  integrations: [new BrowserTracing()],
-  tracesSampleRate: 0.5,
-});
+if (SENTRY_DSN) {
+  Sentry.init({
+    dsn: SENTRY_DSN,
+    integrations: [new BrowserTracing()],
+    tracesSampleRate: 0.5,
+  });
+}
 
 const Container = () => {
   const [currentScreen, setCurrentScreen] = useState(APP_SCREENS.INITIAL);
@@ -47,7 +51,7 @@ const Container = () => {
   const [userLocation, setUserLocation] = useState(null);
 
   usePlacesService({
-    apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+    apiKey: GOOGLE_API_KEY,
   });
 
   const getUserLocation = () => {

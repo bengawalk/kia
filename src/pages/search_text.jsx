@@ -12,7 +12,7 @@ import IconCross from "../assets/icon-cross.svg";
 import IconGreyPin from "../assets/icon-grey-pin.svg";
 import LogoGoogle from "../assets/logo-google.svg";
 
-import { APP_SCREENS, STOPS_DATA } from "../utils/constants";
+import { APP_SCREENS, GOOGLE_API_KEY, STOPS_DATA } from "../utils/constants";
 import { saveLocationMetadata } from "../utils";
 
 const RECENT_LOCATION_COUNT = 5;
@@ -33,7 +33,7 @@ const SearchText = ({
     getPlacePredictions,
     isPlacePredictionsLoading,
   } = usePlacesService({
-    apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+    apiKey: GOOGLE_API_KEY,
     debounce: 1000,
     options: {
       location: new window.google.maps.LatLng(...STOPS_DATA.majestic.loc),

@@ -9,11 +9,12 @@ import {
   MAP_STYLE_HIGHLIGHTED_ROUTE,
   MAP_STYPE_ROUTE,
   MAP_STYPE_STOP,
+  MAPBOX_TOKEN,
   STOPS_DATA,
   TABS,
 } from "../utils/constants";
 
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
+mapboxgl.accessToken = MAPBOX_TOKEN;
 
 class Map extends React.PureComponent {
   constructor(props) {
