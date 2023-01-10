@@ -23,6 +23,7 @@ const knTranslations = {
   "Adjust start location": "ಪ್ರಾರಂಭದ ಸ್ಥಳವನ್ನು ಹೊಂದಿಸಿ",
   "Adjust destination location": "ಗಮ್ಯಸ್ಥಾನದ ಸ್ಥಳವನ್ನು ಹೊಂದಿಸಿ",
   Confirm: "ದೃಢೀಕರಿಸಿ",
+  "Recent locations": "ಇತ್ತೀಚಿನ ಸ್ಥಳಗಳು",
 
   "BMTC Vayu Vajra Helpline": "ಬಿಎಂಟಿಸಿ ವಾಯು ವಜ್ರ ಸಹಾಯವಾಣಿ",
   "Airport Bus Stand": "ವಿಮಾನ ನಿಲ್ದಾಣ ಬಸ್ ನಿಲ್ದಾಣ",
