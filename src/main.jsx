@@ -19,7 +19,7 @@ import {
 } from "./utils/constants";
 import SearchText from "./pages/search_text";
 import SearchMap from "./pages/search_map";
-import { saveLocationMedata } from "./utils";
+import { saveLocationMetadata } from "./utils";
 import "./utils/i18n";
 
 Sentry.init({
@@ -97,12 +97,6 @@ const Container = () => {
     return () => {
       (window.visualViewport || window).removeEventListener("resize", onResize);
     };
-
-    // const bodyObserver = new ResizeObserver(onResize);
-    // bodyObserver.observe(document.body);
-    // return () => {
-    //   bodyObserver?.disconnect();
-    // };
   }, []);
 
   useEffect(() => {
@@ -146,13 +140,18 @@ const Container = () => {
       // This happens if the user selects a lat,lng on the map and adjusts it farther from previously input text or
       // if the user cleared local storage
       const geocodeInput = async () => {
-        await loadGoogleMapScript();
+        await loadGoogleMapScript(
+          "https://maps.googleapis.com/maps/api/js",
+          `https://maps.googleapis.com/maps/api/js?libraries=places&key=${
+            import.meta.VITE_GOOGLE_API_KEY
+          }`,
+        );
         const geocoder = new google.maps.Geocoder();
         geocoder
           .geocode({ location: inputLocation })
           .then(({ results }) => {
             const { formatted_address, place_id } = results[0] || {};
-            saveLocationMedata(place_id, formatted_address, [
+            saveLocationMetadata(place_id, formatted_address, [
               inputLocation.lat,
               inputLocation.lng,
             ]);

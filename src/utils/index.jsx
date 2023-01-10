@@ -48,21 +48,27 @@ export const getSuggestedBus = (buses, targetLocation) => {
   return sortedBuses[0].name;
 };
 
-export const saveLocationMedata = (placeId, name, location) => {
+export const saveLocationMetadata = (placeId, name, location) => {
   const locations = JSON.parse(localStorage.getItem("locations") || "[]");
-  const hasSamePlaceId = _.some(locations, { placeId });
+  const samePlaceIdEntry = _.find(locations, { placeId });
+  // Track the time a new location is saved
+  const saveTime = new Date().getTime();
+  if (samePlaceIdEntry) {
+    samePlaceIdEntry.time = saveTime;
+  }
   // If there already exists a location in the list with the exact place id, don't add it again
   localStorage.setItem(
     "locations",
     JSON.stringify([
       ...locations,
-      ...(hasSamePlaceId
+      ...(samePlaceIdEntry
         ? []
         : [
             {
               placeId,
               name,
               location,
+              time: saveTime,
             },
           ]),
     ]),

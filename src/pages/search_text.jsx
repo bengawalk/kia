@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
+import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
+import { Trans, withTranslation } from "react-i18next";
+import {
+  reverse as lReverse,
+  sortBy as lSortBy,
+  takeRight as lTakeRight,
+} from "lodash";
+
 import IconBack from "../assets/icon-back.svg";
 import IconCross from "../assets/icon-cross.svg";
 import IconGreyPin from "../assets/icon-grey-pin.svg";
 import LogoGoogle from "../assets/logo-google.svg";
 
-import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { APP_SCREENS, STOPS_DATA } from "../utils/constants";
-import { saveLocationMedata } from "../utils";
-import { Trans, withTranslation } from "react-i18next";
+import { saveLocationMetadata } from "../utils";
+
+const RECENT_LOCATION_COUNT = 5;
 
 const SearchText = ({
   selectedTab,
@@ -17,6 +25,7 @@ const SearchText = ({
   bodyHeight,
 }) => {
   const [input, setInput] = useState("");
+  const [recentLocations, setRecentLocations] = useState([]);
 
   const {
     placesService,
@@ -34,6 +43,18 @@ const SearchText = ({
       },
     },
   });
+
+  useEffect(() => {
+    const locations = lTakeRight(
+      lSortBy(
+        JSON.parse(localStorage.getItem("locations") || "[]"),
+        (l) => l.time || 0,
+      ),
+      RECENT_LOCATION_COUNT,
+    );
+    lReverse(locations); // Reverse mutates the array
+    setRecentLocations(locations);
+  }, []);
 
   useEffect(() => {
     // TODO: Memoize for input text. Reduced network requests on input change
@@ -55,7 +76,7 @@ const SearchText = ({
           name,
           place_id: placeId,
         } = placeDetails;
-        saveLocationMedata(placeId, name, [lat(), lng()]);
+        saveLocationMetadata(placeId, name, [lat(), lng()]);
         setInputLocation({
           lat: lat(),
           lng: lng(),
@@ -100,6 +121,28 @@ const SearchText = ({
         )}
       </div>
       <div id="search-results">
+        {!input && recentLocations.length > 0 && (
+          <div>
+            <h4 className="mb-2 plr mt-2">
+              <Trans t={t} i18nKey="Recent locations" />
+            </h4>
+            {recentLocations.map((r) => (
+              <div
+                key={r.placeId}
+                className="search-result-item"
+                onClick={() => {
+                  setInputLocation({
+                    lat: r.location[0],
+                    lng: r.location[1],
+                  });
+                  setCurrentScreen(APP_SCREENS.INITIAL);
+                }}
+              >
+                <p className="search-result-main-text">{r.name}</p>
+              </div>
+            ))}
+          </div>
+        )}
         {isPlacePredictionsLoading && (
           <div id="search-loading">
             <div className="spin" />
