@@ -1,18 +1,19 @@
-import { resolve } from 'path';
-import { defineConfig } from 'vite';
+import { resolve } from "path";
+import { defineConfig } from "vite";
 // import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   envDir: resolve(__dirname),
-  publicDir: resolve(__dirname, 'public'),
+  publicDir: resolve(__dirname, "public"),
   build: {
+    sourcemap: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'src/index.html'),
-        "privacy-policy": resolve(__dirname, 'src/privacy-policy/index.html'),
+        main: resolve(__dirname, "src/index.html"),
+        "privacy-policy": resolve(__dirname, "src/privacy-policy/index.html"),
       },
     },
-    outDir: resolve(__dirname, 'dist'),
+    outDir: resolve(__dirname, "dist"),
   },
   plugins: [
     // VitePWA({

@@ -9,6 +9,7 @@ import i18n from "i18next";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 
+import IllustrationError from "./assets/illustration-error.svg";
 import InitialScreen from "./pages/initial";
 import {
   APP_SCREENS,
@@ -178,38 +179,57 @@ const Container = () => {
   }, [inputLocation]);
 
   return (
-    <div id="app-container">
-      {currentScreen === APP_SCREENS.INITIAL && (
-        <InitialScreen
-          userLocation={userLocation}
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-          inputLocation={inputLocation}
-          setCurrentScreen={setCurrentScreen}
-          inputLocationMetadata={inputLocationMetadata}
-          lang={lang}
-          setLang={setLang}
-          bodyHeight={bodyHeight}
-        />
-      )}
-      {currentScreen === APP_SCREENS.LOCATION_TEXT && (
-        <SearchText
-          selectedTab={selectedTab}
-          setCurrentScreen={setCurrentScreen}
-          setInputLocation={setInputLocation}
-          bodyHeight={bodyHeight}
-        />
-      )}
-      {currentScreen === APP_SCREENS.LOCATION_MAP && (
-        <SearchMap
-          selectedTab={selectedTab}
-          inputLocation={inputLocation}
-          setInputLocation={setInputLocation}
-          setCurrentScreen={setCurrentScreen}
-          bodyHeight={bodyHeight}
-        />
-      )}
-    </div>
+    <Sentry.ErrorBoundary
+      fallback={
+        <div className="center padding" id="error-page">
+          <img src={IllustrationError} alt="" />
+          <p>
+            We've been notified of the bug.
+            <br />
+            Please give us sometime and we'll fix the issue
+          </p>
+          <button
+            className="btn primary"
+            onClick={() => window.location.reload()}
+          >
+            Reload page
+          </button>
+        </div>
+      }
+    >
+      <div id="app-container">
+        {currentScreen === APP_SCREENS.INITIAL && (
+          <InitialScreen
+            userLocation={userLocation}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+            inputLocation={inputLocation}
+            setCurrentScreen={setCurrentScreen}
+            inputLocationMetadata={inputLocationMetadata}
+            lang={lang}
+            setLang={setLang}
+            bodyHeight={bodyHeight}
+          />
+        )}
+        {currentScreen === APP_SCREENS.LOCATION_TEXT && (
+          <SearchText
+            selectedTab={selectedTab}
+            setCurrentScreen={setCurrentScreen}
+            setInputLocation={setInputLocation}
+            bodyHeight={bodyHeight}
+          />
+        )}
+        {currentScreen === APP_SCREENS.LOCATION_MAP && (
+          <SearchMap
+            selectedTab={selectedTab}
+            inputLocation={inputLocation}
+            setInputLocation={setInputLocation}
+            setCurrentScreen={setCurrentScreen}
+            bodyHeight={bodyHeight}
+          />
+        )}
+      </div>
+    </Sentry.ErrorBoundary>
   );
 };
 

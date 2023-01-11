@@ -17,6 +17,11 @@
   border-bottom: 1px solid var(--color-grey-light);
 }
 
+.center {
+  margin: 0 auto;
+  text-align: center;
+}
+
 html {
   font-size: 20px;
   overscroll-behavior-y: none;
@@ -26,6 +31,30 @@ html {
 button,
 input {
   font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+#error-page {
+  line-height: 1.8;font-size: 0.8rem;
+  padding-top: 80px;
+  img {
+    width: 100%;
+    max-width: 500px;
+  }
+}
+
+.btn {
+  padding: 6px 20px;
+  border: 0;
+  &.primary {
+    align-items: center;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    border-radius: 4px;
+  }
 }
 
 .text {
