@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <title>Bengaluru Airport Bus</title>
+
+    <!-- Common meta tags across all pages -->
     <meta
       name="viewport"
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,height=auto"
@@ -34,7 +36,8 @@
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://kia.bengawalk.com/og-banner.webp" />
 
-    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
 
     <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png" />
     <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-icon-60x60.png" />
@@ -64,16 +67,23 @@
       href="https://fonts.gstatic.com"
     />
     <link
-      href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"
-      rel="stylesheet"
-    />
-    <link
       crossorigin="anonymous"
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/assets/main.ff40155a.js"></script>
-    <link rel="stylesheet" href="/assets/index.37ddeec5.css">
+    <!-- Common meta tags across all pages -->
+
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/assets/main.248ba667.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/index.c5257e5a.js">
+    <link rel="modulepreload" crossorigin href="/assets/i18n.b2275617.js">
+    <link rel="modulepreload" crossorigin href="/assets/mapbox-gl.500533d4.js">
+    <link rel="stylesheet" href="/assets/index.7d5dc686.css">
+    <link rel="stylesheet" href="/assets/i18n.1c314888.css">
+    <link rel="stylesheet" href="/assets/index.0d200d75.css">
   </head>
   <body>
     <div id="root"></div>
