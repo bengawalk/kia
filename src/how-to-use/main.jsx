@@ -27,7 +27,7 @@ If not, you could manually find the closest bus and all relevant details in 3 si
 <img src=${ImageHowto3} alt="" width="250px" />
 
 ### Other features
-The boarding location, and contact details are available under the timings in the expanded view for a selected bus. Clicking on these opens the location in Google maps and calls the mobile listed respectively.
+The boarding location and contact details are available under the timings in the expanded view for a selected bus. Clicking on these opens the location in Google maps and calls the mobile listed respectively.
 
 ## General information
 ### Boarding point

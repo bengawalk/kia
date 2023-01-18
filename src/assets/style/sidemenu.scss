@@ -64,6 +64,8 @@
 }
 
 .sidebar-language {
+  cursor: pointer;
+
   &.selected {
     color: var(--color-primary);
     &::before {

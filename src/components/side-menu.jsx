@@ -33,7 +33,7 @@ const SideMenu = ({ setLang, t }) => {
             <hr className="side-menu-separator" />
             <a className="side-menu-item" href="/">
               <img src={IconBus} className="side-menu-icon" alt="" />{" "}
-              <Trans t={t} i18nKey="Buses and routes" />
+              <Trans t={t} i18nKey="Buses routes and timings" />
             </a>
             <div className="side-menu-item">
               <img src={IconLanguage} className="side-menu-icon" alt="" />{" "}

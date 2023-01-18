@@ -51,7 +51,7 @@ const knTranslations = {
   "Github repository": "ಗಿಥಬ್ ರೆಪೊಸಿಟರಿ",
   "Privacy policy": "ಗೌಪ್ಯತಾ ನೀತಿ",
   "Help and support": "ಸಹಾಯ ಮತ್ತು ಬೆಂಬಲ",
-  "Buses and routes": "ಬಸ್ಸುಗಳು ಮತ್ತು ಮಾರ್ಗಗಳು",
+  "Buses routes and timings": "ಬಸ್ ಮಾರ್ಗಗಳು ಮತ್ತು ಸಮಯ",
 };
 
 export default knTranslations;

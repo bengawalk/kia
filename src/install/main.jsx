@@ -32,7 +32,7 @@ On installation, it behaves like a native app accessible from the Home screen la
 <img src=${ImageAndroid1} alt="" width="250px" />
 <img src=${ImageAndroid2} alt="" width="250px" />
 
-### iOs
+### iOS
 - Open the site in Safari
 - Click the share icon at the bottom
 - Click on "Add to Home Screen"

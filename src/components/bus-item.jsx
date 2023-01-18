@@ -17,7 +17,6 @@ const BusItem = ({
   const busSelected = name === selectedBus;
 
   const locationDetails = toAirport ? start : end;
-  console.log(locationDetails);
   return (
     <div className={`route-item bus-${name} ${busSelected ? "selected" : ""}`}>
       <div

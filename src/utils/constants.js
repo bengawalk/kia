@@ -609,10 +609,6 @@ export const BUS_DATA = {
   ],
 };
 
-// console.log(polyline.decode(decodeURIComponent(BUS_DATA.to[0].route)));
-
-// console.log(encodeURIComponent(polyline.encode(BUS_DATA.to[0].route)));
-
 const COLOR_HIGHLIGHT = "#4264fb";
 const COLOR_MUTED = "#aaaaaa";
 
