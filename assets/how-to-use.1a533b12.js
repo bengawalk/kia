@@ -1,4 +1,4 @@
-import{j as o,r as C,L as D}from"./index.c5257e5a.js";import{i as F,S as n}from"./i18n.b2275617.js";import{r as s}from"./index.ee7ae7c7.js";import{R as r}from"./react-markdown.6ac11af6.js";const B="/assets/howto_1.830f2426.webp",A="/assets/howto_2.7abb96fc.webp",e="/assets/howto_3.48b91a21.webp",t={en:`
+import{j as o,r as C,L as D}from"./index.70ff7f18.js";import{i as F,S as n}from"./i18n.2e267da5.js";import{r as s}from"./index.56989280.js";import{R as r}from"./react-markdown.b2e28194.js";const B="/assets/howto_1.830f2426.webp",A="/assets/howto_2.7abb96fc.webp",e="/assets/howto_3.48b91a21.webp",t={en:`
 # How to use
 If the user gives permission for location, the application automatically chooses the best available bus to reach the airport.  
 If not, you could manually find the closest bus and all relevant details in 3 simple steps
@@ -11,7 +11,7 @@ If not, you could manually find the closest bus and all relevant details in 3 si
 <img src=${e} alt="" width="250px" />
 
 ### Other features
-The boarding location, and contact details are available under the timings in the expanded view for a selected bus. Clicking on these opens the location in Google maps and calls the mobile listed respectively.
+The boarding location and contact details are available under the timings in the expanded view for a selected bus. Clicking on these opens the location in Google maps and calls the mobile listed respectively.
 
 ## General information
 ### Boarding point
@@ -40,4 +40,4 @@ The fare ranges from \u20B9200 to \u20B9350 based on the boarding point and dist
 ### \u0CA6\u0CB0\u0CA6 \u0CB5\u0CBF\u0CB5\u0CB0\u0C97\u0CB3\u0CC1
 \u0CAC\u0CCB\u0CB0\u0CCD\u0CA1\u0CBF\u0C82\u0C97\u0CCD \u0CAA\u0CBE\u0CAF\u0CBF\u0C82\u0C9F\u0CCD \u0CAE\u0CA4\u0CCD\u0CA4\u0CC1 \u0CB5\u0CBF\u0CAE\u0CBE\u0CA8 \u0CA8\u0CBF\u0CB2\u0CCD\u0CA6\u0CBE\u0CA3\u0CA6 \u0CA6\u0CC2\u0CB0\u0CB5\u0CA8\u0CCD\u0CA8\u0CC1 \u0C86\u0CA7\u0CB0\u0CBF\u0CB8\u0CBF \u0CA6\u0CB0\u0CB5\u0CC1 \u20B9200 \u0CB0\u0CBF\u0C82\u0CA6 \u20B9350 \u0CB0\u0CB7\u0CCD\u0C9F\u0CBF\u0CB0\u0CC1\u0CA4\u0CCD\u0CA4\u0CA6\u0CC6.
 `},i=()=>{const[u,a]=C.exports.useState(localStorage.getItem("lang")||D[0].code);return C.exports.useEffect(()=>{localStorage.setItem("lang",u),document.documentElement.setAttribute("lang",u),F.changeLanguage(u)},[u]),C.exports.createElement(C.exports.Fragment,null,C.exports.createElement(n,{setLang:a}),C.exports.createElement(r,{rehypePlugins:[s],children:t[u]||t.en}))},E=o(document.getElementById("root"));E.render(C.exports.createElement(i,null));
-//# sourceMappingURL=how-to-use.172b3a10.js.map
+//# sourceMappingURL=how-to-use.1a533b12.js.map
