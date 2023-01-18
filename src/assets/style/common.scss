@@ -18,3 +18,11 @@ html {
   overscroll-behavior-y: none;
   height: -webkit-fill-available;
 }
+
+.link {
+  color: var(--color-primary);
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}

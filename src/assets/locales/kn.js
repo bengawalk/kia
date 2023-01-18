@@ -45,6 +45,7 @@ const knTranslations = {
 
   Close: "ಮುಚ್ಚಿ",
   Language: "ಭಾಷೆ",
+  Contact: "ದೂರವಾಣಿ",
   "How to use": "ಬಳಸುವುದು ಹೇಗೆ",
   "Install app": "ಅಪ್ಲಿಕೇಶನ್ ಇನ್ಸ್ಟಾಲ್ ಮಾಡಿ",
   "Github repository": "ಗಿಥಬ್ ರೆಪೊಸಿಟರಿ",

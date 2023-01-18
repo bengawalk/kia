@@ -40,14 +40,6 @@ button {
   font-size: 0.8rem;
 }
 
-.link {
-  color: #4a80f5;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -293,7 +285,7 @@ h4 {
 
 .route-item-details {
   display: none;
-  padding: 8px 6px 2px 12px;
+  padding: 8px 6px 12px 12px;
 }
 
 .route-item-header {
@@ -336,7 +328,7 @@ h4 {
   align-items: center;
   text-decoration: none;
   color: var(--color-primary);
-  margin: 0 0 16px;
+  margin: 0 0 8px;
   &:hover {
     text-decoration: underline;
   }

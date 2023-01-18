@@ -15,6 +15,9 @@ const BusItem = ({
 }) => {
   const { name, start, end, timings } = busDetails;
   const busSelected = name === selectedBus;
+
+  const locationDetails = toAirport ? start : end;
+  console.log(locationDetails);
   return (
     <div className={`route-item bus-${name} ${busSelected ? "selected" : ""}`}>
       <div
@@ -53,24 +56,23 @@ const BusItem = ({
         <h3>
           <Trans t={t} i18nKey={toAirport ? "Boarding point" : "Final stop"} />
         </h3>
-        {toAirport ? (
-          <a
-            className="route-item-location"
-            href={`https://www.google.com/maps/search/?api=1&query=${start.loc[0]},${start.loc[1]}`}
-            target="_blank"
-          >
-            <Trans t={t} i18nKey={start.name} />
-            <img src={IconOpenLink} alt="Open" />
-          </a>
-        ) : (
-          <a
-            className="route-item-location"
-            href={`https://www.google.com/maps/search/?api=1&query=${end.loc[0]},${end.loc[1]}`}
-            target="_blank"
-          >
-            <Trans t={t} i18nKey={end.name} />
-            <img src={IconOpenLink} alt="Open" />
-          </a>
+        <a
+          className="route-item-location"
+          href={`https://www.google.com/maps/search/?api=1&query=${locationDetails.loc[0]},${locationDetails.loc[1]}`}
+          target="_blank"
+        >
+          <Trans t={t} i18nKey={locationDetails.name} />
+          <img src={IconOpenLink} alt="Open" />
+        </a>
+        {locationDetails.contact && (
+          <>
+            <h3>
+              <Trans t={t} i18nKey="Contact" />
+            </h3>
+            <a className="link" href={`tel:${locationDetails.contact}`}>
+              {locationDetails.contact}
+            </a>
+          </>
         )}
       </div>
     </div>
