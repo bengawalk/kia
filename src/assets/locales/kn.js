@@ -42,6 +42,15 @@ const knTranslations = {
   "Mysore Road Satellite Bus Stand": "ಮೈಸೂರು ರಸ್ತೆ ಸ್ಯಾಟಲೈಟ್ ಬಸ್ ನಿಲ್ದಾಣ",
   "Royal Meenakshi Mall": "ರಾಯಲ್ ಮೀನಾಕ್ಷಿ ಮಾಲ್",
   "Kengeri Bus Terminal": "ಕೆಂಗೇರಿ ಬಸ್ ಟರ್ಮಿನಲ್",
+
+  Close: "ಮುಚ್ಚಿ",
+  Language: "ಭಾಷೆ",
+  "How to use": "ಬಳಸುವುದು ಹೇಗೆ",
+  "Install app": "ಅಪ್ಲಿಕೇಶನ್ ಇನ್ಸ್ಟಾಲ್ ಮಾಡಿ",
+  "Github repository": "ಗಿಥಬ್ ರೆಪೊಸಿಟರಿ",
+  "Privacy policy": "ಗೌಪ್ಯತಾ ನೀತಿ",
+  "Help and support": "ಸಹಾಯ ಮತ್ತು ಬೆಂಬಲ",
+  "Buses and routes": "ಬಸ್ಸುಗಳು ಮತ್ತು ಮಾರ್ಗಗಳು",
 };
 
 export default knTranslations;

@@ -1,0 +1,22 @@
+#route-viz-wrapper {
+  display: flex;
+  height: 100vh;
+  align-items: stretch;
+}
+
+#route-viz-info {
+  width: 300px;
+  padding: 20px;
+  p {
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+}
+
+#route-viz-map {
+  flex-grow: 1;
+}
+
+#route-viz-points {
+  font-size: 0.8rem;
+}

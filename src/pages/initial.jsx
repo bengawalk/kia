@@ -3,10 +3,11 @@ import Map from "../components/map";
 import _ from "lodash";
 import { useEffect, useState } from "react";
 
-import { BUS_DATA, LOCATION_STATES, TABS } from "../utils/constants";
+import { BUS_DATA } from "../utils/constants";
 import Sidebar from "../components/sidebar";
 import MapLocationInput from "../components/map-location-input";
 import { getSuggestedBus } from "../utils";
+import SideMenu from "../components/side-menu";
 
 const InitialScreen = ({
   selectedTab,
@@ -15,7 +16,6 @@ const InitialScreen = ({
   inputLocation,
   setCurrentScreen,
   inputLocationMetadata,
-  lang,
   setLang,
   bodyHeight,
 }) => {
@@ -41,8 +41,6 @@ const InitialScreen = ({
         setSelectedBus={setSelectedBus}
         suggestedBus={suggestedBus}
         sortedTabData={selectedTabData}
-        lang={lang}
-        setLang={setLang}
         bodyHeight={bodyHeight}
       />
       <Map
@@ -58,6 +56,7 @@ const InitialScreen = ({
         inputLocation={inputLocation}
         inputLocationMetadata={inputLocationMetadata}
       />
+      <SideMenu setLang={setLang} />
     </>
   );
 };

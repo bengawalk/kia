@@ -158,7 +158,6 @@ class Sidebar extends React.PureComponent {
   render() {
     const {
       bodyHeight,
-      lang,
       selectedTab,
       setSelectedTab,
       sortedTabData,
@@ -166,7 +165,6 @@ class Sidebar extends React.PureComponent {
       setSelectedBus,
       suggestedBus,
       suggestedBusDetails,
-      setLang,
       t,
     } = this.props;
     const { currentTime, move } = this.state;
@@ -215,19 +213,6 @@ class Sidebar extends React.PureComponent {
           </div>
         </div>
         <div id="sidebar-content" className="padding">
-          <div id="lang-sel">
-            {LANGUAGES.map(({ code, text }) => (
-              <button
-                className={`lang-btn ${code} ${
-                  lang === code ? "selected" : ""
-                }`}
-                key={code}
-                onClick={() => setLang(code)}
-              >
-                {text}
-              </button>
-            ))}
-          </div>
           {suggestedBus && (
             <>
               <h4 className="mb-4">

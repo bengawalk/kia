@@ -4,6 +4,10 @@ import _ from "lodash";
 import { getDistance } from "geolib";
 import { STOPS_DATA } from "./constants";
 
+export const stopPropagation = (e) => {
+  e.stopPropagation();
+};
+
 export const getSuggestedBus = (buses, targetLocation) => {
   // Get the most optimum bus to take to reach the airport
   // At present this is the combination of the closest routes to the location

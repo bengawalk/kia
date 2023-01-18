@@ -11,6 +11,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "src/index.html"),
         "privacy-policy": resolve(__dirname, "src/privacy-policy/index.html"),
+        "route-viz": resolve(__dirname, "src/route-viz/index.html"),
       },
     },
     outDir: resolve(__dirname, "dist"),

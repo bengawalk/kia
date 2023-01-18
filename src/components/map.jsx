@@ -1,7 +1,6 @@
 import * as React from "react";
 import mapboxgl from "mapbox-gl";
 import { find as lFind } from "lodash";
-import IconBus from "../assets/icon-bus.png";
 
 import { getRoutesGeojson, getStopsGeoJson } from "../utils";
 import {

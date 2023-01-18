@@ -1,3 +1,5 @@
+import polyline from "google-polyline";
+
 export const TABS = [
   {
     text: "To airport",
@@ -78,10 +80,12 @@ export const STOPS_DATA = {
   majestic: {
     name: "Majestic Bus Stand",
     loc: [12.977529081680132, 77.57247169985196],
+    contact: "7760991170",
   },
   silk_institute: {
     name: "Silk Institute Metro Station",
     loc: [12.862231132000229, 77.53020557184188],
+    contact: "7760991267",
   },
   airport: {
     name: "Airport Bus Stand",
@@ -91,10 +95,12 @@ export const STOPS_DATA = {
   hal: {
     name: "HAL Main Gate",
     loc: [12.958498117866407, 77.66518619680876],
+    contact: "7760991264",
   },
   whitefield: {
     name: "Whitefield TTMC",
     loc: [12.976874051754933, 77.72680679219907],
+    contact: "7760991125",
   },
   banashankari: {
     name: "Banashankari TTMC",
@@ -103,14 +109,20 @@ export const STOPS_DATA = {
   kadugodi: {
     name: "Kadugodi Bus Stop",
     loc: [12.995682104394492, 77.75933511787484],
+    contact: "7760991266",
   },
   hsr: {
     name: "HSR BDA Shopping Complex",
     loc: [12.912696250372736, 77.63815235881127],
   },
+  hsr_keb: {
+    name: "HSR KEB Bus stand",
+    loc: [12.903498259883314, 77.64980288742859],
+  },
   ecity: {
     name: "Electronic City Bus Stop",
     loc: [12.846820291920075, 77.67194606999932],
+    contact: "7760991268",
   },
   btm: {
     name: "BTM Layout Kuvempu Nagar TTMC",
@@ -131,6 +143,7 @@ export const STOPS_DATA = {
   mysore_road: {
     name: "Mysore Road Satellite Bus Stand",
     loc: [12.953555019494152, 77.54382623524201],
+    contact: "7760991262",
   },
   royal_meenakshi: {
     name: "Royal Meenakshi Mall",
@@ -194,7 +207,7 @@ export const BUS_DATA = {
     {
       name: "KIA-6",
       route:
-        "qeryMcfinAd@KLf@HX~@tCz@|CPjBXjAjDxEjEdGzBhEbD~KlF~PpAnEd@dClB|PnEt_@tBb[^jEt@xGdFjV~C`OBx@nAhD|E`LzAjEnApAlAh@z@@nDe@tCKrKEfLE`IGnCFl[tCxKd@fLZp\\P~RJvOB|BDrAMxOc@dOe@vQq@ba@oAtK_@jEOvADzMrAtTxBtU~BlJbA|H\\f`@|A`CO|FoBnZkLhFyAvDi@|F[nOWbAW?V`AA~DOpAMnDe@|Cg@tJuAjGi@x@AnGp@`L[vJWjOU`Vw@pWyApP_AbDOdAU`CE~SoAlOcBbDS~@DdGtAv@HbDu@pEiA~FeAlCc@rAg@`HiDv@{ArEeLT[fG_CxDgAzCWrANjDjATFFMj@i@^u@j@{Cf@yGd@oHPgDDqC@WYCm@GUCKAO@FeFQoFYaCBa@IaAL_GAwAcAqCi@[mBg@i@i@aBaFy@wBmCiCX}@rA_KBkEK_NTe@j@SlF`@jDd@TPx@rAfAq@Za@hEwBbEsCdBsAlIeElMaGxE}@lBm@`DgBrHaFhASzEItJgCnGqBrEkA`Eo@Nw@rA{BpC_IlCqG~AsGv@qDf@o@hBoAfCmArDsArBy@tAaAnKkHfAq@`Aa@NAf@eBL_@tDkHzEwIfIqNzEyGpBkBnDiAnD]|DS`DB`A@EuAAyFEOKK@uADiHDgEAkCKcCWoA}@{Fa@kE_CoNHWMkA[cBmAeG}DaMoE_MmA}DQuBk@oCyAcFc@cBKmFMaEMg@CAWuA}@_Ii@wC_AiEmAsDaAoCu@kFSqCMaA[wAsCwHuAoESsAHO?_@_AqFi@gDYmD\\yKEsSCcPHuDZiJFuH\\uL~@e\\J}KK}Hg@{Lw@kSIwBUqCkDoMsCiIeF}OaBmHeAcLy@iEcAkEk@mBiC{IqAsEgFmYs@cEY{@cAiDcB_EqJqRqJyQmPk[oEaJ_GsNmEmLoJmWgAyCiAoAqIiUwGsQwBgHc@wCDoJTc@PyRA{Eg@cMa@uGg@{CmCeHuHwQ{CcHkC_F{IoNaI_LgJcNoHyJ}HiLmMm]mEcMkCiIgAqBcDmEw@kAQCc@QgBmCmMcS}GcKmLsQiGmJmE}GVMKOsHeL[c@iCeCmBu@aMuJ{FyCqEqBkBgBwIaFaD}A_K_GoCyBqBgDmAaGi@kCc@w@s@k@aAYcB?oAf@eBrBqFtI{BrCqCjBsCz@}E`@iw@Ve_@KiASUQi@Go@`@w@PmFBulARga@Js@]g@Oc@FOLaAX{YD_@KaA{@Wu@c@g@u@]{J@i@c@A@",
+        "qeryMcfinAd%40KLf%40HX~%40tCz%40%7CCPjBXjAjDxEjEdGzBhEbD~KlF~PpAnEd%40dClB%7CPnEt_%40tBb%5B%5EjEt%40xGdFjV~C%60OBx%40nAhD%7CE%60LzAjEnApAlAh%40z%40%40nDe%40tCKrKEfLE%60IGnCFl%5BtCxKd%40fLZp%5CP~RJvOB%7CBDrAMxOc%40dOe%40vQq%40ba%40oApG_%40WgBE%7BCMuGwAgPy%40eJa%40yLf%40wD~%40wClPy%5BbGiL%7CHuNnMcWvN%7BXfK_SjCgFdBiCjBwCpGsJpLuQnCqE%60JwPb%40c%40d%40%5Bj%40IhEItEDzGEvB%60%40%60GpBbQrG%7CM%60FvAXVAl%40%5CrBv%40vNlEdAH~%40EvAs%40f%40u%40dDuGlBcE%60Aq%60%40FqDh%40wFpAaQp%40uTh%40yQLsB%5CoA%5C_%40%7CAk%40rRmGzQcGbDw%40zJ%7BCh%5DeLt_%40gMnOaFvOcBzEs%40bF%7D%40rCw%40hH%7BBdB%7B%40l%40_A%7CDaLtKoXdFeL%7CA%7BAdEeCzAkA%60GiJ%60BsBx%40o%40%60Bc%40xAIdPLdOZbEg%40fB%5BfG%7BApCoAzScDHPfHkApJgAxIK%60QJfLIdCHnARr%40Zj%40%5CzEbDtCrAfBRxFAxFM%60A%5BlE_AtGgAr%40E~ADv%40Qq%40eBq%40sBMsCQeCg%40qBsA%7BCyF%7DOU%7BA%3F_%40DY%7BAgJg%40cEB_DTcGDcHKiPE%7DH%5CsITmSf%40cO~%40y%5EAwJmB_h%40YiDi%40gCwBmHqBkGgG_RsAgF%5BgBi%40sGiAmHs%40uDaA_DsBcHwA_FgAkF%7DEsYaAyCgCoGiFeK_JkQoZ%7Dk%40mKoWwFiOgHwR%7B%40gA_AwB_CmGqCsH%5D%7D%40iEiLmDsKg%40oCCmELuEHMN_LAiOc%40wJw%40eKwAkEcHmP%7DDmJkCqFsCwEgFmIsDgFqHkKkGqJkIyKgFwHsDoJsIuU_AgC%7DD_MyAkDmC%7BDoBcCUEsBkCyDkGqWo%60%40iLqQcBeCcDcFVMmE%7DGqBwCmAuAwC%7DBm%40KgAaAyG%7BEgCsBwC_ByEmBsAkAuIiFyCuAqPcKmB%7BBsAeDiAuGc%40qAk%40q%40%7D%40c%40%7DAMqAVgAv%40uB~C%7DFzI%7BBtB%7DCxAgEr%40ig%40Vg%5BHeWSs%40a%40i%40Go%40%60%40w%40PmFBulARga%40J%7B%40c%40q%40GYJq%40%5CsZHiAi%40a%40s%40%5Du%40i%40a%40_%40MkFBwCCc%40_%40",
       start: STOPS_DATA.kadugodi,
       end: STOPS_DATA.airport,
       stops: [],
@@ -216,8 +229,8 @@ export const BUS_DATA = {
     {
       name: "KIA-7",
       route:
-        "%7DuzxMa%60ymA%5CA%40%7CAH%3FAaAE%40ImCG%7BDFM%40sCEwCGaD_%40sS%7B%40gEe%40qB_DkIo%40sBlBm%40dCw%40j%40UxAaAnB_AfAWfAGtQzAnMpApIl%40lB%40vAM%60%40MxHaCtRqGfQqFf%5CcJdCq%40d%40Bx%40FFO~B_ErA%7BCnAwA%60DcC~QkMzD%7DBfDgBpAa%40hEiAlAKdNgAxTcBbCo%40%60By%40ZG%7C%40mApB_DpAmDVwCt%40wN%7C%40oHZy%40%60%40_%40nBoA~Ay%40%7BBcEcEcGsBaDjAqAjDsCnAoAvB_B~%40w%40rAoAZ%5BYS%7BCyCfB%7DA%60DoCrFkEbCsB%7C%40e%40Mc%40a%40%7DAaEqNuCwJiBkGS_%40iBqAcDoCeBkCk%40qA_%40gAk%40%7BA_EaDMQwAaAmAiA%7BGkFeE%7BBmAo%40qHmFkDgBcC%7D%40dAqDb%40aBTSlD%7BAlGW%60BOJGNm%40_AoNjDuCvGIV%40%3FQ~BkGvEqMtAiCtCy%40pEeAfCk%40mFsGiGwETo%40jI_KlJuMvAaBt%40w%40h%40p%40tAfBl%40h%40zGzIjGdGrCxCNRZ%5Be%40gAq%40aC%5DyADs%40JMBItLgJ%7CAsA%5Eq%40f%40cEhAcOPu%40%60%40w%40JcAGg%40OYAYbCmQx%40cIt%40_EKaBQ%7B%40%40%7B%40AqAB%7BGI%7BACeF%7C%40y_%40%3FcNOwJIaOJsUGsBO%7D%40%7D%40aFi%40iFyB_NIm%40HSEa%40WeBqAwGiBqFu%40mCcEoLgB_FYoAM%7BAc%40eCgA_Ew%40gCOcCMqHM%7B%40QE_AeJg%40wCcAaFy%40iCu%40qBw%40iCc%40%7BCMiBG%7D%40SuBoCsHiBiFU%7BA%3F_%40DYu%40kEe%40%7BCg%40cEB_DTcGDcHE%7BGKkQHiDRiDRsOXeLx%40aYVsOCsF%5DeJiAyYE_BYiDi%40gCwBmHqBkGgG_RsAgF%5BgBi%40sGe%40%7BDc%40qBs%40uDaA_DsBcHwA_FgAkFeCmNwAeJ%5D%7B%40c%40%7DAgCoGgJcR%7D%5Bcn%40sDgHuFwMuE%7DLsJsWmBgF%7B%40gA_AwB_CmGqCsHgFgNmDsKg%40oCCmEBiEHKHMN_L%40oLCyAc%40wJw%40eKwAkEcHmPm%40_BoCmGkCqF%7BJePkImLgJeNqGqI_JqMsDoJ%7DF%7BOuB%7DFsD%7DKkAsDw%40%7DAmC%7BDoBcCUEWM%7BA%7DBsA%7DBeBmCyLyQaOcU_GcJcBeCcDcFVMmE%7DGqBwCwB_CqAcAiA%5BuHyFkC%7BBkBiAeFwB%7BBiA_%40i%40iKoGoAe%40_PkJuBsB%7B%40uAo%40cBiAsGa%40yAi%40w%40uAq%40_BGoA%5CuAnA%7DHxLeBnB%7DCjBkCr%40qCViUL%7Br%40NsPSc%40Yi%40Mk%40PKLo%40PkRJccBZiAi%40%7D%40Bk%40Zm%40H%7BYBs%40%5Di%40q%40Yy%40g%40c%40i%40SqJBs%40e%40A%40",
-      start: STOPS_DATA.hsr,
+        "%7B~%7CxMqfwmAoAQg%40%5Bg%40k%40%5DgAUm%40Om%40So%40Mo%40Ik%40K%7D%40Iy%40G%7B%40KiAMgASy%40QkAKaAKcAG_AAq%40Au%40%40iA%40gA%3F%7B%40%3FaA%3FcA%40%7B%40HsA%40%5D~A%3FbBB%7CA%3FtA%40fA%3FfABxA%40jA%3F~A%40%7C%40%3FbAChBI~%40GbAEbAE%7C%40CbDG~AGpB%3FdBCjA%3FpAA~%40AnCElB%3FlBEvBAnBAhBAjAAA%7B%40K%7BCG%7BDFM%40sCEwCGaD_%40sS%7B%40gEe%40qB_DkIo%40sBlBm%40dCw%40j%40UxAaAnB_AfAWfAGtQzAnMpApIl%40lB%40vAM%60%40MxHaCtRqGfQqFf%5CcJdCq%40d%40Bx%40FFO~B_ErA%7BCnAwA%60DcC~QkMzD%7DBfDgBpAa%40hEiAlAKdNgAxTcBbCo%40%60By%40ZG%7C%40mApB_DpAmDVwCt%40wN%7C%40oHZy%40%60%40_%40nBoA~Ay%40%7BBcEcEcGsBaDjAqAjDsCnAoAvB_B~%40w%40rAoAZ%5BYS%7BCyCfB%7DA%60DoCrFkEbCsB%7C%40e%40Mc%40a%40%7DAaEqNuCwJiBkGS_%40iBqAcDoCeBkCk%40qA_%40gAk%40%7BA_EaDMQwAaAmAiA%7BGkFeE%7BBmAo%40qHmFkDgBcC%7D%40dAqDb%40aBTSlD%7BAlGW%60BOJGNm%40_AoNjDuCvGIV%40%3FQ~BkGvEqMtAiCtCy%40pEeAfCk%40mFsGiGwETo%40jI_KlJuMvAaBt%40w%40h%40p%40tAfBl%40h%40zGzIjGdGrCxCNRZ%5Be%40gAq%40aC%5DyADs%40JMBItLgJ%7CAsA%5Eq%40f%40cEhAcOPu%40%60%40w%40JcAGg%40OYAYbCmQx%40cIt%40_EKaBQ%7B%40%40%7B%40AqAB%7BGI%7BACeF%7C%40y_%40%3FcNOwJIaOJsUGsBO%7D%40%7D%40aFi%40iFyB_NIm%40HSEa%40WeBqAwGiBqFu%40mCcEoLgB_FYoAM%7BAc%40eCgA_Ew%40gCOcCMqHM%7B%40QE_AeJg%40wCcAaFy%40iCu%40qBw%40iCc%40%7BCMiBG%7D%40SuBoCsHiBiFU%7BA%3F_%40DYu%40kEe%40%7BCg%40cEB_DTcGDcHE%7BGKkQHiDRiDRsOXeLx%40aYVsOCsF%5DeJiAyYE_BYiDi%40gCwBmHqBkGgG_RsAgF%5BgBi%40sGe%40%7BDc%40qBs%40uDaA_DsBcHwA_FgAkFeCmNwAeJ%5D%7B%40c%40%7DAgCoGgJcR%7D%5Bcn%40sDgHuFwMuE%7DLsJsWmBgF%7B%40gA_AwB_CmGqCsHgFgNmDsKg%40oCCmEBiEHKHMN_L%40oLCyAc%40wJw%40eKwAkEcHmPm%40_BoCmGkCqF%7BJePkImLgJeNqGqI_JqMsDoJ%7DF%7BOuB%7DFsD%7DKkAsDw%40%7DAmC%7BDoBcCUEWM%7BA%7DBsA%7DBeBmCyLyQaOcU_GcJcBeCcDcFVMmE%7DGqBwCwB_CqAcAiA%5BuHyFkC%7BBkBiAeFwB%7BBiA_%40i%40iKoGoAe%40_PkJuBsB%7B%40uAo%40cBiAsGa%40yAi%40w%40uAq%40_BGoA%5CuAnA%7DHxLeBnB%7DCjBkCr%40qCViUL%7Br%40NsPSc%40Yi%40Mk%40PKLo%40PkRJccBZiAi%40%7D%40Bk%40Zm%40H%7BYBs%40%5Di%40q%40Yy%40g%40c%40i%40SqJBs%40e%40A%40",
+      start: STOPS_DATA.hsr_keb,
       end: STOPS_DATA.airport,
       stops: [],
       contact: "",
@@ -253,16 +266,19 @@ export const BUS_DATA = {
         1210, 1260, 1280, 1320, 1340, 1360, 1410,
       ],
     },
-    // {
-    //   name: 'KIA-8A',
-    //   start: STOPS_DATA.btm,
-    //   end: STOPS_DATA.airport,
-    //   stops: [],
-    //   contact: "",
-    //   timings: [
-    //     500,580,630,660,720,760,830,880,1000,1020,1080,1090,1120,1140,1160,
-    //   ],
-    // },
+    {
+      name: "KIA-8A",
+      route:
+        "wlvxMyuymA_BH%7DACyACoAAeA%3F_A%3FgAAeAA%7D%40GaAM_AOw%40OcAU_AS%7B%40Sg%40Kq%40Qw%40Uw%40U%7B%40SiA%5BuIi%40wBDaKhBwEv%40gCHkHV_HTgPn%40wCHqKt%40oA%3FuBUkDaAkAo%40kDkCoEwEgNaRsA%7BAaHgGmA_AaCkAkCi%40yF_%40wDKgCF%7DN%7CAyGp%40mGbAcYbHiS%60DeAb%40iEd%40gAAg%40c%40qAg%40k%40Yq%40EaLkEqX%7BJoKuDgHsCsJsDiVwIuQmHeEiCoG_F%7BOgNuTyRcJoJiB%7BC%7DFwKqB_EgAcEkGgWaAiGiAqLeA%7DH%7BBaOiAuFQoCE%7BCMuGwAgPy%40eJa%40yLf%40wD~%40wClPy%5BbGiL%7CHuNnMcWvN%7BXfK_SjCgFdBiCjBwCpGsJpLuQnCqE%60JwPb%40c%40d%40%5Bj%40IhEItEDzGEvB%60%40%60GpBbQrG%7CM%60FvAXVAl%40%5CrBv%40vNlEdAH~%40EvAs%40f%40u%40dDuGlBcE%60Aq%60%40FqDh%40wFpAaQp%40uTh%40yQLsB%5CoA%5C_%40%7CAk%40rRmGzQcGbDw%40zJ%7BCh%5DeLt_%40gMnOaFvOcBzEs%40bF%7D%40rCw%40hH%7BBdB%7B%40l%40_A%7CDaLtKoXdFeL%7CA%7BAdEeCzAkA%60GiJ%60BsBx%40o%40%60Bc%40xAIdPLdOZbEg%40fB%5BfG%7BApCoAzScDHPfHkApJgAxIK%60QJfLIdCHnARr%40Zj%40%5CzEbDtCrAfBRxFAxFM%60A%5BlE_AtGgAr%40E~ADv%40Qq%40eBq%40sBMsCQeCg%40qBsA%7BCyF%7DOU%7BA%3F_%40DY%7BAgJg%40cEB_DTcGDcHKiPE%7DH%5CsITmSf%40cO~%40y%5EAwJmB_h%40YiDi%40gCwBmHqBkGgG_RsAgF%5BgBi%40sGiAmHs%40uDaA_DsBcHwA_FgAkF%7DEsYaAyCgCoGiFeK_JkQoZ%7Dk%40mKoWwFiOgHwR%7B%40gA_AwB_CmGqCsH%5D%7D%40iEiLmDsKg%40oCCmELuEHMN_LAiOc%40wJw%40eKwAkEcHmP%7DDmJkCqFsCwEgFmIsDgFqHkKkGqJkIyKgFwHsDoJsIuU_AgC%7DD_MyAkDmC%7BDoBcCUEsBkCyDkGqWo%60%40iLqQcBeCcDcFVMmE%7DGqBwCmAuAwC%7DBm%40KgAaAyG%7BEgCsBwC_ByEmBsAkAuIiFyCuAqPcKmB%7BBsAeDiAuGc%40qAk%40q%40%7D%40c%40%7DAMqAVgAv%40uB~C%7DFzI%7BBtB%7DCxAgEr%40ig%40Vg%5BHeWSs%40a%40i%40Go%40%60%40w%40PmFBulARga%40J%7B%40c%40q%40GYJq%40%5CsZHiAi%40a%40s%40%5Du%40i%40a%40_%40MkFBwCCc%40_%40",
+      start: STOPS_DATA.btm,
+      end: STOPS_DATA.airport,
+      stops: [],
+      contact: "",
+      timings: [
+        60, 100, 220, 280, 340, 475, 535, 600, 635, 665, 695, 710, 915, 925,
+        1000, 1030, 1110, 1120, 1160, 1170, 1200, 1220, 1245, 1270, 1300,
+      ],
+    },
     {
       name: "KIA-8C",
       route:
@@ -325,16 +341,6 @@ export const BUS_DATA = {
         1125, 1155, 1170, 1185, 1215, 1230, 1245, 1275, 1320, 1380,
       ],
     },
-    // {
-    //   name: "KIA-12",
-    //   route:
-    //     "okvxMwrymAGoAVApCO~GWrZOzt@_@b@AlBA@N@f@AXCbBEdCCzAJd@LjMOjF_@vHWvFk@tC[l@aD|Ds@dA]jAJNVk@bAgBrA}AnBeCX@c@CRy@L_ABc@Zk@h@aMZ}FFuBB}@SCDcABw@AyDN_HEsCGa@tEC~GGtAA`EGfOAdROpCE?Y?wAIyEGsKDeAAqHCqLEoN?AfBaBp@SjDKx@Yp@y@Ru@^QxFShG?hDAOsDIeOE}F_@uJ?gBHwDcEAAACCEAQw\\CyIF_AHI?YUM_@qCa@gAcAwAu@k@oC}@s@[cDo@yCKwEMsAeAcDwCoFmBsDuBsAs@[t@{AzDWx@yA~BoCdCc@\\s@qAyJgOzC_DpB{AnEmDpCoC}AsAwAyAjAcAnCcCxDuC|CkCvB_BRIK]IWIc@cC}IcCoIgCqJaA}C@WUOcBu@aEqDgB}Ck@kBn@C~@Eh@Qp@m@`BmCt@oBhA_BlAgAx@i@hCq@hEk@hBIvCb@vAXlCNjBHvDbApBnBL@f@QP[P{BdA}AvAeBjBwAlDsCfIaHhGgFdCcBjBu@aBkCsBkDwGoJuBeDcGoMgEqHqByDsAwDoDkJwAiE[mA@}@LMnI{GzEgEd@kCr@}Jp@_Gb@y@HkBUo@`CeQv@uIRk@d@eDIcASiA@}AA}DDuDO}Dz@k`@FeJQwNMoMLkWG{CQsAeBwLa@_DoAiHS{AHWUeBoAoGaDkK}CmJeCuGs@mDMuAsAqF_A{CSkBO{G?]S@KaB_AeJkByJoB{Fw@iCc@{CMiB[sDyF}OU{A?_@DY{AgJg@cEB_DTcGDcHKiPE}H\\sITmSf@cO~@y^AwJmB_h@YiDi@gCwBmHqBkGgG_RsAgF[gBi@sGiAmHs@uDaA_DsBcHwA_FgAkF}EsYaAyCgCoGiFeK_JkQoZ}k@mKoWwFiOgHwR{@gA_AwB_CmGqCsH]}@iEiLmDsKg@oCCmELuEHMN_LAiOc@wJw@eKwAkEcHmP}DmJkCqFsCwEgFmIsDgFqHkKkGqJkIyKgFwHsDoJsIuU_AgC}D_MyAkDmC{DoBcCUEsBkCyDkGqWo`@iLqQcBeCcDcFVMmE}GqBwCmAuAwC}Bm@KgAaAyG{EgCsBwC_ByEmBsAkAuIiFiBaAeCqA{MeImB{BsAeDiAuGc@qAk@q@}@c@cAMkBVgAv@eDbFmEvG{BtBoAt@sCz@aCZqOF_s@XeWSc@Ue@Se@D_Ah@ytAZga@Jq@[YOw@Hu@^sZHs@Ym@m@g@kAiAo@{J@YQQO",
-    //   start: STOPS_DATA.btm,
-    //   end: STOPS_DATA.airport,
-    //   stops: [],
-    //   contact: "",
-    //   timings: [340, 400, 460, 590, 650, 710, 925, 985, 1045, 1175, 1235, 1315],
-    // },
     {
       name: "KIA-14",
       route:
@@ -362,7 +368,6 @@ export const BUS_DATA = {
         1170, 1230,
       ],
     },
-    // 15-A
     {
       name: "KIA-17",
       route:
@@ -447,9 +452,9 @@ export const BUS_DATA = {
     {
       name: "KIA-7",
       route:
-        "%7DuzxMa%60ymA%5CA%40%7CAH%3FAaAE%40ImCG%7BDFM%40sCEwCGaD_%40sS%7B%40gEe%40qB_DkIo%40sBlBm%40dCw%40j%40UxAaAnB_AfAWfAGtQzAnMpApIl%40lB%40vAM%60%40MxHaCtRqGfQqFf%5CcJdCq%40d%40Bx%40FFO~B_ErA%7BCnAwA%60DcC~QkMzD%7DBfDgBpAa%40hEiAlAKdNgAxTcBbCo%40%60By%40ZG%7C%40mApB_DpAmDVwCt%40wN%7C%40oHZy%40%60%40_%40nBoA~Ay%40%7BBcEcEcGsBaDjAqAjDsCnAoAvB_B~%40w%40rAoAZ%5BYS%7BCyCfB%7DA%60DoCrFkEbCsB%7C%40e%40Mc%40a%40%7DAaEqNuCwJiBkGS_%40iBqAcDoCeBkCk%40qA_%40gAk%40%7BA_EaDMQwAaAmAiA%7BGkFeE%7BBmAo%40qHmFkDgBcC%7D%40dAqDb%40aBTSlD%7BAlGW%60BOJGNm%40_AoNjDuCvGIV%40%3FQ~BkGvEqMtAiCtCy%40pEeAfCk%40mFsGiGwETo%40jI_KlJuMvAaBt%40w%40h%40p%40tAfBl%40h%40zGzIjGdGrCxCNRZ%5Be%40gAq%40aC%5DyADs%40JMBItLgJ%7CAsA%5Eq%40f%40cEhAcOPu%40%60%40w%40JcAGg%40OYAYbCmQx%40cIt%40_EKaBQ%7B%40%40%7B%40AqAB%7BGI%7BACeF%7C%40y_%40%3FcNOwJIaOJsUGsBO%7D%40%7D%40aFi%40iFyB_NIm%40HSEa%40WeBqAwGiBqFu%40mCcEoLgB_FYoAM%7BAc%40eCgA_Ew%40gCOcCMqHM%7B%40QE_AeJg%40wCcAaFy%40iCu%40qBw%40iCc%40%7BCMiBG%7D%40SuBoCsHiBiFU%7BA%3F_%40DYu%40kEe%40%7BCg%40cEB_DTcGDcHE%7BGKkQHiDRiDRsOXeLx%40aYVsOCsF%5DeJiAyYE_BYiDi%40gCwBmHqBkGgG_RsAgF%5BgBi%40sGe%40%7BDc%40qBs%40uDaA_DsBcHwA_FgAkFeCmNwAeJ%5D%7B%40c%40%7DAgCoGgJcR%7D%5Bcn%40sDgHuFwMuE%7DLsJsWmBgF%7B%40gA_AwB_CmGqCsHgFgNmDsKg%40oCCmEBiEHKHMN_L%40oLCyAc%40wJw%40eKwAkEcHmPm%40_BoCmGkCqF%7BJePkImLgJeNqGqI_JqMsDoJ%7DF%7BOuB%7DFsD%7DKkAsDw%40%7DAmC%7BDoBcCUEWM%7BA%7DBsA%7DBeBmCyLyQaOcU_GcJcBeCcDcFVMmE%7DGqBwCwB_CqAcAiA%5BuHyFkC%7BBkBiAeFwB%7BBiA_%40i%40iKoGoAe%40_PkJuBsB%7B%40uAo%40cBiAsGa%40yAi%40w%40uAq%40_BGoA%5CuAnA%7DHxLeBnB%7DCjBkCr%40qCViUL%7Br%40NsPSc%40Yi%40Mk%40PKLo%40PkRJccBZiAi%40%7D%40Bk%40Zm%40H%7BYBs%40%5Di%40q%40Yy%40g%40c%40i%40SqJBs%40e%40A%40",
-      start: STOPS_DATA.airport,
-      end: STOPS_DATA.hsr,
+        "%7B~%7CxMqfwmAoAQg%40%5Bg%40k%40%5DgAUm%40Om%40So%40Mo%40Ik%40K%7D%40Iy%40G%7B%40KiAMgASy%40QkAKaAKcAG_AAq%40Au%40%40iA%40gA%3F%7B%40%3FaA%3FcA%40%7B%40HsA%40%5D~A%3FbBB%7CA%3FtA%40fA%3FfABxA%40jA%3F~A%40%7C%40%3FbAChBI~%40GbAEbAE%7C%40CbDG~AGpB%3FdBCjA%3FpAA~%40AnCElB%3FlBEvBAnBAhBAjAAA%7B%40K%7BCG%7BDFM%40sCEwCGaD_%40sS%7B%40gEe%40qB_DkIo%40sBlBm%40dCw%40j%40UxAaAnB_AfAWfAGtQzAnMpApIl%40lB%40vAM%60%40MxHaCtRqGfQqFf%5CcJdCq%40d%40Bx%40FFO~B_ErA%7BCnAwA%60DcC~QkMzD%7DBfDgBpAa%40hEiAlAKdNgAxTcBbCo%40%60By%40ZG%7C%40mApB_DpAmDVwCt%40wN%7C%40oHZy%40%60%40_%40nBoA~Ay%40%7BBcEcEcGsBaDjAqAjDsCnAoAvB_B~%40w%40rAoAZ%5BYS%7BCyCfB%7DA%60DoCrFkEbCsB%7C%40e%40Mc%40a%40%7DAaEqNuCwJiBkGS_%40iBqAcDoCeBkCk%40qA_%40gAk%40%7BA_EaDMQwAaAmAiA%7BGkFeE%7BBmAo%40qHmFkDgBcC%7D%40dAqDb%40aBTSlD%7BAlGW%60BOJGNm%40_AoNjDuCvGIV%40%3FQ~BkGvEqMtAiCtCy%40pEeAfCk%40mFsGiGwETo%40jI_KlJuMvAaBt%40w%40h%40p%40tAfBl%40h%40zGzIjGdGrCxCNRZ%5Be%40gAq%40aC%5DyADs%40JMBItLgJ%7CAsA%5Eq%40f%40cEhAcOPu%40%60%40w%40JcAGg%40OYAYbCmQx%40cIt%40_EKaBQ%7B%40%40%7B%40AqAB%7BGI%7BACeF%7C%40y_%40%3FcNOwJIaOJsUGsBO%7D%40%7D%40aFi%40iFyB_NIm%40HSEa%40WeBqAwGiBqFu%40mCcEoLgB_FYoAM%7BAc%40eCgA_Ew%40gCOcCMqHM%7B%40QE_AeJg%40wCcAaFy%40iCu%40qBw%40iCc%40%7BCMiBG%7D%40SuBoCsHiBiFU%7BA%3F_%40DYu%40kEe%40%7BCg%40cEB_DTcGDcHE%7BGKkQHiDRiDRsOXeLx%40aYVsOCsF%5DeJiAyYE_BYiDi%40gCwBmHqBkGgG_RsAgF%5BgBi%40sGe%40%7BDc%40qBs%40uDaA_DsBcHwA_FgAkFeCmNwAeJ%5D%7B%40c%40%7DAgCoGgJcR%7D%5Bcn%40sDgHuFwMuE%7DLsJsWmBgF%7B%40gA_AwB_CmGqCsHgFgNmDsKg%40oCCmEBiEHKHMN_L%40oLCyAc%40wJw%40eKwAkEcHmPm%40_BoCmGkCqF%7BJePkImLgJeNqGqI_JqMsDoJ%7DF%7BOuB%7DFsD%7DKkAsDw%40%7DAmC%7BDoBcCUEWM%7BA%7DBsA%7DBeBmCyLyQaOcU_GcJcBeCcDcFVMmE%7DGqBwCwB_CqAcAiA%5BuHyFkC%7BBkBiAeFwB%7BBiA_%40i%40iKoGoAe%40_PkJuBsB%7B%40uAo%40cBiAsGa%40yAi%40w%40uAq%40_BGoA%5CuAnA%7DHxLeBnB%7DCjBkCr%40qCViUL%7Br%40NsPSc%40Yi%40Mk%40PKLo%40PkRJccBZiAi%40%7D%40Bk%40Zm%40H%7BYBs%40%5Di%40q%40Yy%40g%40c%40i%40SqJBs%40e%40A%40",
+      start: STOPS_DATA.hsr_keb,
+      end: STOPS_DATA.hsr_keb,
       stops: [],
       contact: "",
       timings: [45, 490, 580, 630, 750, 840, 900, 1080, 1165, 1230, 1375, 1420],
@@ -482,31 +487,19 @@ export const BUS_DATA = {
         915, 945, 960, 990, 1020, 1035, 1065, 1280, 1320, 1360, 1400,
       ],
     },
-    // {
-    //   name: 'KIA-8A',
-    //   start: STOPS_DATA.airport,
-    //   end: STOPS_DATA.whitefield,
-    //   stops: [],
-    //   contact: "",
-    //   timings: [
-    //     345,
-    //     390,
-    //     400,
-    //     420,
-    //     475,
-    //     540,
-    //     590,
-    //     610,
-    //     650,
-    //     735,
-    //     900,
-    //     970,
-    //     1050,
-    //     1180,
-    //     1260,
-    //     1300,
-    //   ],
-    // },
+    {
+      name: "KIA-8A",
+      route:
+        "wlvxMyuymA_BH%7DACyACoAAeA%3F_A%3FgAAeAA%7D%40GaAM_AOw%40OcAU_AS%7B%40Sg%40Kq%40Qw%40Uw%40U%7B%40SiA%5BuIi%40wBDaKhBwEv%40gCHkHV_HTgPn%40wCHqKt%40oA%3FuBUkDaAkAo%40kDkCoEwEgNaRsA%7BAaHgGmA_AaCkAkCi%40yF_%40wDKgCF%7DN%7CAyGp%40mGbAcYbHiS%60DeAb%40iEd%40gAAg%40c%40qAg%40k%40Yq%40EaLkEqX%7BJoKuDgHsCsJsDiVwIuQmHeEiCoG_F%7BOgNuTyRcJoJiB%7BC%7DFwKqB_EgAcEkGgWaAiGiAqLeA%7DH%7BBaOiAuFQoCE%7BCMuGwAgPy%40eJa%40yLf%40wD~%40wClPy%5BbGiL%7CHuNnMcWvN%7BXfK_SjCgFdBiCjBwCpGsJpLuQnCqE%60JwPb%40c%40d%40%5Bj%40IhEItEDzGEvB%60%40%60GpBbQrG%7CM%60FvAXVAl%40%5CrBv%40vNlEdAH~%40EvAs%40f%40u%40dDuGlBcE%60Aq%60%40FqDh%40wFpAaQp%40uTh%40yQLsB%5CoA%5C_%40%7CAk%40rRmGzQcGbDw%40zJ%7BCh%5DeLt_%40gMnOaFvOcBzEs%40bF%7D%40rCw%40hH%7BBdB%7B%40l%40_A%7CDaLtKoXdFeL%7CA%7BAdEeCzAkA%60GiJ%60BsBx%40o%40%60Bc%40xAIdPLdOZbEg%40fB%5BfG%7BApCoAzScDHPfHkApJgAxIK%60QJfLIdCHnARr%40Zj%40%5CzEbDtCrAfBRxFAxFM%60A%5BlE_AtGgAr%40E~ADv%40Qq%40eBq%40sBMsCQeCg%40qBsA%7BCyF%7DOU%7BA%3F_%40DY%7BAgJg%40cEB_DTcGDcHKiPE%7DH%5CsITmSf%40cO~%40y%5EAwJmB_h%40YiDi%40gCwBmHqBkGgG_RsAgF%5BgBi%40sGiAmHs%40uDaA_DsBcHwA_FgAkF%7DEsYaAyCgCoGiFeK_JkQoZ%7Dk%40mKoWwFiOgHwR%7B%40gA_AwB_CmGqCsH%5D%7D%40iEiLmDsKg%40oCCmELuEHMN_LAiOc%40wJw%40eKwAkEcHmP%7DDmJkCqFsCwEgFmIsDgFqHkKkGqJkIyKgFwHsDoJsIuU_AgC%7DD_MyAkDmC%7BDoBcCUEsBkCyDkGqWo%60%40iLqQcBeCcDcFVMmE%7DGqBwCmAuAwC%7DBm%40KgAaAyG%7BEgCsBwC_ByEmBsAkAuIiFyCuAqPcKmB%7BBsAeDiAuGc%40qAk%40q%40%7D%40c%40%7DAMqAVgAv%40uB~C%7DFzI%7BBtB%7DCxAgEr%40ig%40Vg%5BHeWSs%40a%40i%40Go%40%60%40w%40PmFBulARga%40J%7B%40c%40q%40GYJq%40%5CsZHiAi%40a%40s%40%5Du%40i%40a%40_%40MkFBwCCc%40_%40",
+      end: STOPS_DATA.btm,
+      start: STOPS_DATA.airport,
+      stops: [],
+      contact: "",
+      timings: [
+        190, 230, 345, 390, 400, 420, 475, 540, 590, 610, 650, 735, 900, 970,
+        1050, 1180, 1260, 1300, 1340, 1380,
+      ],
+    },
     {
       name: "KIA-8C",
       route:
@@ -593,19 +586,16 @@ export const BUS_DATA = {
       contact: "",
       timings: [375, 435, 495, 555, 615, 675, 735, 795, 945, 1005, 1065, 1125],
     },
-    // {
-    //   name: 'KIA-15A',
-    //   start: STOPS_DATA.airport,
-    //   end: STOPS_DATA.whitefield,
-    //   stops: [],
-    //   contact: "",
-    //   timings: [
-    //     1185,
-    //     1245,
-    //     1290,
-    //     1350,
-    //   ],
-    // },
+    {
+      name: "KIA-15A",
+      route:
+        "k_lyM%7BpenAFdBr%40CvAIxNs%40%60Uw%40xT%7B%40%5EJlF%5BdAi%40zEYnRkA~BPb%40T%7BC%7CLmFvSgBhG%7B%40zCqChIw%40jBi%40p%40aA%5EqGToEPqCv%40cBx%40q%40p%40u%40nA%5D%60CJ%60Bv%40fC%60ChFzApCp%40%7CCl%40vFlCjLpBjHn%40%7CC%60%40~%40s%5E%40_SKq%5CQgL%5ByKe%40m%5BuCoCGaIFgLDsKDuCJoDd%40%7B%40AmAi%40oAqA%7BAkE%7DEaLoAiDCy%40_DaOeFkVu%40yG_%40kEuBc%5BoEu_%40mB%7DPe%40eCAs%40Uw%40e%40eBGOa%40sBu%40aCkDgLqBcGwAcDiDgFwGaJ_%40cDsByHa%40qDQaCPyBbBwOvBePj%40%7DEN%7DA%40kB%5BgD_%40kAuBeEqLmWuF%7DLu%40gCeAyE_AyIEoA%5CG%3Fi%40QKO%3FCgA%3FwBNyLdAkRXaDnA%7BGjAgDrAyC%60DiHxAeDjAgD%5EiDDgCOoB_AwH%7BCoS_B%7BKm%40oEIcBJkHR%7BFGiGEoDSkGy%40sHuEuUCe%40%40I%40Sf%40ThAh%40fHbDpPbIxNrIrTrNtBrAFYlAcDrAaDd%40q%40bDsHlOo%5CtBwEdJuRnI_QlEgDbC%7BBpCuD%60FkHhAwCb%40mB%60%40cCXeE%60%40qOXqJXqKf%40sMJgDYsEiA_DmBoEmBoEgBiEQcAWwDUyCkBwH%7D%40iG%7DBiHcDoLc%40iBiAyDeAwBcAoCm%40uCSoAM%7BB%3FcCIsBw%40_Eo%40cHc%40_Fc%40uFi%40sM_%40gGgBiPWuDAwF_%40eXO_USeM%40oBn%40%7BA%60C_GxA%7DEj%40yCVcDK_BwAuJkAmHo%40cD%7B%40kCcAoESoBQq%40y%40AkBRc%40EOWYsA%7D%40cH%5DiAQWWqBOqDRe%40%5CIzIgBdF%7D%40h%40Ix%40o%40%60AgApBwA%60DaBjCkA%7CDyAxGgBjCi%40rCc%40lCq%40%60I%7DBpH_BrUsEtD%7B%40f%40a%40Pg%40GcECaETs%40hBcDVw%40LgJ%3FsJGcFAm%40XaAHWX%7B%40~%40aB%7CEgGnEqFpFuGn%40_BZ_BF%7DCZwA%40q%40_%40_I%40u%40hC_F~%40sBlAoE~DsIbD%7DHrAiHt%40wAxAkA~%40mAv%40aB~%40cC%60CqIb%40cAPKt%40kAxFaJXq%40ASNuCdAqGn%40eDxAgEx%40_CxA%60%40%7CC%7C%40dCn%40~%40DTK%5Cq%40h%40%5BpBa%40hBORMDWBIjASdEo%40~CYrFm%40xA%7DA%60AaAbCmArAq%40xA_ARi%40%3FmAbHIpE%5B~BEpAG%60F%7D%40dImAbCYp%40%5D%7CBq%40x%40LR%5EbApBn%40dBd%40r%40f%40SbDg%40tDe%40rDKrEVfFV~D%40X%40NBrA%5EpBd%40bBFzLNfRn%40pGMbBNdCGvB%40v%40GJSeAaMcB%7BKs%40_Mi%40iNMaKNmAnA%7DEpAmFZ%7DAPURw%40Oa%40a%40Os%40NOPw%40Pmc%40Jem%40Bwc%40Do%40Wu%40QgAh%40m%40NsZBKYw%40%7B%40%5Bu%40aAo%40yAw%40eAyAyG%40%40hB",
+      start: STOPS_DATA.airport,
+      end: STOPS_DATA.whitefield,
+      stops: [],
+      contact: "",
+      timings: [1185, 1245, 1290, 1350],
+    },
     {
       name: "KIA-17",
       route:
@@ -618,6 +608,10 @@ export const BUS_DATA = {
     },
   ],
 };
+
+// console.log(polyline.decode(decodeURIComponent(BUS_DATA.to[0].route)));
+
+// console.log(encodeURIComponent(polyline.encode(BUS_DATA.to[0].route)));
 
 const COLOR_HIGHLIGHT = "#4264fb";
 const COLOR_MUTED = "#aaaaaa";
