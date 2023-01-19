@@ -42,6 +42,7 @@ const SearchText = ({
         country: "in",
       },
     },
+    language: "&callback=dummyFunction", // Ugly hack. Library doesn't handle a callback param directly
   });
 
   useEffect(() => {

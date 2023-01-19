@@ -18,7 +18,9 @@ button {
 
 #error-page {
   line-height: 1.8;font-size: 0.8rem;
-  padding-top: 80px;
+  padding: 80px 10px;
+  width: 100%;
+  overflow: auto;
   img {
     width: 100%;
     max-width: 500px;
@@ -490,7 +492,7 @@ h4 {
   font-size: 14px;
   padding-left: 32px;
   background-color: #ffffff;
-  background-image: url(./assets/icon-location.svg);
+  background-image: url(../icon-location.svg);
   background-repeat: no-repeat;
   background-size: 18px;
   background-position: 8px 7px;
@@ -551,7 +553,7 @@ h4 {
 
 .search-result-item {
   padding: 10px 10px 10px 40px;
-  background-image: url(./assets/icon-location.svg);
+  background-image: url(../icon-location.svg);
   background-repeat: no-repeat;
   background-size: 18px;
   background-position: 16px 12px;

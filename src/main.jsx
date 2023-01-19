@@ -4,7 +4,6 @@ import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 import getDistance from "geolib/es/getDistance";
 import { loadGoogleMapScript } from "react-google-autocomplete/lib/utils";
-import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import i18n from "i18next";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
@@ -24,6 +23,7 @@ import SearchText from "./pages/search_text";
 import SearchMap from "./pages/search_map";
 import { saveLocationMetadata } from "./utils";
 import "./utils/i18n";
+import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 
 if (SENTRY_DSN) {
   Sentry.init({
@@ -51,8 +51,10 @@ const Container = () => {
   );
   const [userLocation, setUserLocation] = useState(null);
 
+  // Adds Google maps script tag if haven't already. Required before the user clicks on search since it uses the library
   usePlacesService({
     apiKey: GOOGLE_API_KEY,
+    language: "&callback=dummyFunction", // Ugly hack. Library doesn't handle a callback param directly
   });
 
   const getUserLocation = () => {
@@ -147,9 +149,7 @@ const Container = () => {
       const geocodeInput = async () => {
         await loadGoogleMapScript(
           "https://maps.googleapis.com/maps/api/js",
-          `https://maps.googleapis.com/maps/api/js?libraries=places&key=${
-            import.meta.VITE_GOOGLE_API_KEY
-          }`,
+          `https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_API_KEY}&callback=dummyFunction`,
         );
         const geocoder = new google.maps.Geocoder();
         geocoder
