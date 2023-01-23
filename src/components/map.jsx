@@ -68,7 +68,7 @@ class Map extends React.PureComponent {
     } = prevProps;
 
     if (prevSelectedTab !== selectedTab) {
-      this.refreshMapData();
+      this.callFnIfMapLoaded(this.refreshMapData);
     }
 
     if (!this.userLocationMarker) {
