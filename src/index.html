@@ -13,6 +13,16 @@
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="Cache-Control" content="no-cache" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src *.mapbox.com maps.googleapis.com 'self';
+        img-src * 'self' data:;
+        style-src *.mapbox.com fonts.googleapis.com 'unsafe-inline';
+        font-src fonts.gstatic.com;
+        worker-src 'self' blob:;
+      "
+    />
     <meta name="title" content="Bengaluru Airport Bus" />
     <meta name="description" content="Route and timings of the BMTC Vayu vajra bus from Bengaluru city to Kempegowda International Airport" />
     <meta name="keywords" content="bengaluru,bangalore,kempegowda,airport,bmtc,vayu vajra,bus" />
