@@ -52,6 +52,11 @@ const knTranslations = {
   "Privacy policy": "ಗೌಪ್ಯತಾ ನೀತಿ",
   "Help and support": "ಸಹಾಯ ಮತ್ತು ಬೆಂಬಲ",
   "Buses routes and timings": "ಬಸ್ ಮಾರ್ಗಗಳು ಮತ್ತು ಸಮಯ",
+
+  deviceMapSupport:
+    "ನಕ್ಷೆಯನ್ನು ಲೋಡ್ ಮಾಡಲು ಅಗತ್ಯವಿರುವ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ನಿಮ್ಮ ಬ್ರೌಸರ್ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ.",
+  ensureUpToDate:
+    "ನಿಮ್ಮ ಬ್ರೌಸರ್ ಮತ್ತು ಸಾಧನವು ನವೀಕೃತವಾಗಿದೆ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ ಅಥವಾ ಇನ್ನೊಂದು ಬ್ರೌಸರ್ ಅನ್ನು ಪ್ರಯತ್ನಿಸಿ.",
 };
 
 export default knTranslations;

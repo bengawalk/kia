@@ -10,8 +10,8 @@ import {
   MAP_STYPE_STOP,
   MAPBOX_TOKEN,
   STOPS_DATA,
-  TABS,
 } from "../utils/constants";
+import { withTranslation, Trans } from "react-i18next";
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -22,6 +22,7 @@ class Map extends React.PureComponent {
       lat: STOPS_DATA.majestic.loc[0],
       lng: STOPS_DATA.majestic.loc[1],
       zoom: 11,
+      supported: mapboxgl.supported(),
     };
     this.mapContainer = React.createRef();
   }
@@ -50,11 +51,13 @@ class Map extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.initMap();
-    this.map.on("load", () => {
-      this.renderMapData();
-      this.addMapEvents();
-    });
+    if (this.state.supported) {
+      this.initMap();
+      this.map?.on("load", () => {
+        this.renderMapData();
+        this.addMapEvents();
+      });
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -66,6 +69,10 @@ class Map extends React.PureComponent {
       selectedTab: prevSelectedTab,
       inputLocation: prevInputLocation,
     } = prevProps;
+
+    if (!this.state.supported) {
+      return;
+    }
 
     if (prevSelectedTab !== selectedTab) {
       this.callFnIfMapLoaded(this.refreshMapData);
@@ -285,8 +292,19 @@ class Map extends React.PureComponent {
   };
 
   render() {
+    const { t } = this.props;
+    const { supported } = this.state;
+    if (!supported) {
+      return (
+        <div className="center padding" id="error-page">
+          <Trans t={t} i18nKey="deviceMapSupport" />
+          <br />
+          <Trans t={t} i18nKey="ensureUpToDate" />
+        </div>
+      );
+    }
     return <div id="map" ref={this.mapContainer} className="map-container" />;
   }
 }
 
-export default Map;
+export default withTranslation()(Map);
