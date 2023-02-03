@@ -153,6 +153,10 @@ export const STOPS_DATA = {
     name: "Kengeri Bus Terminal",
     loc: [12.913656066139644, 77.48714794975331],
   },
+  beml_5: {
+    name: "BEML Layout 5th Stage",
+    loc: [12.906722494018258, 77.5216914426631],
+  },
 };
 
 export const BUS_DATA = {
@@ -371,8 +375,8 @@ export const BUS_DATA = {
     {
       name: "KIA-17",
       route:
-        "}e}wM{eymAw@VFRJZx@CdCq@b@AdC|B~@fAbCxJf@p@bBp@nFK~BDjDfAjE|@f@\\lFlAb@SFa@Y_@oGsBQi@Cm@BUDg@YaAk@qBiBuGkDiMiBkG}EwQoE}PkAmFOg@e@{BmCwJaDaMgEwRq@aCm@k@g@MqKlBc@Cy@eAoAiBq@cBy@iCgAmBi@}EUgB_A}Mu@iHaCmIqAsDaD_HmCmEwE_JaB_JeByCyEwCaCcBYeBi@_CwAwCmA_C_FsGaDuFiBeFsGqToAkI[sBCsB`@oCHmFUcCy@sCeFsOw@wCsAeCcGiKuBcEiA_D{AqFcBwJwAoJm@iDGeFGcENq@Ru@PoAF{CU{Ay@{Aq@mAaAwB_A}CcA}DaGh@oD?}E_AgBc@kAEoBTgJbCqA`@qFmUk@qAg@yBs@wCiAoDcNa_@oKoYsAcEa@wBKiBAmD@{FQ_Hq@mDuA}C{EiFkB_C}CgFqBmEgAqDuBoJmAmGu@aGk@cGmAgGuA{DsFaLmNyYiAcCO[OHoBn@aA`@iItD_@J[w@sBuRiCeS}A{MWy@{LkKcBgA}DmAuI_CyNiDuK_CmIkBcDm@{@MSSo@EmHf@e@ESa@`@eCr@gBBADEBMIM[@q@`Cm@lB{@jA[Zq@JkLJkFKqAQaE{B_@C{L}H_DoAmAU}Kq@sLo@mNa@?McEGsACsCI}DI}DSwH[{BT_@LFNsA\\[Pg@XkJ|GqCvB{GtD_FpCyBp@kOhBqADeC_@qDy@c@QKQ@?HZS@i@NgAVNv@@Nq@FEWr@E~ADv@Qq@eBq@sBMsCQeCg@qBcFoMiBiFU{A?_@DYu@kEmA_JB_DTcG?_QKkQ\\sIRsOXeLx@aYVsOa@yQiAyYE_BYiDaDuLyJkZsAgFeA{JiAmHuBuIkEcOmEyUwAeJ]{@c@}AgCoGgJcR}[cn@sDgHuFwMuE}LsJsWmBgF{@gA_EeKqCsHgFgNmDsKg@oCCmELuEHMN_L@oLg@qMw@eKwAkEqImSoCmGkCqF{JePkImLgJeNqGqI_JqMgPic@sD}KkAsDeEyGoBcCUEsBkCyDkGyLyQaOcU_GcJcBeCcDcFVMmE}GqBwCmAuAwC}Bm@KgAaAyG{EgCsBwC_ByEmBsAkAuIiFyCuAqPcKmB{BsAeDiAuGc@qAk@q@}@c@}AMqAVgAv@uB~C}FzI{BtB}CxAgEr@ig@Vg[HeWSiAi@}@V}@Zmc@JiqAZaA[MKq@GkAh@sZHiAi@_AiBi@a@_@MkFBwCCc@_@",
-      start: STOPS_DATA.kengeri,
+        "q%7CcxMe%7BwmAvAJ%40uA%3Fw%40%3FcA%40%7B%40%40kA%40kA%40sAB%7BAD%7DABmA%40_BL_DJ_DJuCDsCJkCP%7BCFyCDiCHiDD_CFuBDcBhCM%7CCQnCOnBKtBInBIzBO%7CBO%60BQ%60Be%40%5DuAQwBC%7DB%5CcB%5CqBImBSyBWcCM%7BBK_AN_ArCDvCAlC%3F%60C%40vB%40Hc%40Sy%40O%7BAAcAAy%40%7BCHoBH%7DBBiBDyB%40JeCi%40gDw%40sCsAoEmB_EiCaEqByCoBqCmBeCk%40cCKwBsEi%40oDw%40uBgB_BeB%7BBsAyBqA_CiBgCuCoCgEwCaFqC%7BDeDmEqDaEuAcAvGcBvHcCbFaEfFuHpEqGnEkGxDsGfAqJh%40qK~AcEbKmDbHuCrJ%7DC%60FuCf%40_NWoP_%40gOW_PaCoNgD%7DLyCyJqFiJkFsIiFqJgByJq%40cIiFuVk%40qAg%40yBs%40wCiAoDcNa_%40oKoYsAcEa%40wBKiBAmD%40%7BFQ_Hq%40mDuA%7DC%7BEiFkB_C%7DCgFqBmEgAqDuBoJmAmGu%40aGk%40cGmAgGuA%7BDsFaLmNyYiAcCO%5BOHoBn%40aA%60%40iItD_%40J%5Bw%40sBuRiCeS%7DA%7BMWy%40%7BLkKcBgA%7DDmAuI_CyNiDuK_CmIkBcDm%40%7B%40MSSo%40EmHf%40e%40ESa%40%60%40eCr%40gBBADEBMIM%5B%40q%40%60Cm%40lB%7B%40jA%5BZq%40JkLJkFKqAQaE%7BB_%40C%7BL%7DH_DoAmAU%7DKq%40sLo%40mNa%40%3FMcEGsACsCI%7DDI%7DDSwH%5B%7BBT_%40LFNsA%5C%5BPg%40XkJ%7CGqCvB%7BGtD_FpCyBp%40kOhBqADeC_%40qDy%40c%40QKQ%40%3FHZS%40i%40NgAVNv%40%40Nq%40FEWr%40E~ADv%40Qq%40eBq%40sBMsCQeCg%40qBcFoMiBiFU%7BA%3F_%40DYu%40kEmA_JB_DTcG%3F_QKkQ%5CsIRsOXeLx%40aYVsOa%40yQiAyYE_BYiDaDuLyJkZsAgFeA%7BJiAmHuBuIkEcOmEyUwAeJ%5D%7B%40c%40%7DAgCoGgJcR%7D%5Bcn%40sDgHuFwMuE%7DLsJsWmBgF%7B%40gA_EeKqCsHgFgNmDsKg%40oCCmELuEHMN_L%40oLg%40qMw%40eKwAkEqImSoCmGkCqF%7BJePkImLgJeNqGqI_JqMgPic%40sD%7DKkAsDeEyGoBcCUEsBkCyDkGyLyQaOcU_GcJcBeCcDcFVMmE%7DGqBwCmAuAwC%7DBm%40KgAaAyG%7BEgCsBwC_ByEmBsAkAuIiFyCuAqPcKmB%7BBsAeDiAuGc%40qAk%40q%40%7D%40c%40%7DAMqAVgAv%40uB~C%7DFzI%7BBtB%7DCxAgEr%40ig%40Vg%5BHeWSiAi%40%7D%40V%7D%40Zmc%40JiqAZaA%5BMKq%40GkAh%40sZHiAi%40_AiBi%40a%40_%40MkFBwCCc%40_%40",
+      start: STOPS_DATA.beml_5,
       end: STOPS_DATA.airport,
       stops: [],
       contact: "",
@@ -599,9 +603,9 @@ export const BUS_DATA = {
     {
       name: "KIA-17",
       route:
-        "}e}wM{eymAw@VFRJZx@CdCq@b@AdC|B~@fAbCxJf@p@bBp@nFK~BDjDfAjE|@f@\\lFlAb@SFa@Y_@oGsBQi@Cm@BUDg@YaAk@qBiBuGkDiMiBkG}EwQoE}PkAmFOg@e@{BmCwJaDaMgEwRq@aCm@k@g@MqKlBc@Cy@eAoAiBq@cBy@iCgAmBi@}EUgB_A}Mu@iHaCmIqAsDaD_HmCmEwE_JaB_JeByCyEwCaCcBYeBi@_CwAwCmA_C_FsGaDuFiBeFsGqToAkI[sBCsB`@oCHmFUcCy@sCeFsOw@wCsAeCcGiKuBcEiA_D{AqFcBwJwAoJm@iDGeFGcENq@Ru@PoAF{CU{Ay@{Aq@mAaAwB_A}CcA}DaGh@oD?}E_AgBc@kAEoBTgJbCqA`@qFmUk@qAg@yBs@wCiAoDcNa_@oKoYsAcEa@wBKiBAmD@{FQ_Hq@mDuA}C{EiFkB_C}CgFqBmEgAqDuBoJmAmGu@aGk@cGmAgGuA{DsFaLmNyYiAcCO[OHoBn@aA`@iItD_@J[w@sBuRiCeS}A{MWy@{LkKcBgA}DmAuI_CyNiDuK_CmIkBcDm@{@MSSo@EmHf@e@ESa@`@eCr@gBBADEBMIM[@q@`Cm@lB{@jA[Zq@JkLJkFKqAQaE{B_@C{L}H_DoAmAU}Kq@sLo@mNa@?McEGsACsCI}DI}DSwH[{BT_@LFNsA\\[Pg@XkJ|GqCvB{GtD_FpCyBp@kOhBqADeC_@qDy@c@QKQ@?HZS@i@NgAVNv@@Nq@FEWr@E~ADv@Qq@eBq@sBMsCQeCg@qBcFoMiBiFU{A?_@DYu@kEmA_JB_DTcG?_QKkQ\\sIRsOXeLx@aYVsOa@yQiAyYE_BYiDaDuLyJkZsAgFeA{JiAmHuBuIkEcOmEyUwAeJ]{@c@}AgCoGgJcR}[cn@sDgHuFwMuE}LsJsWmBgF{@gA_EeKqCsHgFgNmDsKg@oCCmELuEHMN_L@oLg@qMw@eKwAkEqImSoCmGkCqF{JePkImLgJeNqGqI_JqMgPic@sD}KkAsDeEyGoBcCUEsBkCyDkGyLyQaOcU_GcJcBeCcDcFVMmE}GqBwCmAuAwC}Bm@KgAaAyG{EgCsBwC_ByEmBsAkAuIiFyCuAqPcKmB{BsAeDiAuGc@qAk@q@}@c@}AMqAVgAv@uB~C}FzI{BtB}CxAgEr@ig@Vg[HeWSiAi@}@V}@Zmc@JiqAZaA[MKq@GkAh@sZHiAi@_AiBi@a@_@MkFBwCCc@_@",
+        "q%7CcxMe%7BwmAvAJ%40uA%3Fw%40%3FcA%40%7B%40%40kA%40kA%40sAB%7BAD%7DABmA%40_BL_DJ_DJuCDsCJkCP%7BCFyCDiCHiDD_CFuBDcBhCM%7CCQnCOnBKtBInBIzBO%7CBO%60BQ%60Be%40%5DuAQwBC%7DB%5CcB%5CqBImBSyBWcCM%7BBK_AN_ArCDvCAlC%3F%60C%40vB%40Hc%40Sy%40O%7BAAcAAy%40%7BCHoBH%7DBBiBDyB%40JeCi%40gDw%40sCsAoEmB_EiCaEqByCoBqCmBeCk%40cCKwBsEi%40oDw%40uBgB_BeB%7BBsAyBqA_CiBgCuCoCgEwCaFqC%7BDeDmEqDaEuAcAvGcBvHcCbFaEfFuHpEqGnEkGxDsGfAqJh%40qK~AcEbKmDbHuCrJ%7DC%60FuCf%40_NWoP_%40gOW_PaCoNgD%7DLyCyJqFiJkFsIiFqJgByJq%40cIiFuVk%40qAg%40yBs%40wCiAoDcNa_%40oKoYsAcEa%40wBKiBAmD%40%7BFQ_Hq%40mDuA%7DC%7BEiFkB_C%7DCgFqBmEgAqDuBoJmAmGu%40aGk%40cGmAgGuA%7BDsFaLmNyYiAcCO%5BOHoBn%40aA%60%40iItD_%40J%5Bw%40sBuRiCeS%7DA%7BMWy%40%7BLkKcBgA%7DDmAuI_CyNiDuK_CmIkBcDm%40%7B%40MSSo%40EmHf%40e%40ESa%40%60%40eCr%40gBBADEBMIM%5B%40q%40%60Cm%40lB%7B%40jA%5BZq%40JkLJkFKqAQaE%7BB_%40C%7BL%7DH_DoAmAU%7DKq%40sLo%40mNa%40%3FMcEGsACsCI%7DDI%7DDSwH%5B%7BBT_%40LFNsA%5C%5BPg%40XkJ%7CGqCvB%7BGtD_FpCyBp%40kOhBqADeC_%40qDy%40c%40QKQ%40%3FHZS%40i%40NgAVNv%40%40Nq%40FEWr%40E~ADv%40Qq%40eBq%40sBMsCQeCg%40qBcFoMiBiFU%7BA%3F_%40DYu%40kEmA_JB_DTcG%3F_QKkQ%5CsIRsOXeLx%40aYVsOa%40yQiAyYE_BYiDaDuLyJkZsAgFeA%7BJiAmHuBuIkEcOmEyUwAeJ%5D%7B%40c%40%7DAgCoGgJcR%7D%5Bcn%40sDgHuFwMuE%7DLsJsWmBgF%7B%40gA_EeKqCsHgFgNmDsKg%40oCCmELuEHMN_L%40oLg%40qMw%40eKwAkEqImSoCmGkCqF%7BJePkImLgJeNqGqI_JqMgPic%40sD%7DKkAsDeEyGoBcCUEsBkCyDkGyLyQaOcU_GcJcBeCcDcFVMmE%7DGqBwCmAuAwC%7DBm%40KgAaAyG%7BEgCsBwC_ByEmBsAkAuIiFyCuAqPcKmB%7BBsAeDiAuGc%40qAk%40q%40%7D%40c%40%7DAMqAVgAv%40uB~C%7DFzI%7BBtB%7DCxAgEr%40ig%40Vg%5BHeWSiAi%40%7D%40V%7D%40Zmc%40JiqAZaA%5BMKq%40GkAh%40sZHiAi%40_AiBi%40a%40_%40MkFBwCCc%40_%40",
       start: STOPS_DATA.airport,
-      end: STOPS_DATA.kengeri,
+      end: STOPS_DATA.beml_5,
       stops: [],
       contact: "",
       timings: [280, 450, 545, 580, 915, 1055, 1130, 1175],

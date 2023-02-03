@@ -8,7 +8,6 @@ import i18n from "i18next";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 
-import IllustrationError from "./assets/illustration-error.svg";
 import InitialScreen from "./pages/initial";
 import {
   APP_SCREENS,
@@ -24,6 +23,7 @@ import SearchMap from "./pages/search_map";
 import { saveLocationMetadata } from "./utils";
 import "./utils/i18n";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
+import PageCrashError from "./components/page-crash-error";
 
 if (SENTRY_DSN) {
   Sentry.init({
@@ -179,24 +179,7 @@ const Container = () => {
   }, [inputLocation]);
 
   return (
-    <Sentry.ErrorBoundary
-      fallback={
-        <div className="center padding" id="error-page">
-          <img src={IllustrationError} alt="" />
-          <p>
-            We've been notified of the bug.
-            <br />
-            Please give us sometime and we'll fix the issue
-          </p>
-          <button
-            className="btn primary"
-            onClick={() => window.location.reload()}
-          >
-            Reload page
-          </button>
-        </div>
-      }
-    >
+    <Sentry.ErrorBoundary fallback={<PageCrashError />}>
       <div id="app-container">
         {currentScreen === APP_SCREENS.INITIAL && (
           <InitialScreen
