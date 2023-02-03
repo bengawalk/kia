@@ -1,4 +1,4 @@
-import{j as e,r as C,L as t}from"./index.c868a6d7.js";import{i as a,S as o}from"./i18n.b8724fc6.js";import{R as n}from"./react-markdown.b533f752.js";const B={en:`
+import{j as e,r as C,L as t}from"./index.6fbe98bd.js";import{i as a,S as o}from"./i18n.9328465e.js";import{R as n}from"./react-markdown.7044aa04.js";const B={en:`
 # Help and Support
 ## Immediate help
 For information on bus status, next available bus, timings, and issues with current bus please reach out to the BMTC Vayu Vajra helpline at [77609 91269](tel:7760991269)
@@ -15,4 +15,4 @@ In case of bugs, issues or feature requests for the application, reach out to us
 ## \u0CA4\u0CBE\u0C82\u0CA4\u0CCD\u0CB0\u0CBF\u0C95 \u0CB8\u0CB9\u0CBE\u0CAF
 \u0C85\u0CAA\u0CCD\u0CB2\u0CBF\u0C95\u0CC7\u0CB6\u0CA8\u0CCD\u200C\u0C97\u0CC6 \u0CA6\u0CCB\u0CB7\u0C97\u0CB3\u0CC1, \u0CB8\u0CAE\u0CB8\u0CCD\u0CAF\u0CC6\u0C97\u0CB3\u0CC1 \u0C85\u0CA5\u0CB5\u0CBE \u0CB5\u0CC8\u0CB6\u0CBF\u0CB7\u0CCD\u0C9F\u0CCD\u0CAF\u0CA6 \u0CB5\u0CBF\u0CA8\u0C82\u0CA4\u0CBF\u0C97\u0CB3 \u0CB8\u0C82\u0CA6\u0CB0\u0CCD\u0CAD\u0CA6\u0CB2\u0CCD\u0CB2\u0CBF, \u0CA8\u0CAE\u0CCD\u0CAE\u0CA8\u0CCD\u0CA8\u0CC1 [\u0C9F\u0CCD\u0CB5\u0CBF\u0C9F\u0CB0\u0CCD](https://twitter.com/bengawalk) \u0C85\u0CA5\u0CB5\u0CBE [\u0C97\u0CBF\u0CA5\u0CAC\u0CCD](https://github.com/bengawalk/kia) \u0CA8\u0CB2\u0CCD\u0CB2\u0CBF \u0CB8\u0C82\u0CAA\u0CB0\u0CCD\u0C95\u0CBF\u0CB8\u0CBF
 `},F=()=>{const[u,A]=C.exports.useState(localStorage.getItem("lang")||t[0].code);return C.exports.useEffect(()=>{localStorage.setItem("lang",u),document.documentElement.setAttribute("lang",u),a.changeLanguage(u)},[u]),C.exports.createElement(C.exports.Fragment,null,C.exports.createElement(o,{setLang:A}),C.exports.createElement(n,null,B[u]||B.en))},r=e(document.getElementById("root"));r.render(C.exports.createElement(F,null));
-//# sourceMappingURL=help-support.7ee9827e.js.map
+//# sourceMappingURL=help-support.42d451b6.js.map

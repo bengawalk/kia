@@ -1,4 +1,4 @@
-import{j as e,r as C,L as t}from"./index.c868a6d7.js";import{i as o,S as F}from"./i18n.b8724fc6.js";import{R as D}from"./react-markdown.b533f752.js";const B={en:`
+import{j as e,r as C,L as t}from"./index.6fbe98bd.js";import{i as o,S as F}from"./i18n.9328465e.js";import{R as D}from"./react-markdown.7044aa04.js";const B={en:`
 # Privacy policy
 The purpose of this privacy policy is to be transparent and give an accurate detail of how the website handles the data you provide while using it.
 
@@ -91,4 +91,4 @@ For any clarification and information regarding privacy, please reach out to [de
 ### \u0CB8\u0C82\u0CAA\u0CB0\u0CCD\u0C95\u0CBF\u0CB8\u0CBF
 \u0C97\u0CCC\u0CAA\u0CCD\u0CAF\u0CA4\u0CC6\u0C97\u0CC6 \u0CB8\u0C82\u0CAC\u0C82\u0CA7\u0CBF\u0CB8\u0CBF\u0CA6\u0C82\u0CA4\u0CC6 \u0CAF\u0CBE\u0CB5\u0CC1\u0CA6\u0CC7 \u0CB8\u0CCD\u0CAA\u0CB7\u0CCD\u0C9F\u0CC0\u0C95\u0CB0\u0CA3 \u0CAE\u0CA4\u0CCD\u0CA4\u0CC1 \u0CAE\u0CBE\u0CB9\u0CBF\u0CA4\u0CBF\u0C97\u0CBE\u0C97\u0CBF, \u0CA6\u0CAF\u0CB5\u0CBF\u0C9F\u0CCD\u0C9F\u0CC1 [deep@euclidxr.com](mailto:deep@euclidxr.com) \u0C85\u0CA8\u0CCD\u0CA8\u0CC1 \u0CB8\u0C82\u0CAA\u0CB0\u0CCD\u0C95\u0CBF\u0CB8\u0CBF
 `},a=()=>{const[u,A]=C.exports.useState(localStorage.getItem("lang")||t[0].code);return C.exports.useEffect(()=>{localStorage.setItem("lang",u),document.documentElement.setAttribute("lang",u),o.changeLanguage(u)},[u]),C.exports.createElement(C.exports.Fragment,null,C.exports.createElement(F,{setLang:A}),C.exports.createElement(D,null,B[u]||B.en))},s=e(document.getElementById("root"));s.render(C.exports.createElement(a,null));
-//# sourceMappingURL=privacy-policy.4fa424f6.js.map
+//# sourceMappingURL=privacy-policy.f87b7672.js.map
