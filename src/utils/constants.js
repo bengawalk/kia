@@ -157,6 +157,10 @@ export const STOPS_DATA = {
     name: "BEML Layout 5th Stage",
     loc: [12.906722494018258, 77.5216914426631],
   },
+  brigade_meadows: {
+    name: "Brigade meadows, Kanakapura road",
+    loc: [12.813044601197065, 77.50773351136493],
+  },
 };
 
 export const BUS_DATA = {
@@ -201,8 +205,8 @@ export const BUS_DATA = {
     {
       name: "KIA-5D",
       route:
-        "ihexMwsnmASJOW_@y@eBaEcBuCw@yBwA{A_JmFiCiC_D_EkI{LcDaF}TwYiBoBgBsA}Aq@{EcB}DyAmBkByAiDJo@}AqEo@m@Uu@wDiMkCuI{@oAwAy@iO}BoTmEyRiEiOgDaFkBiHkEwFwEyEyE{QmOmLkLkLcOqByCgAkBu@_CgAuEi@cEDuC`@}FCoAQuFHwAn@cJ^iPBcEe@{FqAaIW}GF{DBoAhA@zACBiAEkBMIs@Ia@h@sAp@UpJNtDp@pHlA|H@nBYtPs@lIFp@O?aB?cGBiN@g_@HcQ@JaBGqH@sKMiRAwC@sHNk@fCIjGc@FyNUiWEgSv@yE?}Bc@oCSo@OsDIeOE}F_@}MHwDcEAAAAAECGyCKkd@Nc@_@eBmAoEaA{@gF_BmFy@oFImAQ}@y@cDwCkIaDcCqB]Be@t@e@lAaC}@kN}FoDgDvRwPbJmH\\If@p@XpAn@dBx@b@vAc@}@iEmB_IaCcIgC_KoDeM}Ao@sE{DoC_GNSj@El@KnAm@vC{FvCqD|@m@~Bq@|Hy@|Cb@dFh@jBHvDbApBnBL@f@QP[P{BdA}AbE}DlDsCfIaHlGiFtEkCVKa@m@wBiDeJcNgByCuGmNsFqJyEwLwBsFy@uC]yADs@JMxLqJ|BeCf@cEhAcOr@mBBkBQs@bCmQx@cIt@_EIyAQaDA}DDuDO}Dz@k`@I}YMoMLkWOoEoBgM[{Cq@mDm@}D?aAOyAkA}FeD}KyCeJyDcLaAoGuAyEe@_CQaJSuA_@uBgA{I{AmH{CeJu@{GKsAw@kDcDqIi@iBBu@YeADY{AgJg@cEB_DZgPKkNE_GL{J^yMB_Fb@cN~@i]BeNwAs^SsGEaBu@wEaEkNcF{NsCoJ_A{FoAoLcBuHuBgHmDoM_FqYmAoEmBqFmE{IsI}PuHuNiPe[oGqNcEmKaFyMiI_U_@u@u@w@oDqJcCwGi@{AgJqWs@_DMcDVcHNkDB_WgAuS_AyE}GePcE{J_D{GqC}E_L_QyGqJ_HgK}HeKwFiI_CkFqK{Y{DaLwCwIiG{Iu@UcGoJ_Ww_@iCmE_@eA}KiQuLsQ_CkCgBiAk@IgAaAeEyCsDyC_E}ByEkBwLgHeBy@e@i@aJoFgDqBuBsBkByDa@kBsAqGsAkAaCUcATgAv@qHfLeDvDsAz@iC|@}B^gDJyp@VqMB{XHmCtIk@nCi@hAy@p@iAd@wLB}c@Lku@Rc_@NeCm@kB_CaDeHOkAMyCk@yBo@_@o@AiIPOeA",
-      start: STOPS_DATA.silk_institute,
+        "qbaxMixemAeA%60%40aAVkAb%40iA%5CeAZuAZgANoAJqABuAAiA%3FkA%3FcA%3FFwDNiCn%40kCd%40uBd%40iCe%40sCmAqE%7D%40oCaAuB%7D%40q%40wBIoBSy%40k%40i%40kBCoBZwAf%40gBh%40yAH%7BBF%7DBVuBj%40mCh%40kCt%40iCj%40aC%60%40sBZaBg%40_Di%40yCe%40cCk%40%7DCe%40yCc%40oDm%40gCk%40%7DBcAqBmBkB%7BAqAmAyA%7D%40sCw%40%7DBq%40uBi%40mBWaCe%40oDY%7DC%7D%40kDgAcCaCeDwB%7BCiBoCkA%7BBgAaCy%40%7BBaBqCoAgBwAaCQ_DI%7DCMcD%5BaCq%40eC_BcC%7DBkBuBwByBwBmBmBeBqBuBmB_BiBoBwCyA%7DBuAeCaCaF%7BBaEgBqDyDiCiC_B_CcBqBgCaB%7BByAsByB%7DCkBkC_ByBkCcEmDqEoDwEiDmEcEeFwDaDwEcBcEoAmDkCwBeFuBsGkBoGqAkFyCcIuCiCoLuBcLsBkNiCcMqCgJ_CsJ%7DBoK%7BGaI%7BGuHcHyG%7BG%7DIkIaIyHwF%7BHkDwEyA%7BCcBaIg%40eHf%40qGIsFHeG_KAgKBeJD_I%3FkIBcILcK%3FDkH%3F_IHwII%7DJIqGEyH%3FaF%7CL%3FIuHCaJM%7BFBkF%3FiGM%7BEBiE~%40iCSmEy%40%7BBwEDaFBCeFEsGDsI%7CFCtDEIuHBoFIgE_FH%3FoGIgHIiI%3FyFEsGu%40eFaDwCyFuA_Fe%40aFOkDaDmEqBgEwBaDcBgAhCs%40~BiAhBiBlBiB~AyBnAoAx%40cDkF%7DAeCoAkBwA%7BBvCcCpDsCjC%7DBlBiBxBgBpBeBjBcBbBsAdBoAlDmAiByHvBoBqAuFiB%7BGuAwEmAeE_AwDsAyDiD%7DBgCaCqAaCy%40mCrCQdBmBbBsDj%40mF%60%40%7BDj%40eEd%40cDd%40qDf%40mDqCeD%7BBcCaCiBeDcCoCoBeDwBcEkCzBuGzAiEhAgDfBoEl%40iEO%7DClHiB%7CFuApDy%40vCo%40fA~Dp%40PjBeBzDwEtCqDhFaFjFyDpFoEpAwBjAoLl%40iHl%40eGx%40cIr%40cFt%40sFT%7BFDkFx%40ur%40I%7DYMoMLkWOoEoBgM%5B%7BCq%40mDm%40%7DD%3FaAOyAkA%7DFeD%7DKyCeJyDcLaAoGuAyEe%40_CQaJSuA_%40uBgA%7BI%7BAmH%7BCeJu%40%7BGKsAw%40kDcDqIi%40iBBu%40YeADY%7BAgJg%40cEB_DZgPKkNE_GL%7BJ%5EyMB_Fb%40cN~%40i%5DBeNwAs%5ESsGEaBu%40wEaEkNcF%7BNsCoJ_A%7BFoAoLcBuHuBgHmDoM_FqYmAoEmBqFmE%7BIsI%7DPuHuNiPe%5BoGqNcEmKaFyMiI_U_%40u%40u%40w%40oDqJcCwGi%40%7BAgJqWs%40_DMcDVcHNkDB_WgAuS_AyE%7DGePcE%7BJ_D%7BGqC%7DE_L_QyGqJ_HgK%7DHeKwFiI_CkFqK%7BY%7BDaLwCwIiG%7BIu%40UcGoJ_Ww_%40iCmE_%40eA%7DKiQuLsQ_CkCgBiAk%40IgAaAeEyCsDyC_E%7DByEkBwLgHeBy%40e%40i%40aJoFgDqBuBsBkByDa%40kBsAqGsAkAaCUcATgAv%40qHfLeDvDsAz%40iC%7C%40%7DB%5EgDJyp%40VqMB%7BXHmCtIk%40nCi%40hAy%40p%40iAd%40wLB%7Dc%40Lku%40Rc_%40NeCm%40kB_CaDeHOkAMyCk%40yBo%40_%40o%40AiIPOeA",
+      start: STOPS_DATA.brigade_meadows,
       end: STOPS_DATA.airport,
       stops: [],
       contact: "",
@@ -424,12 +428,12 @@ export const BUS_DATA = {
     {
       name: "KIA-5D",
       route:
-        "ihexMwsnmASJOW_@y@eBaEcBuCw@yBwA{A_JmFiCiC_D_EkI{LcDaF}TwYiBoBgBsA}Aq@{EcB}DyAmBkByAiDJo@}AqEo@m@Uu@wDiMkCuI{@oAwAy@iO}BoTmEyRiEiOgDaFkBiHkEwFwEyEyE{QmOmLkLkLcOqByCgAkBu@_CgAuEi@cEDuC`@}FCoAQuFHwAn@cJ^iPBcEe@{FqAaIW}GF{DBoAhA@zACBiAEkBMIs@Ia@h@sAp@UpJNtDp@pHlA|H@nBYtPs@lIFp@O?aB?cGBiN@g_@HcQ@JaBGqH@sKMiRAwC@sHNk@fCIjGc@FyNUiWEgSv@yE?}Bc@oCSo@OsDIeOE}F_@}MHwDcEAAAAAECGyCKkd@Nc@_@eBmAoEaA{@gF_BmFy@oFImAQ}@y@cDwCkIaDcCqB]Be@t@e@lAaC}@kN}FoDgDvRwPbJmH\\If@p@XpAn@dBx@b@vAc@}@iEmB_IaCcIgC_KoDeM}Ao@sE{DoC_GNSj@El@KnAm@vC{FvCqD|@m@~Bq@|Hy@|Cb@dFh@jBHvDbApBnBL@f@QP[P{BdA}AbE}DlDsCfIaHlGiFtEkCVKa@m@wBiDeJcNgByCuGmNsFqJyEwLwBsFy@uC]yADs@JMxLqJ|BeCf@cEhAcOr@mBBkBQs@bCmQx@cIt@_EIyAQaDA}DDuDO}Dz@k`@I}YMoMLkWOoEoBgM[{Cq@mDm@}D?aAOyAkA}FeD}KyCeJyDcLaAoGuAyEe@_CQaJSuA_@uBgA{I{AmH{CeJu@{GKsAw@kDcDqIi@iBBu@YeADY{AgJg@cEB_DZgPKkNE_GL{J^yMB_Fb@cN~@i]BeNwAs^SsGEaBu@wEaEkNcF{NsCoJ_A{FoAoLcBuHuBgHmDoM_FqYmAoEmBqFmE{IsI}PuHuNiPe[oGqNcEmKaFyMiI_U_@u@u@w@oDqJcCwGi@{AgJqWs@_DMcDVcHNkDB_WgAuS_AyE}GePcE{J_D{GqC}E_L_QyGqJ_HgK}HeKwFiI_CkFqK{Y{DaLwCwIiG{Iu@UcGoJ_Ww_@iCmE_@eA}KiQuLsQ_CkCgBiAk@IgAaAeEyCsDyC_E}ByEkBwLgHeBy@e@i@aJoFgDqBuBsBkByDa@kBsAqGsAkAaCUcATgAv@qHfLeDvDsAz@iC|@}B^gDJyp@VqMB{XHmCtIk@nCi@hAy@p@iAd@wLB}c@Lku@Rc_@NeCm@kB_CaDeHOkAMyCk@yBo@_@o@AiIPOeA",
+        "qbaxMixemAeA%60%40aAVkAb%40iA%5CeAZuAZgANoAJqABuAAiA%3FkA%3FcA%3FFwDNiCn%40kCd%40uBd%40iCe%40sCmAqE%7D%40oCaAuB%7D%40q%40wBIoBSy%40k%40i%40kBCoBZwAf%40gBh%40yAH%7BBF%7DBVuBj%40mCh%40kCt%40iCj%40aC%60%40sBZaBg%40_Di%40yCe%40cCk%40%7DCe%40yCc%40oDm%40gCk%40%7DBcAqBmBkB%7BAqAmAyA%7D%40sCw%40%7DBq%40uBi%40mBWaCe%40oDY%7DC%7D%40kDgAcCaCeDwB%7BCiBoCkA%7BBgAaCy%40%7BBaBqCoAgBwAaCQ_DI%7DCMcD%5BaCq%40eC_BcC%7DBkBuBwByBwBmBmBeBqBuBmB_BiBoBwCyA%7DBuAeCaCaF%7BBaEgBqDyDiCiC_B_CcBqBgCaB%7BByAsByB%7DCkBkC_ByBkCcEmDqEoDwEiDmEcEeFwDaDwEcBcEoAmDkCwBeFuBsGkBoGqAkFyCcIuCiCoLuBcLsBkNiCcMqCgJ_CsJ%7DBoK%7BGaI%7BGuHcHyG%7BG%7DIkIaIyHwF%7BHkDwEyA%7BCcBaIg%40eHf%40qGIsFHeG_KAgKBeJD_I%3FkIBcILcK%3FDkH%3F_IHwII%7DJIqGEyH%3FaF%7CL%3FIuHCaJM%7BFBkF%3FiGM%7BEBiE~%40iCSmEy%40%7BBwEDaFBCeFEsGDsI%7CFCtDEIuHBoFIgE_FH%3FoGIgHIiI%3FyFEsGu%40eFaDwCyFuA_Fe%40aFOkDaDmEqBgEwBaDcBgAhCs%40~BiAhBiBlBiB~AyBnAoAx%40cDkF%7DAeCoAkBwA%7BBvCcCpDsCjC%7DBlBiBxBgBpBeBjBcBbBsAdBoAlDmAiByHvBoBqAuFiB%7BGuAwEmAeE_AwDsAyDiD%7DBgCaCqAaCy%40mCrCQdBmBbBsDj%40mF%60%40%7BDj%40eEd%40cDd%40qDf%40mDqCeD%7BBcCaCiBeDcCoCoBeDwBcEkCzBuGzAiEhAgDfBoEl%40iEO%7DClHiB%7CFuApDy%40vCo%40fA~Dp%40PjBeBzDwEtCqDhFaFjFyDpFoEpAwBjAoLl%40iHl%40eGx%40cIr%40cFt%40sFT%7BFDkFx%40ur%40I%7DYMoMLkWOoEoBgM%5B%7BCq%40mDm%40%7DD%3FaAOyAkA%7DFeD%7DKyCeJyDcLaAoGuAyEe%40_CQaJSuA_%40uBgA%7BI%7BAmH%7BCeJu%40%7BGKsAw%40kDcDqIi%40iBBu%40YeADY%7BAgJg%40cEB_DZgPKkNE_GL%7BJ%5EyMB_Fb%40cN~%40i%5DBeNwAs%5ESsGEaBu%40wEaEkNcF%7BNsCoJ_A%7BFoAoLcBuHuBgHmDoM_FqYmAoEmBqFmE%7BIsI%7DPuHuNiPe%5BoGqNcEmKaFyMiI_U_%40u%40u%40w%40oDqJcCwGi%40%7BAgJqWs%40_DMcDVcHNkDB_WgAuS_AyE%7DGePcE%7BJ_D%7BGqC%7DE_L_QyGqJ_HgK%7DHeKwFiI_CkFqK%7BY%7BDaLwCwIiG%7BIu%40UcGoJ_Ww_%40iCmE_%40eA%7DKiQuLsQ_CkCgBiAk%40IgAaAeEyCsDyC_E%7DByEkBwLgHeBy%40e%40i%40aJoFgDqBuBsBkByDa%40kBsAqGsAkAaCUcATgAv%40qHfLeDvDsAz%40iC%7C%40%7DB%5EgDJyp%40VqMB%7BXHmCtIk%40nCi%40hAy%40p%40iAd%40wLB%7Dc%40Lku%40Rc_%40NeCm%40kB_CaDeHOkAMyCk%40yBo%40_%40o%40AiIPOeA",
       start: STOPS_DATA.airport,
-      end: STOPS_DATA.silk_institute,
+      end: STOPS_DATA.brigade_meadows,
       stops: [],
       contact: "",
-      timings: [110, 300, 390, 440, 820, 1060, 1120, 1170],
+      timings: [110, 300, 390, 410, 820, 1060, 1120, 1170],
     },
     {
       name: "KIA-6",

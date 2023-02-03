@@ -44,6 +44,7 @@ const knTranslations = {
   "Kengeri Bus Terminal": "ಕೆಂಗೇರಿ ಬಸ್ ಟರ್ಮಿನಲ್",
   "HSR KEB Bus stand": "ಎಚ್ಸ್ಆರ್ ಲೇಔಟ್ ಕೆಇಬಿ ಬಸ್ ನಿಲ್ದಾಣ",
   "BEML Layout 5th Stage": "ಬಿಇಮ್ಲ್ ಲೇಔಟ್ 5th ಸ್ಟೇಜ್",
+  "Brigade meadows, Kanakapura road": "ಬ್ರಿಗೇಡ್ ಮೆಡೋಸ್, ಕನಕಪುರ ರಸ್ತೆ",
 
   Close: "ಮುಚ್ಚಿ",
   Language: "ಭಾಷೆ",
