@@ -4,7 +4,7 @@ const knTranslations = {
   "To airport": "ವಿಮಾನ ನಿಲ್ದಾಣಕ್ಕೆ",
   "From airport": "ವಿಮಾನ ನಿಲ್ದಾಣದಿಂದ",
   "Suggested bus": "ಸೂಚಿಸಿದ ಬಸ್",
-  "Other Buses": "ಇತರ ಬಸ್ಸುಗಳು",
+  "All Buses": "ಎಲ್ಲಾ ಬಸ್ಸುಗಳು",
   "Routes and Schedules": "ಮಾರ್ಗಗಳು ಮತ್ತು ವೇಳಾಪಟ್ಟಿಗಳು",
 
   from: "ಆರಂಭದ",

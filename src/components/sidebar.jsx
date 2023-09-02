@@ -230,7 +230,7 @@ class Sidebar extends React.PureComponent {
           <h4 className="mb-4">
             <Trans
               t={t}
-              i18nKey={suggestedBus ? "Other Buses" : "Routes and Schedules"}
+              i18nKey={suggestedBus ? "All Buses" : "Routes and Schedules"}
             />
           </h4>
           {sortedTabData.map((bus) => (
