@@ -52,7 +52,8 @@
   margin: 0 0 20px 0;
   line-height: 2.4;
   text-decoration: none;
-  &a, &button {
+  &a,
+  &button {
     cursor: pointer;
   }
 }
