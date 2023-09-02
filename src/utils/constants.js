@@ -1,5 +1,3 @@
-import polyline from "google-polyline";
-
 export const TABS = [
   {
     text: "To airport",

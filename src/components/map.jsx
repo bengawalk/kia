@@ -164,29 +164,6 @@ class Map extends React.PureComponent {
       filter: ["==", "name", selectedBus || ""],
     });
 
-    // this.map.loadImage(IconBus, (error, image) => {
-    //   if (error) throw error;
-    //   this.map.addImage("route-bus", image);
-    //
-    //   this.map.addLayer({
-    //     id: "highlighted-bus",
-    //     type: "symbol",
-    //     source: "routes",
-    //     layout: {
-    //       "symbol-placement": "line-center",
-    //       "icon-image": "route-bus",
-    //       "icon-rotation-alignment": "map",
-    //       "icon-keep-upright": true,
-    //       "text-keep-upright": true,
-    //       // "text-font": ["IBM Plex Sans"],
-    //       "text-field": `{name}`,
-    //       "text-size": 32,
-    //     },
-    //     paint: {},
-    //     // filter: ["==", "name", selectedBus || ""],
-    //   });
-    // });
-
     this.map.addSource("stops", getStopsGeoJson(busData, selectedTab));
 
     this.map.addLayer({
