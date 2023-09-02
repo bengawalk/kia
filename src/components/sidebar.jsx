@@ -233,18 +233,16 @@ class Sidebar extends React.PureComponent {
               i18nKey={suggestedBus ? "Other Buses" : "Routes and Schedules"}
             />
           </h4>
-          {sortedTabData.map((bus) =>
-            bus.name === suggestedBus ? null : (
-              <BusItem
-                key={bus.name}
-                busDetails={bus}
-                selectedBus={selectedBus}
-                setSelectedBus={setSelectedBus}
-                toAirport={selectedTab === "ta"}
-                currentTime={currentTime}
-              />
-            ),
-          )}
+          {sortedTabData.map((bus) => (
+            <BusItem
+              key={bus.name}
+              busDetails={bus}
+              selectedBus={selectedBus}
+              setSelectedBus={setSelectedBus}
+              toAirport={selectedTab === "ta"}
+              currentTime={currentTime}
+            />
+          ))}
         </div>
         <div className="padding text">
           <h4 className="mb-2">
