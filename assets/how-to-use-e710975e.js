@@ -1,4 +1,4 @@
-import{k as r,r as e,L as l}from"./index-7eacecaa.js";import{i as c,S as h}from"./i18n-117ab3ba.js";import{r as m}from"./index-d0f09699.js";import{R as d}from"./react-markdown-f6c20ed0.js";const a="/assets/howto_1-830f2426.webp",o="/assets/howto_2-7abb96fc.webp",n="/assets/howto_3-48b91a21.webp",s={en:`
+import{k as r,r as e,L as l}from"./index-7eacecaa.js";import{i as c,S as h}from"./i18n-117ab3ba.js";import{M as m}from"./index.modern-a3380b21.js";const a="/assets/howto_1-830f2426.webp",o="/assets/howto_2-7abb96fc.webp",n="/assets/howto_3-48b91a21.webp",s={en:`
 # How to use
 If the user gives permission for location, the application automatically chooses the best available bus to reach the airport.  
 If not, you could manually find the closest bus and all relevant details in 3 simple steps
@@ -6,9 +6,9 @@ If not, you could manually find the closest bus and all relevant details in 3 si
 2. Adjust the pin on the map a more accurate selection.
 3. See the starting point on the map and the timings in the list for a selected bus.
 
-<img src=${a} alt="" width="250px" />
-<img src=${o} alt="" width="250px" />
-<img src=${n} alt="" width="250px" />
+<img src="${a}" alt="" width="250px" />
+<img src="${o}" alt="" width="250px" />
+<img src="${n}" alt="" width="250px" />
 
 ### Other features
 The boarding location and contact details are available under the timings in the expanded view for a selected bus. Clicking on these opens the location in Google maps and calls the mobile listed respectively.
@@ -27,9 +27,9 @@ The fare ranges from ₹200 to ₹350 based on the boarding point and distance t
 2. ನಕ್ಷೆಯಲ್ಲಿ ಪಿನ್ ಅನ್ನು ಹೆಚ್ಚು ನಿಖರವಾದ ಆಯ್ಕೆಯನ್ನು ಹೊಂದಿಸಿ.
 3. ನಕ್ಷೆಯಲ್ಲಿನ ಆರಂಭಿಕ ಹಂತವನ್ನು ಮತ್ತು ಆಯ್ದ ಬಸ್‌ಗಾಗಿ ಪಟ್ಟಿಯಲ್ಲಿರುವ ಸಮಯಗಳನ್ನು ನೋಡಿ.
 
-<img src=${a} alt="" width="250px" />
-<img src=${o} alt="" width="250px" />
-<img src=${n} alt="" width="250px" />
+<img src="${a}" alt="" width="250px" />
+<img src="${o}" alt="" width="250px" />
+<img src="${n}" alt="" width="250px" />
 
 ### ಇತರ ವೈಶಿಷ್ಟ್ಯಗಳು
 ಬೋರ್ಡಿಂಗ್ ಸ್ಥಳ ಮತ್ತು ಸಂಪರ್ಕ ವಿವರಗಳು ಆಯ್ದ ಬಸ್‌ಗಾಗಿ ವಿಸ್ತರಿಸಿದ ವೀಕ್ಷಣೆಯಲ್ಲಿ ಸಮಯದ ಅಡಿಯಲ್ಲಿ ಲಭ್ಯವಿದೆ. ಇವುಗಳ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡುವುದರಿಂದ Google ನಕ್ಷೆಗಳಲ್ಲಿ ಸ್ಥಳವನ್ನು ತೆರೆಯುತ್ತದೆ ಮತ್ತು ಕ್ರಮವಾಗಿ ಪಟ್ಟಿ ಮಾಡಲಾದ ಮೊಬೈಲ್‌ಗೆ ಕರೆ ಮಾಡುತ್ತದೆ.
@@ -39,5 +39,5 @@ The fare ranges from ₹200 to ₹350 based on the boarding point and distance t
 ಬಸ್ ಅನ್ನು ಮಾರ್ಗದ ಉದ್ದಕ್ಕೂ ಎಲ್ಲಿ ಬೇಕಾದರೂ ಹತ್ತಬಹುದು, ಆದರೂ ಮಧ್ಯದಲ್ಲಿ ನಿಲುಗಡೆಗೆ ಸಮಯವು ಗಮನಾರ್ಹವಾಗಿ ಬದಲಾಗುವುದರಿಂದ ಪ್ರಾರಂಭದ ಸ್ಥಳದಲ್ಲಿ ಹತ್ತಲು ಶಿಫಾರಸು ಮಾಡಲಾಗಿದೆ.
 ### ದರದ ವಿವರಗಳು
 ಬೋರ್ಡಿಂಗ್ ಪಾಯಿಂಟ್ ಮತ್ತು ವಿಮಾನ ನಿಲ್ದಾಣದ ದೂರವನ್ನು ಆಧರಿಸಿ ದರವು ₹200 ರಿಂದ ₹350 ರಷ್ಟಿರುತ್ತದೆ.
-`},g=()=>{const[t,i]=e.useState(localStorage.getItem("lang")||l[0].code);return e.useEffect(()=>{localStorage.setItem("lang",t),document.documentElement.setAttribute("lang",t),c.changeLanguage(t)},[t]),e.createElement(e.Fragment,null,e.createElement(h,{setLang:i}),e.createElement(d,{rehypePlugins:[m],children:s[t]||s.en}))},p=r(document.getElementById("root"));p.render(e.createElement(g,null));
-//# sourceMappingURL=how-to-use-24062066.js.map
+`},d=()=>{const[t,i]=e.useState(localStorage.getItem("lang")||l[0].code);return e.useEffect(()=>{localStorage.setItem("lang",t),document.documentElement.setAttribute("lang",t),c.changeLanguage(t)},[t]),e.createElement(e.Fragment,null,e.createElement(h,{setLang:i}),e.createElement(m,null,s[t]||s.en))},g=r(document.getElementById("root"));g.render(e.createElement(d,null));
+//# sourceMappingURL=how-to-use-e710975e.js.map
