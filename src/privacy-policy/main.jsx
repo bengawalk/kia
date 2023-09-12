@@ -2,7 +2,7 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 import i18n from "i18next";
-import ReactMarkdown from "react-markdown";
+import Markdown from 'markdown-to-jsx';
 
 import "../utils/i18n";
 import { LANGUAGES } from "../utils/constants";
@@ -117,7 +117,7 @@ const PrivacyPolicy = () => {
   return (
     <>
       <SideMenu setLang={setLang} />
-      <ReactMarkdown>{content[lang] || content.en}</ReactMarkdown>
+      <Markdown>{content[lang] || content.en}</Markdown>
     </>
   );
 };

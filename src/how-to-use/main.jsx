@@ -2,8 +2,7 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 import i18n from "i18next";
-import ReactMarkdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
+import Markdown from 'markdown-to-jsx';
 
 import "../utils/i18n";
 import { LANGUAGES } from "../utils/constants";
@@ -22,9 +21,9 @@ If not, you could manually find the closest bus and all relevant details in 3 si
 2. Adjust the pin on the map a more accurate selection.
 3. See the starting point on the map and the timings in the list for a selected bus.
 
-<img src=${ImageHowto1} alt="" width="250px" />
-<img src=${ImageHowto2} alt="" width="250px" />
-<img src=${ImageHowto3} alt="" width="250px" />
+<img src="${ImageHowto1}" alt="" width="250px" />
+<img src="${ImageHowto2}" alt="" width="250px" />
+<img src="${ImageHowto3}" alt="" width="250px" />
 
 ### Other features
 The boarding location and contact details are available under the timings in the expanded view for a selected bus. Clicking on these opens the location in Google maps and calls the mobile listed respectively.
@@ -44,9 +43,9 @@ The fare ranges from ₹200 to ₹350 based on the boarding point and distance t
 2. ನಕ್ಷೆಯಲ್ಲಿ ಪಿನ್ ಅನ್ನು ಹೆಚ್ಚು ನಿಖರವಾದ ಆಯ್ಕೆಯನ್ನು ಹೊಂದಿಸಿ.
 3. ನಕ್ಷೆಯಲ್ಲಿನ ಆರಂಭಿಕ ಹಂತವನ್ನು ಮತ್ತು ಆಯ್ದ ಬಸ್‌ಗಾಗಿ ಪಟ್ಟಿಯಲ್ಲಿರುವ ಸಮಯಗಳನ್ನು ನೋಡಿ.
 
-<img src=${ImageHowto1} alt="" width="250px" />
-<img src=${ImageHowto2} alt="" width="250px" />
-<img src=${ImageHowto3} alt="" width="250px" />
+<img src="${ImageHowto1}" alt="" width="250px" />
+<img src="${ImageHowto2}" alt="" width="250px" />
+<img src="${ImageHowto3}" alt="" width="250px" />
 
 ### ಇತರ ವೈಶಿಷ್ಟ್ಯಗಳು
 ಬೋರ್ಡಿಂಗ್ ಸ್ಥಳ ಮತ್ತು ಸಂಪರ್ಕ ವಿವರಗಳು ಆಯ್ದ ಬಸ್‌ಗಾಗಿ ವಿಸ್ತರಿಸಿದ ವೀಕ್ಷಣೆಯಲ್ಲಿ ಸಮಯದ ಅಡಿಯಲ್ಲಿ ಲಭ್ಯವಿದೆ. ಇವುಗಳ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡುವುದರಿಂದ Google ನಕ್ಷೆಗಳಲ್ಲಿ ಸ್ಥಳವನ್ನು ತೆರೆಯುತ್ತದೆ ಮತ್ತು ಕ್ರಮವಾಗಿ ಪಟ್ಟಿ ಮಾಡಲಾದ ಮೊಬೈಲ್‌ಗೆ ಕರೆ ಮಾಡುತ್ತದೆ.
@@ -71,10 +70,9 @@ const PrivacyPolicy = () => {
   return (
     <>
       <SideMenu setLang={setLang} />
-      <ReactMarkdown
-        rehypePlugins={[rehypeRaw]}
-        children={content[lang] || content.en}
-      />
+      <Markdown>
+        {content[lang] || content.en}
+      </Markdown>
     </>
   );
 };
