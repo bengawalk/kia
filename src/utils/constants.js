@@ -161,6 +161,11 @@ export const STOPS_DATA = {
   },
 };
 
+const TELEGRAM_GROUPS = {
+  "4/4A": "https://t.me/+7ga4_hAxGUE2NWI1",
+  "6/6A": "https://t.me/+KZpw98bVQP1hYTE9",
+}
+
 export const BUS_DATA = {
   to: [
     {
