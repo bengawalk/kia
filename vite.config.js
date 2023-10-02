@@ -1,5 +1,6 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
+import { VitePluginRadar } from 'vite-plugin-radar';
 // import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
@@ -20,6 +21,12 @@ export default defineConfig({
     outDir: resolve(__dirname, "dist"),
   },
   plugins: [
+    VitePluginRadar({
+      // Google Analytics tag injection
+      analytics: {
+        id: 'G-RR5ZXFRZ7G',
+      },
+    }),
     // VitePWA({
     //   // injectRegister: 'inline',
     //   // registerType: 'autoUpdate',
