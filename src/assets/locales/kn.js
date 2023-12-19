@@ -30,6 +30,7 @@ const knTranslations = {
   "Majestic Bus Stand": "ಮೆಜೆಸ್ಟಿಕ್ ಬಸ್ ನಿಲ್ದಾಣ",
   "Silk Institute Metro Station": "ಸಿಲ್ಕ್ ಇನ್ಸ್ಟಿಟ್ಯೂಟ್ ಮೆಟ್ರೋ ನಿಲ್ದಾಣ",
   "HAL Main Gate": "ಎಚ್ಎಎಲ್ ಮುಖ್ಯ ಗೇಟ್",
+  "Hebbal Bus Depot": "ಹೆಬ್ಬಾಳ ಬಸ್ ಡಿಪೋ",
   "Whitefield TTMC": "ವೈಟ್‌ಫೀಲ್ಡ್ ಟಿಟಿಎಂಸಿ",
   "Banashankari TTMC": "ಬನಶಂಕರಿ ಟಿಟಿಎಂಸಿ",
   "Kadugodi Bus Stop": "ಕಾಡುಗೋಡಿ ಬಸ್ ನಿಲ್ದಾಣ",
@@ -45,6 +46,10 @@ const knTranslations = {
   "HSR KEB Bus stand": "ಎಚ್ಸ್ಆರ್ ಲೇಔಟ್ ಕೆಇಬಿ ಬಸ್ ನಿಲ್ದಾಣ",
   "BEML Layout 5th Stage": "ಬಿಇಮ್ಲ್ ಲೇಔಟ್ 5th ಸ್ಟೇಜ್",
   "Brigade meadows, Kanakapura road": "ಬ್ರಿಗೇಡ್ ಮೆಡೋಸ್, ಕನಕಪುರ ರಸ್ತೆ",
+
+  "Loading Google maps": "ಗೂಗಲ್ ನಕ್ಷೆಗಳು ಲೋಡ್ ಆಗುತ್ತಿದೆ",
+  "Error occurred loading Google API": "ಗೂಗಲ್ API ಅನ್ನು ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ ಸಂಭವಿಸಿದೆ",
+  "Try again": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸು",
 
   Close: "ಮುಚ್ಚಿ",
   Language: "ಭಾಷೆ",

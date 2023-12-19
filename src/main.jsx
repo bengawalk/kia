@@ -3,13 +3,14 @@ import { sortBy as lSortBy, map as lMap } from "lodash";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 import getDistance from "geolib/es/getDistance";
-import { loadGoogleMapScript } from "react-google-autocomplete/lib/utils";
+import loadGoogleMapsApi from "load-google-maps-api";
 import i18n from "i18next";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 
 import InitialScreen from "./pages/initial";
 import {
+  API_CALL_STATUSES,
   APP_SCREENS,
   GOOGLE_API_KEY,
   LANGUAGES,
@@ -22,7 +23,6 @@ import SearchText from "./pages/search_text";
 import SearchMap from "./pages/search_map";
 import { saveLocationMetadata } from "./utils";
 import "./utils/i18n";
-import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import PageCrashError from "./components/page-crash-error";
 
 if (SENTRY_DSN) {
@@ -34,6 +34,7 @@ if (SENTRY_DSN) {
 }
 
 const Container = () => {
+  const [googleScriptStatus, setGoogleScriptStatus] = useState(API_CALL_STATUSES.INITIAL);
   const [currentScreen, setCurrentScreen] = useState(APP_SCREENS.INITIAL);
   const [bodyHeight, setBodyHeight] = useState(null);
   const [selectedTab, setSelectedTab] = useState(TABS[0].id);
@@ -51,11 +52,11 @@ const Container = () => {
   );
   const [userLocation, setUserLocation] = useState(null);
 
-  // Adds Google maps script tag if haven't already. Required before the user clicks on search since it uses the library
-  usePlacesService({
-    apiKey: GOOGLE_API_KEY,
-    language: "&callback=dummyFunction", // Ugly hack. Library doesn't handle a callback param directly
-  });
+  // // Adds Google maps script tag if haven't already. Required before the user clicks on search since it uses the library
+  // usePlacesService({
+  //   apiKey: GOOGLE_API_KEY,
+  //   language: "&callback=dummyFunction", // Ugly hack. Library doesn't handle a callback param directly
+  // });
 
   const getUserLocation = () => {
     // TODO: The location is only retrieved once on load and never again.
@@ -95,12 +96,26 @@ const Container = () => {
     setBodyHeight(window.visualViewport?.height || window.innerHeight);
   };
 
+  const loadGoogleMapsScript = async () => {
+    setGoogleScriptStatus(API_CALL_STATUSES.LOADING);
+    try {
+      await loadGoogleMapsApi({
+        key: GOOGLE_API_KEY,
+        libraries: ["places"],
+      });
+      setGoogleScriptStatus(API_CALL_STATUSES.SUCCESS);
+    } catch (e) {
+      setGoogleScriptStatus(API_CALL_STATUSES.ERROR);
+    }
+  }
+
   useEffect(() => {
     // Fallback for older devices that don't support visualViewport API.
     // visualViewport is still preferred because it gives the size excluding other UI elements like soft keyboards and
     // works well for embeds/split screens
     (window.visualViewport || window).addEventListener("resize", onResize);
     onResize();
+    loadGoogleMapsScript();
     return () => {
       (window.visualViewport || window).removeEventListener("resize", onResize);
     };
@@ -113,14 +128,17 @@ const Container = () => {
   }, [lang]);
 
   useEffect(() => {
-    // When the app opens, try to get user's location
+    // When the Google script loads, try to get user's location
+    if(googleScriptStatus !== API_CALL_STATUSES.SUCCESS) {
+      return;
+    }
     if ("geolocation" in navigator) {
       // TODO: Rename. Doesn't actually "get", rather sets the user location state and input location
       getUserLocation();
     } else {
       setUserLocationState(LOCATION_STATES.UNAVAILABLE);
     }
-  }, []);
+  }, [googleScriptStatus]);
 
   useEffect(() => {
     if (!inputLocation) {
@@ -147,10 +165,6 @@ const Container = () => {
       // This happens if the user selects a lat,lng on the map and adjusts it farther from previously input text or
       // if the user cleared local storage
       const geocodeInput = async () => {
-        await loadGoogleMapScript(
-          "https://maps.googleapis.com/maps/api/js",
-          `https://maps.googleapis.com/maps/api/js?libraries=places&key=${GOOGLE_API_KEY}&callback=dummyFunction`,
-        );
         const geocoder = new google.maps.Geocoder();
         geocoder
           .geocode({ location: inputLocation })
@@ -183,6 +197,8 @@ const Container = () => {
       <div id="app-container">
         {currentScreen === APP_SCREENS.INITIAL && (
           <InitialScreen
+            googleScriptStatus={googleScriptStatus}
+            loadGoogleMapsScript={loadGoogleMapsScript}
             userLocation={userLocation}
             selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}

@@ -10,16 +10,21 @@
     "build": "vite build src --config vite.config.js",
     "preview": "vite preview",
     "publish": "gh-pages -d dist",
-    "prettier": "prettier --write src"
+    "prettier": "prettier --write src",
+    "refresh-timings": "env-cmd node cron/index.js"
   },
   "dependencies": {
     "@sentry/react": "^7.29.0",
     "@sentry/tracing": "^7.29.0",
+    "axios": "^1.6.2",
     "classnames": "^2.3.2",
+    "env-cmd": "^10.1.0",
+    "fast-json-stable-stringify": "^2.1.0",
     "geolib": "^3.3.3",
     "gh-pages": "^6.0.0",
     "google-polyline": "^1.0.3",
     "i18next": "^23.5.1",
+    "load-google-maps-api": "^2.0.2",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.10.0",
     "markdown-to-jsx": "^7.3.2",
@@ -27,9 +32,9 @@
     "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-google-autocomplete": "^2.7.1",
     "react-i18next": "^13.2.2",
     "sass": "^1.55.0",
+    "use-places-autocomplete": "^4.0.1",
     "vite": "^4.4.9",
     "vite-plugin-pwa": "^0.16.5",
     "vite-plugin-radar": "^0.9.1"

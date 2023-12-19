@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
+import usePlacesAutocomplete, { getDetails as getPlaceDetails } from "use-places-autocomplete";
+import { debounce as lDebounce } from "lodash"
+
 import { Trans, withTranslation } from "react-i18next";
 import {
   reverse as lReverse,
@@ -12,7 +14,7 @@ import IconCross from "../assets/icon-cross.svg";
 import IconGreyPin from "../assets/icon-grey-pin.svg";
 import LogoGoogle from "../assets/logo-google.svg";
 
-import { APP_SCREENS, GOOGLE_API_KEY, STOPS_DATA } from "../utils/constants";
+import { APP_SCREENS } from "../utils/constants";
 import { saveLocationMetadata } from "../utils";
 
 const RECENT_LOCATION_COUNT = 5;
@@ -24,25 +26,20 @@ const SearchText = ({
   t,
   bodyHeight,
 }) => {
-  const [input, setInput] = useState("");
   const [recentLocations, setRecentLocations] = useState([]);
+  const [showDebounceLoading, setShowDebounceLoading] = useState(false);
 
-  const {
-    placesService,
-    placePredictions,
-    getPlacePredictions,
-    isPlacePredictionsLoading,
-  } = usePlacesService({
-    apiKey: GOOGLE_API_KEY,
-    debounce: 1000,
-    options: {
-      location: new window.google.maps.LatLng(...STOPS_DATA.majestic.loc),
-      radius: 60000,
+  const { suggestions = {}, value = "", setValue, clearSuggestions } = usePlacesAutocomplete({
+    requestOptions: {
+      locationBias: new window.google.maps.LatLngBounds(
+        new window.google.maps.LatLng(12.789201188889859, 77.39869888194104), // South west point. Somewhere near Bidadi
+        new window.google.maps.LatLng(13.230422232290332, 77.78540557324757) // North east point. Above hoskote and airport
+      ),
       componentRestrictions: {
         country: "in",
       },
     },
-    language: "&callback=dummyFunction", // Ugly hack. Library doesn't handle a callback param directly
+    debounce: 1000,
   });
 
   useEffect(() => {
@@ -57,42 +54,42 @@ const SearchText = ({
     setRecentLocations(locations);
   }, []);
 
-  useEffect(() => {
-    // TODO: Memoize for input text. Reduced network requests on input change
-    //  even for accidental typing and slow type that doesn't take advantage of
-    //  debounce functionality
-    getPlacePredictions({ input });
-  }, [input]);
-
-  const onPlaceSelect = (placeId) => {
-    placesService?.getDetails(
-      {
-        placeId,
-      },
-      (placeDetails) => {
-        const {
-          geometry: {
-            location: { lat, lng },
-          },
-          name,
-          place_id: placeId,
-        } = placeDetails;
-        saveLocationMetadata(placeId, name, [lat(), lng()]);
-        setInputLocation({
-          lat: lat(),
-          lng: lng(),
-        });
-        setCurrentScreen(APP_SCREENS.LOCATION_MAP);
-      },
-    );
+  const hideDebounceLoading = () => {
+    setShowDebounceLoading(false);
   };
+  const debouncedHideLoading = lDebounce(hideDebounceLoading, 1000);
+
+  useEffect(() => {
+    setShowDebounceLoading(true);
+    debouncedHideLoading();
+  }, [value]);
+
+  const onPlaceSelect = async (placeId) => {
+    const {
+      geometry: {
+        location: { lat, lng },
+      },
+      name,
+    } = await getPlaceDetails({ placeId });
+    saveLocationMetadata(placeId, name, [lat(), lng()]);
+    setInputLocation({
+      lat: lat(),
+      lng: lng(),
+    });
+    setCurrentScreen(APP_SCREENS.LOCATION_MAP);
+  };
+
+  const showLoading = showDebounceLoading || suggestions.loading
 
   return (
     <div id="search-page" style={{ height: `${bodyHeight}px` }}>
       <div id="search-heading">
         <button
           id="search-back"
-          onClick={() => setCurrentScreen(APP_SCREENS.INITIAL)}
+          onClick={() => {
+            clearSuggestions();
+            setCurrentScreen(APP_SCREENS.INITIAL);
+          }}
         >
           <img src={IconBack} alt="Back" />
         </button>
@@ -111,18 +108,18 @@ const SearchText = ({
         <input
           id="search-input"
           placeholder={`${t("Search")}...`}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
           autoFocus
         />
-        {input.length > 0 && (
-          <button id="search-clear" onClick={() => setInput("")}>
+        {(value || "").length > 0 && (
+          <button id="search-clear" onClick={() => setValue("")}>
             <img src={IconCross} alt="Cancel" />
           </button>
         )}
       </div>
       <div id="search-results">
-        {!input && recentLocations.length > 0 && (
+        {!value && recentLocations.length > 0 && (
           <div>
             <h4 className="mb-2 plr mt-2">
               <Trans t={t} i18nKey="Recent locations" />
@@ -144,15 +141,15 @@ const SearchText = ({
             ))}
           </div>
         )}
-        {isPlacePredictionsLoading && (
+        {showLoading && (
           <div id="search-loading">
             <div className="spin" />
             <Trans t={t} i18nKey="Loading" />
             ...
           </div>
         )}
-        {!isPlacePredictionsLoading &&
-          placePredictions.map((item) => (
+        {!showLoading &&
+          suggestions.data.map((item) => (
             <div
               className="search-result-item"
               key={item.place_id}
@@ -166,7 +163,7 @@ const SearchText = ({
               </p>
             </div>
           ))}
-        {!isPlacePredictionsLoading && input && placePredictions.length < 1 && (
+        {!showLoading && value && suggestions.data.length < 1 && (
           <div>
             <Trans t={t} i18nKey="No results found" />
           </div>

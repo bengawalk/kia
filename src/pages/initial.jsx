@@ -10,6 +10,8 @@ import { getSuggestedBus } from "../utils";
 import SideMenu from "../components/side-menu";
 
 const InitialScreen = ({
+  googleScriptStatus,
+  loadGoogleMapsScript,
   selectedTab,
   setSelectedTab,
   userLocation,
@@ -52,6 +54,8 @@ const InitialScreen = ({
         selectedTab={selectedTab}
       />
       <MapLocationInput
+        googleScriptStatus={googleScriptStatus}
+        loadGoogleMapsScript={loadGoogleMapsScript}
         setCurrentScreen={setCurrentScreen}
         inputLocation={inputLocation}
         inputLocationMetadata={inputLocationMetadata}

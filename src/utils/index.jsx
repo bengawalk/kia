@@ -1,5 +1,6 @@
 import polyline from "google-polyline";
 import _ from "lodash";
+import ALL_BUSES_TIMINGS from "./timings.json";
 
 import { getDistance } from "geolib";
 import { STOPS_DATA } from "./constants";
@@ -8,9 +9,6 @@ export const stopPropagation = (e) => {
   e.stopPropagation();
 };
 
-const dummyFunction = () => {};
-// Google Maps library requires a global JS function as callback after load
-window.dummyFunction = dummyFunction;
 
 export const getSuggestedBus = (buses, targetLocation) => {
   // Get the most optimum bus to take to reach the airport
@@ -83,42 +81,54 @@ export const saveLocationMetadata = (placeId, name, location) => {
   );
 };
 
-export const getRoutesGeojson = (busData) => ({
-  type: "geojson",
-  data: {
-    type: "FeatureCollection",
-    features: busData.map((b) => ({
-      type: "Feature",
-      properties: {
-        name: b.name,
-      },
-      geometry: {
-        type: "LineString",
-        coordinates: polyline.decode(decodeURIComponent(b.route)),
-      },
-    })),
-  },
-});
+export const getRoutesGeojson = (busData) => {
+  const filteredBusData = _.filter(busData, b => _.size(ALL_BUSES_TIMINGS[b.routename]) > 0);
+  return ({
+    type: "geojson",
+    data: {
+      type: "FeatureCollection",
+      features: filteredBusData.map((b) => ({
+        type: "Feature",
+        properties: {
+          name: b.name,
+        },
+        geometry: {
+          type: "LineString",
+          coordinates: polyline.decode(decodeURIComponent(b.route)),
+        },
+      })),
+    },
+  });
+};
 
-export const getStopsGeoJson = (busData, selectedTab) => ({
-  type: "geojson",
-  data: {
-    type: "FeatureCollection",
-    features: busData.map((b) => ({
-      type: "Feature",
-      properties: {
-        name: selectedTab === "ta" ? b.start.name : b.end.name,
-      },
-      geometry: {
-        type: "Point",
-        coordinates:
-          selectedTab === "ta"
-            ? Array.from(b.start.loc).reverse()
-            : Array.from(b.end.loc).reverse(),
-      },
-    })),
-  },
-});
+export const getStopsGeoJson = (busData, selectedTab) => {
+  const filteredBusData = _.filter(busData, b => _.size(ALL_BUSES_TIMINGS[b.routename]) > 0);
+  return ({
+    type: "geojson",
+    data: {
+      type: "FeatureCollection",
+      features: filteredBusData.map((b) => ({
+        type: "Feature",
+        properties: {
+          name: selectedTab === "ta" ? b.start.name : b.end.name,
+        },
+        geometry: {
+          type: "Point",
+          coordinates:
+            selectedTab === "ta"
+              ? Array.from(b.start.loc).reverse()
+              : Array.from(b.end.loc).reverse(),
+        },
+      })),
+    },
+  });
+}
 
 export const getCurrentMsm = () =>
   Math.floor((new Date() - new Date().setHours(0, 0, 0, 0)) / 60000);
+
+// To add a new route from the Backend API response for /RoutePoints
+// const backendResponse = "";
+// console.log(encodeURIComponent(
+//   polyline.encode(JSON.parse(backendResponse).data.map(b => ([_.toNumber(b.longitude), _.toNumber(b.latitude)])))
+// ));

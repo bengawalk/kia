@@ -3,7 +3,10 @@ import IconBus from "../assets/icon-bus";
 import IconOpenLink from "../assets/icon-open-link.svg";
 import { STOPS_DATA } from "../utils/constants";
 import BusItemTime from "./bus-item-time";
+import ALL_BUSES_TIMINGS from "../utils/timings.json";
+
 import { withTranslation, Trans } from "react-i18next";
+import _ from "lodash";
 
 const BusItem = ({
   busDetails,
@@ -13,10 +16,16 @@ const BusItem = ({
   currentTime,
   t,
 }) => {
-  const { name, start, end, timings } = busDetails;
+  const { name, start, end, routename } = busDetails;
+  const timings = ALL_BUSES_TIMINGS[routename];
   const busSelected = name === selectedBus;
 
   const locationDetails = toAirport ? start : end;
+
+  if(_.size(timings) === 0) {
+    return null;
+  }
+
   return (
     <div className={`route-item bus-${name} ${busSelected ? "selected" : ""}`}>
       <div
