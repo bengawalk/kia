@@ -1,4 +1,4 @@
-import{k as d,r as e,L as p}from"./index-7eacecaa.js";import{i as m,S as g}from"./i18n-117ab3ba.js";import{M as h}from"./index.modern-a3380b21.js";const a="/assets/install_android_1-1df71918.webp",s="/assets/install_android_2-db96f1b0.webp",n="/assets/install_ios_1-f83f7c7f.webp",i="/assets/install_ios_2-96a7ec7f.webp",o="/assets/install_ios_3-f47ff182.webp",l="/assets/install_desktop-e368c155.webp",r={en:`
+import{m as d,r as e,L as m}from"./index-331c6ccd.js";import{i as p,S as g}from"./i18n-c849e786.js";import{M as h}from"./index.modern-f7acbc94.js";const a="/assets/install_android_1-1df71918.webp",s="/assets/install_android_2-db96f1b0.webp",n="/assets/install_ios_1-f83f7c7f.webp",i="/assets/install_ios_2-96a7ec7f.webp",o="/assets/install_ios_3-f47ff182.webp",l="/assets/install_desktop-e368c155.webp",r={en:`
 # Install app
 The application is a [Progressive Web App(PWA)](https://en.wikipedia.org/wiki/Progressive_web_app) and hence, can be installed and used on any mobile/desktop device.  
 On installation, it behaves like a native app accessible from the Home screen launcher. This gives a faster, and more convenient experience while always staying up-to-date.
@@ -50,5 +50,5 @@ On installation, it behaves like a native app accessible from the Home screen la
 - ವಿಳಾಸ ಪಟ್ಟಿಯಲ್ಲಿರುವ ಇನ್‌ಸ್ಟಾಲ್ ಐಕಾನ್ ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ದೃಢೀಕರಿಸಿ
 
 <img src="${l}" alt="" width="750px" />
-`},w=()=>{const[t,c]=e.useState(localStorage.getItem("lang")||p[0].code);return e.useEffect(()=>{localStorage.setItem("lang",t),document.documentElement.setAttribute("lang",t),m.changeLanguage(t)},[t]),e.createElement(e.Fragment,null,e.createElement(g,{setLang:c}),e.createElement(h,null,r[t]||r.en))},b=d(document.getElementById("root"));b.render(e.createElement(w,null));
-//# sourceMappingURL=install-2575c979.js.map
+`},w=()=>{const[t,c]=e.useState(localStorage.getItem("lang")||m[0].code);return e.useEffect(()=>{localStorage.setItem("lang",t),document.documentElement.setAttribute("lang",t),p.changeLanguage(t)},[t]),e.createElement(e.Fragment,null,e.createElement(g,{setLang:c}),e.createElement(h,null,r[t]||r.en))},b=d(document.getElementById("root"));b.render(e.createElement(w,null));
+//# sourceMappingURL=install-6aa41858.js.map

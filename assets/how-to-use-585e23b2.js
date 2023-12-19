@@ -1,4 +1,4 @@
-import{k as r,r as e,L as l}from"./index-7eacecaa.js";import{i as c,S as h}from"./i18n-117ab3ba.js";import{M as m}from"./index.modern-a3380b21.js";const a="/assets/howto_1-830f2426.webp",o="/assets/howto_2-7abb96fc.webp",n="/assets/howto_3-48b91a21.webp",s={en:`
+import{m as r,r as e,L as l}from"./index-331c6ccd.js";import{i as c,S as h}from"./i18n-c849e786.js";import{M as m}from"./index.modern-f7acbc94.js";const a="/assets/howto_1-830f2426.webp",o="/assets/howto_2-7abb96fc.webp",n="/assets/howto_3-48b91a21.webp",s={en:`
 # How to use
 If the user gives permission for location, the application automatically chooses the best available bus to reach the airport.  
 If not, you could manually find the closest bus and all relevant details in 3 simple steps
@@ -40,4 +40,4 @@ The fare ranges from ₹200 to ₹350 based on the boarding point and distance t
 ### ದರದ ವಿವರಗಳು
 ಬೋರ್ಡಿಂಗ್ ಪಾಯಿಂಟ್ ಮತ್ತು ವಿಮಾನ ನಿಲ್ದಾಣದ ದೂರವನ್ನು ಆಧರಿಸಿ ದರವು ₹200 ರಿಂದ ₹350 ರಷ್ಟಿರುತ್ತದೆ.
 `},d=()=>{const[t,i]=e.useState(localStorage.getItem("lang")||l[0].code);return e.useEffect(()=>{localStorage.setItem("lang",t),document.documentElement.setAttribute("lang",t),c.changeLanguage(t)},[t]),e.createElement(e.Fragment,null,e.createElement(h,{setLang:i}),e.createElement(m,null,s[t]||s.en))},g=r(document.getElementById("root"));g.render(e.createElement(d,null));
-//# sourceMappingURL=how-to-use-e710975e.js.map
+//# sourceMappingURL=how-to-use-585e23b2.js.map
