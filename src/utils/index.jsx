@@ -4,6 +4,7 @@ import ALL_BUSES_TIMINGS from "./timings.json";
 
 import { getDistance } from "geolib";
 import { STOPS_DATA } from "./constants";
+import appStorage from "./storage";
 
 export const stopPropagation = (e) => {
   e.stopPropagation();
@@ -55,7 +56,7 @@ export const getSuggestedBus = (buses, targetLocation) => {
 };
 
 export const saveLocationMetadata = (placeId, name, location) => {
-  const locations = JSON.parse(localStorage.getItem("locations") || "[]");
+  const locations = JSON.parse(appStorage.getItem("locations") || "[]");
   const samePlaceIdEntry = _.find(locations, { placeId });
   // Track the time a new location is saved
   const saveTime = new Date().getTime();
@@ -63,7 +64,7 @@ export const saveLocationMetadata = (placeId, name, location) => {
     samePlaceIdEntry.time = saveTime;
   }
   // If there already exists a location in the list with the exact place id, don't add it again
-  localStorage.setItem(
+  appStorage.setItem(
     "locations",
     JSON.stringify([
       ...locations,

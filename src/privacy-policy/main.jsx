@@ -7,6 +7,7 @@ import Markdown from 'markdown-to-jsx';
 import "../utils/i18n";
 import { LANGUAGES } from "../utils/constants";
 import SideMenu from "../components/side-menu";
+import appStorage from "../utils/storage";
 
 const content = {
   en: `
@@ -107,10 +108,10 @@ For any clarification and information regarding privacy, please reach out to [de
 
 const PrivacyPolicy = () => {
   const [lang, setLang] = useState(
-    localStorage.getItem("lang") || LANGUAGES[0].code,
+    appStorage.getItem("lang") || LANGUAGES[0].code,
   );
   useEffect(() => {
-    localStorage.setItem("lang", lang);
+    appStorage.setItem("lang", lang);
     document.documentElement.setAttribute("lang", lang);
     i18n.changeLanguage(lang);
   }, [lang]);

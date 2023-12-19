@@ -16,6 +16,7 @@ import LogoGoogle from "../assets/logo-google.svg";
 
 import { APP_SCREENS } from "../utils/constants";
 import { saveLocationMetadata } from "../utils";
+import appStorage from "../utils/storage";
 
 const RECENT_LOCATION_COUNT = 5;
 
@@ -45,7 +46,7 @@ const SearchText = ({
   useEffect(() => {
     const locations = lTakeRight(
       lSortBy(
-        JSON.parse(localStorage.getItem("locations") || "[]"),
+        JSON.parse(appStorage.getItem("locations") || "[]"),
         (l) => l.time || 0,
       ),
       RECENT_LOCATION_COUNT,

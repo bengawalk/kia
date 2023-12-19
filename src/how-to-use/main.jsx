@@ -11,6 +11,7 @@ import SideMenu from "../components/side-menu";
 import ImageHowto1 from "../assets/screenshots/howto_1.webp";
 import ImageHowto2 from "../assets/screenshots/howto_2.webp";
 import ImageHowto3 from "../assets/screenshots/howto_3.webp";
+import appStorage from "../utils/storage";
 
 const content = {
   en: `
@@ -60,10 +61,10 @@ The fare ranges from ₹200 to ₹350 based on the boarding point and distance t
 
 const PrivacyPolicy = () => {
   const [lang, setLang] = useState(
-    localStorage.getItem("lang") || LANGUAGES[0].code,
+    appStorage.getItem("lang") || LANGUAGES[0].code,
   );
   useEffect(() => {
-    localStorage.setItem("lang", lang);
+    appStorage.setItem("lang", lang);
     document.documentElement.setAttribute("lang", lang);
     i18n.changeLanguage(lang);
   }, [lang]);

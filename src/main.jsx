@@ -24,6 +24,7 @@ import SearchMap from "./pages/search_map";
 import { saveLocationMetadata } from "./utils";
 import "./utils/i18n";
 import PageCrashError from "./components/page-crash-error";
+import appStorage from "./utils/storage";
 
 if (SENTRY_DSN) {
   Sentry.init({
@@ -40,7 +41,7 @@ const Container = () => {
   const [selectedTab, setSelectedTab] = useState(TABS[0].id);
   const [inputLocation, setInputLocation] = useState(null);
   const [lang, setLang] = useState(
-    localStorage.getItem("lang") || LANGUAGES[0].code,
+    appStorage.getItem("lang") || LANGUAGES[0].code,
   );
   const [inputLocationMetadata, setInputLocationMetadata] = useState({
     name: "",
@@ -122,7 +123,7 @@ const Container = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("lang", lang);
+    appStorage.setItem("lang", lang);
     document.documentElement.setAttribute("lang", lang);
     i18n.changeLanguage(lang);
   }, [lang]);
@@ -144,7 +145,7 @@ const Container = () => {
     if (!inputLocation) {
       return;
     }
-    const locations = JSON.parse(localStorage.getItem("locations") || "[]");
+    const locations = JSON.parse(appStorage.getItem("locations") || "[]");
     const sortedLocations = lSortBy(
       lMap(locations, (l) => ({
         ...l,
