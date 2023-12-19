@@ -78,6 +78,10 @@ class Sidebar extends React.PureComponent {
     // Handle change in selected buses to show and hide tray
     if (selectedBus && selectedBus !== prevSelectedBus) {
       const sidebarItem = document.querySelector(`.bus-${selectedBus}`);
+      if(!sidebarItem) {
+        // TODO: Figure out when this error occurs
+        return;
+      }
       const bounds = sidebarItem.getBoundingClientRect();
       if (
         bounds.top >= window.innerHeight + move &&
