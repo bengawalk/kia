@@ -1,4 +1,4 @@
-import{m as o,r as t,L as s}from"./index-331c6ccd.js";import{i as r,S as i}from"./i18n-c849e786.js";import{M as l}from"./index.modern-f7acbc94.js";const a={en:`
+import{n as s,r as t,k as a,L as r}from"./index-c0197c81.js";import{i,S as m}from"./i18n-9cbdc5e6.js";import{M as l}from"./index.modern-787e1be0.js";const n={en:`
 # Help and Support
 ## Immediate help
 For information on bus status, next available bus, timings, and issues with current bus please reach out to the BMTC Vayu Vajra helpline at [77609 91269](tel:7760991269)
@@ -16,5 +16,5 @@ You can also find us on [Twitter](https://twitter.com/bengawalk), [Instagram](ht
 ## ತಾಂತ್ರಿಕ ಸಹಾಯ
 ಸೈಟ್ ಅನ್ನು ಟೀಮ್ ಬೆಂಗಾವಾಕ್ ವಿನ್ಯಾಸಗೊಳಿಸಿದೆ ಮತ್ತು ಅಭಿವೃದ್ಧಿಪಡಿಸಿದೆ. ಅಪ್ಲಿಕೇಶನ್‌ಗಾಗಿ ದೋಷಗಳು, ಸಮಸ್ಯೆಗಳು ಅಥವಾ ವೈಶಿಷ್ಟ್ಯದ ವಿನಂತಿಗಳ ಸಂದರ್ಭದಲ್ಲಿ, [ಡಿಸ್ಕಾರ್ಡ್](https://discord.gg/XhmvDP4kXp) ಅಥವಾ [ಗಿಥಬ್‌ನಲ್ಲಿ](https://github.com/bengawalk/kia) ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ.  
 ನೀವು ನಮ್ಮನ್ನು [ಟ್ವಿಟರ್](https://twitter.com/bengawalk), [ಇನ್ಸ್ಟಾಗ್ರಾಮ್](https://www.instagram.com/bengawalk/) ಮತ್ತು [ಯೂಟ್ಯೂಬ್](https://www.youtube.com/@bengawalk) ನಲ್ಲಿಯೂ ಕಾಣಬಹುದು.
-`},m=()=>{const[e,n]=t.useState(localStorage.getItem("lang")||s[0].code);return t.useEffect(()=>{localStorage.setItem("lang",e),document.documentElement.setAttribute("lang",e),r.changeLanguage(e)},[e]),t.createElement(t.Fragment,null,t.createElement(i,{setLang:n}),t.createElement(l,null,a[e]||a.en))},c=o(document.getElementById("root"));c.render(t.createElement(m,null));
-//# sourceMappingURL=help-support-153a3c71.js.map
+`},u=()=>{const[e,o]=t.useState(a.getItem("lang")||r[0].code);return t.useEffect(()=>{a.setItem("lang",e),document.documentElement.setAttribute("lang",e),i.changeLanguage(e)},[e]),t.createElement(t.Fragment,null,t.createElement(m,{setLang:o}),t.createElement(l,null,n[e]||n.en))},c=s(document.getElementById("root"));c.render(t.createElement(u,null));
+//# sourceMappingURL=help-support-5661f422.js.map
