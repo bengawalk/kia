@@ -61,8 +61,11 @@ const SearchText = ({
   const debouncedHideLoading = lDebounce(hideDebounceLoading, 1000);
 
   useEffect(() => {
-    setShowDebounceLoading(true);
-    debouncedHideLoading();
+    if(value) {
+      // Prevents showing the loader if the search text is empty
+      setShowDebounceLoading(true);
+      debouncedHideLoading();
+    }
   }, [value]);
 
   const onPlaceSelect = async (placeId) => {
