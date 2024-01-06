@@ -1,8 +1,8 @@
-const fs = require('node:fs');
-const path = require('node:path');
+const fs = require("node:fs");
+const path = require("node:path");
 const axios = require("axios");
 const _ = require("lodash");
-const stringify = require('fast-json-stable-stringify');
+const stringify = require("fast-json-stable-stringify");
 
 const ROUTES_WE_NEED = [
   "KIA-4 UP",
@@ -51,11 +51,14 @@ const ROUTES_WE_NEED = [
 try {
   const checkTimings = async () => {
     const timings = {};
-    const apiText = fs.readFileSync(path.join(__dirname, "temp_bmtc_api_response.json"), 'utf8');
+    const apiText = fs.readFileSync(
+      path.join(__dirname, "temp_bmtc_api_response.json"),
+      "utf8",
+    );
     const apiJson = JSON.parse(apiText);
     const kiaRoutes = [];
-    apiJson.data.forEach(r => {
-      if(_.includes(ROUTES_WE_NEED, r.routeno)) {
+    apiJson.data.forEach((r) => {
+      if (_.includes(ROUTES_WE_NEED, r.routeno)) {
         kiaRoutes.push(r);
       }
     });
@@ -65,37 +68,42 @@ try {
     // Check for tomorrow, not today
     const currentDate = new Date(Date.now() + 86400000);
 
-    for(let i = 0; i < sortedKiaRoutes.length; i++) {
-      const { routeno, routeid, fromstationid, tostationid } = sortedKiaRoutes[i];
+    for (let i = 0; i < sortedKiaRoutes.length; i++) {
+      const { routeno, routeid, fromstationid, tostationid } =
+        sortedKiaRoutes[i];
       const { data } = await axios.post(
         `${process.env.BMTC_API_ENDPOINT}/GetTimetableByRouteId_v2`,
         {
           routeid,
           fromStationId: fromstationid,
           toStationId: tostationid,
-          "current_date": `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`
+          current_date: `${currentDate.getFullYear()}-${
+            currentDate.getMonth() + 1
+          }-${currentDate.getDate()}`,
         },
       );
       const timingsTextArray = _.map(data.data[0]?.tripdetails, "starttime");
       timings[routeno] = _.sortBy(
-        _.map(timingsTextArray, t => {
+        _.map(timingsTextArray, (t) => {
           const [hours, minutes] = _.split(t, ":");
           return _.toNumber(hours) * 60 + _.toNumber(minutes);
-        })
+        }),
       );
       console.log(`Timings fetched for: ${routeno}`);
     }
 
     try {
-      fs.writeFileSync(path.join(__dirname, '../src/utils/timings.json'), stringify(timings));
-      console.log("Successfully wrote timings to file")
+      fs.writeFileSync(
+        path.join(__dirname, "../src/utils/timings.json"),
+        stringify(timings),
+      );
+      console.log("Successfully wrote timings to file");
     } catch (err) {
       console.error(err);
     }
   };
 
   checkTimings();
-
 } catch (err) {
   console.error(err);
 }
