@@ -77,9 +77,7 @@ try {
           routeid,
           fromStationId: fromstationid,
           toStationId: tostationid,
-          current_date: `${currentDate.getFullYear()}-${
-            currentDate.getMonth() + 1
-          }-${currentDate.getDate()}`,
+          current_date: currentDate.toISOString(),
         },
       );
       const timingsTextArray = _.map(data.data[0]?.tripdetails, "starttime");
