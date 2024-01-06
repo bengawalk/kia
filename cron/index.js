@@ -90,6 +90,8 @@ try {
       console.log(`Timings fetched for: ${routeno}`);
     }
 
+    swapTimings(timings);
+
     try {
       fs.writeFileSync(
         path.join(__dirname, "../src/utils/timings.json"),
@@ -104,4 +106,28 @@ try {
   checkTimings();
 } catch (err) {
   console.error(err);
+}
+
+/**
+ * We need to swap some timings
+ * because the API returns inverted timings
+ * for UP and DOWN for some routes.
+ *
+ * @param {{
+ *  [key: string]: number[]
+ * }} timings
+ */
+function swapTimings(timings) {
+  const swaps = [
+    ["KIA-7 UP", "KIA-7 DOWN"],
+    ["KIA-14 UP", "KIA-14 DOWN"],
+  ];
+
+  swaps.forEach(([a, b]) => {
+    const temp = timings[a];
+    timings[a] = timings[b];
+    timings[b] = temp;
+
+    console.log("Swapped timings for", a, "and", b, "routes");
+  });
 }
