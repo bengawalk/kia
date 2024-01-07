@@ -10,8 +10,8 @@
     "build": "vite build src --config vite.config.js",
     "preview": "vite preview",
     "publish": "gh-pages -d dist",
-    "prettier": "prettier --write src",
-    "refresh-timings": "env-cmd node cron/index.js"
+    "prettier": "prettier --write '{src,cron}/**/*.{js,jsx}'",
+    "refresh-timings": "env-cmd node cron/get_timings.js"
   },
   "engines": {
     "node": "20.10.0"
@@ -21,6 +21,7 @@
     "@sentry/tracing": "^7.29.0",
     "axios": "^1.6.2",
     "classnames": "^2.3.2",
+    "dotenv": "^16.3.1",
     "env-cmd": "^10.1.0",
     "fast-json-stable-stringify": "^2.1.0",
     "geolib": "^3.3.3",
@@ -31,7 +32,6 @@
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.10.0",
     "markdown-to-jsx": "^7.3.2",
-    "prettier": "^3.0.3",
     "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -41,5 +41,9 @@
     "vite": "^4.4.9",
     "vite-plugin-pwa": "^0.16.5",
     "vite-plugin-radar": "^0.9.1"
+  },
+  "devDependencies": {
+    "eslint-plugin-prettier": "5.1.2",
+    "prettier": "4.0.0-alpha.8"
   }
 }

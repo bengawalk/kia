@@ -4,10 +4,11 @@ import _ from "lodash";
 
 import IconTabArrow from "../assets/icon-tab-arrow.svg";
 import IconCall from "../assets/icon-call.svg";
-import { HELPLINE_NUMBER, LANGUAGES, TABS } from "../utils/constants";
+import { HELPLINE_NUMBER, TABS } from "../utils/constants";
 import { getCurrentMsm } from "../utils";
-import BusItem from "./bus-item";
 import { Trans, withTranslation } from "react-i18next";
+import BusesList from "./bus-list";
+import SelectedBusDetails from "./selected-bus-details";
 
 const COLLAPSED_HEIGHT = 55;
 const FOOTER_HEIGHT = 90;
@@ -31,7 +32,7 @@ class Sidebar extends React.PureComponent {
     this.state = {
       x: null,
       y: null,
-      move: 0,
+      move: -MIDWAY_HEIGHT,
       currentTime: getCurrentMsm(),
       resized: 0,
       bodyHeight: null,
@@ -78,7 +79,7 @@ class Sidebar extends React.PureComponent {
     // Handle change in selected buses to show and hide tray
     if (selectedBus && selectedBus !== prevSelectedBus) {
       const sidebarItem = document.querySelector(`.bus-${selectedBus}`);
-      if(!sidebarItem) {
+      if (!sidebarItem) {
         // TODO: Figure out when this error occurs
         return;
       }
@@ -166,10 +167,12 @@ class Sidebar extends React.PureComponent {
       setSelectedTab,
       sortedTabData,
       selectedBus,
+      highlightedSuggestion,
       setSelectedBus,
       suggestedBus,
       suggestedBusDetails,
       t,
+      mapRef,
     } = this.props;
     const { currentTime, move } = this.state;
     return (
@@ -217,36 +220,27 @@ class Sidebar extends React.PureComponent {
           </div>
         </div>
         <div id="sidebar-content" className="padding">
-          {suggestedBus && (
-            <>
-              <h4 className="mb-4">
-                <Trans t={t} i18nKey="Suggested bus" />
-              </h4>
-              <BusItem
-                busDetails={suggestedBusDetails}
-                selectedBus={selectedBus}
-                setSelectedBus={setSelectedBus}
-                toAirport={selectedTab === "ta"}
-                currentTime={currentTime}
-              />
-            </>
-          )}
-          <h4 className="mb-4">
-            <Trans
-              t={t}
-              i18nKey={suggestedBus ? "All Buses" : "Routes and Schedules"}
-            />
-          </h4>
-          {sortedTabData.map((bus) => (
-            <BusItem
-              key={bus.name}
-              busDetails={bus}
-              selectedBus={selectedBus}
+          {selectedBus ? (
+            <SelectedBusDetails
               setSelectedBus={setSelectedBus}
-              toAirport={selectedTab === "ta"}
+              selectedBus={selectedBus}
               currentTime={currentTime}
+              selectedTabData={sortedTabData}
+              toAirport={selectedTab === "ta"}
+              mapRef={mapRef}
             />
-          ))}
+          ) : (
+            <BusesList
+              highlightedSuggestion={highlightedSuggestion}
+              suggestedBusDetails={suggestedBusDetails}
+              setSelectedBus={setSelectedBus}
+              selectedBus={selectedBus}
+              selectedTab={selectedTab}
+              currentTime={currentTime}
+              suggestedBus={suggestedBus}
+              sortedTabData={sortedTabData}
+            />
+          )}
         </div>
         <div className="padding text">
           <h4 className="mb-2">

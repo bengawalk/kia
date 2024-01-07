@@ -2,7 +2,7 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 import i18n from "i18next";
-import Markdown from 'markdown-to-jsx';
+import Markdown from "markdown-to-jsx";
 
 import ImageAndroid1 from "../assets/screenshots/install_android_1.webp";
 import ImageAndroid2 from "../assets/screenshots/install_android_2.webp";
@@ -87,9 +87,7 @@ const InstallApp = () => {
   return (
     <>
       <SideMenu setLang={setLang} />
-      <Markdown>
-        {content[lang] || content.en}
-      </Markdown>
+      <Markdown>{content[lang] || content.en}</Markdown>
     </>
   );
 };

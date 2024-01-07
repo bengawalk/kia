@@ -1,12 +1,19 @@
 import React from "react";
+import { getHoursAndMinutes, timeTextDisplay } from "../utils";
 
-const timeTextDisplay = (number) => (number < 10 ? `0${number}` : number);
-
-const BusItemTime = ({ msm, currentTime }) => {
-  const hours = Math.floor(msm / 60);
-  const minutes = msm - hours * 60;
+const BusItemTime = ({
+  msm,
+  currentTime,
+  selected,
+  index,
+  setSelectedTimeIndex,
+}) => {
+  const { hours, minutes } = getHoursAndMinutes(msm);
   return (
-    <div className={`route-item-time ${msm < currentTime ? "disabled" : ""}`}>
+    <div
+      className={`route-item-time ${msm < currentTime ? "disabled" : ""} ${selected ? "selected" : ""}`}
+      onClick={() => setSelectedTimeIndex(index)}
+    >
       {timeTextDisplay(hours)}:{timeTextDisplay(minutes)}
     </div>
   );

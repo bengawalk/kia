@@ -44,7 +44,7 @@ export const API_CALL_STATUSES = {
   LOADING: "LOADING",
   SUCCESS: "SUCCESS",
   ERROR: "ERROR",
-}
+};
 
 const PHONE_CONTACTS = {
   jp_nagar: {
@@ -175,7 +175,7 @@ export const STOPS_DATA = {
 const TELEGRAM_GROUPS = {
   "4/4A": "https://t.me/+7ga4_hAxGUE2NWI1",
   "6/6A": "https://t.me/+KZpw98bVQP1hYTE9",
-}
+};
 
 export const BUS_DATA = {
   to: [
@@ -575,7 +575,7 @@ export const BUS_DATA = {
 const COLOR_HIGHLIGHT = "#4264fb";
 const COLOR_MUTED = "#aaaaaa";
 
-export const MAP_STYPE_STOP = {
+export const MAP_STYLE_STOP = {
   type: "circle",
   paint: {
     "circle-color": "#ffffff",
@@ -585,7 +585,17 @@ export const MAP_STYPE_STOP = {
   },
 };
 
-export const MAP_STYPE_ROUTE = {
+export const MAP_STYLE_INTERMEDIATE_STOP = {
+  type: "circle",
+  paint: {
+    "circle-color": "#ffffff",
+    "circle-radius": 6,
+    "circle-stroke-width": 2,
+    "circle-stroke-color": COLOR_HIGHLIGHT,
+  },
+};
+
+export const MAP_STYLE_ROUTE = {
   type: "line",
   layout: {
     "line-join": "round",
@@ -606,9 +616,9 @@ export const MAP_STYPE_ROUTE = {
 };
 
 export const MAP_STYLE_HIGHLIGHTED_ROUTE = {
-  ...MAP_STYPE_ROUTE,
+  ...MAP_STYLE_ROUTE,
   paint: {
-    ...MAP_STYPE_ROUTE.paint,
+    ...MAP_STYLE_ROUTE.paint,
     "line-color": COLOR_HIGHLIGHT,
   },
 };

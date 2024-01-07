@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createRoot } from "react-dom/client";
-import { MAP_STYPE_ROUTE, MAPBOX_TOKEN, STOPS_DATA } from "../utils/constants";
+import { MAP_STYLE_ROUTE, MAPBOX_TOKEN, STOPS_DATA } from "../utils/constants";
 import mapboxgl from "mapbox-gl";
 import { getRoutesGeojson } from "../utils";
 
