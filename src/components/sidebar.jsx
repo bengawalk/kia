@@ -32,7 +32,7 @@ class Sidebar extends React.PureComponent {
     this.state = {
       x: null,
       y: null,
-      move: -MIDWAY_HEIGHT,
+      move: 0,
       currentTime: getCurrentMsm(),
       resized: 0,
       bodyHeight: null,
