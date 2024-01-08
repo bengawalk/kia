@@ -78,8 +78,18 @@ const SelectedBusDetails = ({
       currentRef.off("mouseenter", "intermediate_stops", showPopup);
       currentRef.off("mouseleave", "intermediate_stops", hidePopup);
 
-      currentRef.removeLayer("intermediate_stops");
-      currentRef.removeSource("intermediate_stops");
+      // TODO: Figure out a better way for if check
+      // When user opens details of a bus and clicks on search box, the map component is unmounted, and _canvas property is undefined.
+      // In such cases getLayer and removeLayer throw error.
+      // But when user opens details of a bus and clicks back to all buses, the layer needs to be removed.
+      if(currentRef._canvas) {
+        if (currentRef.getLayer("intermediate_stops")) {
+          currentRef.removeLayer("intermediate_stops");
+        }
+        if (currentRef.getSource("intermediate_stops")) {
+          currentRef.removeSource("intermediate_stops");
+        }
+      }
     };
   }, [mapRef.current]);
 
