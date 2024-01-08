@@ -2,7 +2,7 @@ import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 import i18n from "i18next";
-import Markdown from 'markdown-to-jsx';
+import Markdown from "markdown-to-jsx";
 
 import "../utils/i18n";
 import { LANGUAGES } from "../utils/constants";

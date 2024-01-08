@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import usePlacesAutocomplete, { getDetails as getPlaceDetails } from "use-places-autocomplete";
-import { debounce as lDebounce } from "lodash"
+import usePlacesAutocomplete, {
+  getDetails as getPlaceDetails,
+} from "use-places-autocomplete";
+import { debounce as lDebounce } from "lodash";
 
 import { Trans, withTranslation } from "react-i18next";
 import {
@@ -30,11 +32,16 @@ const SearchText = ({
   const [recentLocations, setRecentLocations] = useState([]);
   const [showDebounceLoading, setShowDebounceLoading] = useState(false);
 
-  const { suggestions = {}, value = "", setValue, clearSuggestions } = usePlacesAutocomplete({
+  const {
+    suggestions = {},
+    value = "",
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
     requestOptions: {
       locationBias: new window.google.maps.LatLngBounds(
         new window.google.maps.LatLng(12.789201188889859, 77.39869888194104), // South west point. Somewhere near Bidadi
-        new window.google.maps.LatLng(13.230422232290332, 77.78540557324757) // North east point. Above hoskote and airport
+        new window.google.maps.LatLng(13.230422232290332, 77.78540557324757), // North east point. Above hoskote and airport
       ),
       componentRestrictions: {
         country: "in",
@@ -61,7 +68,7 @@ const SearchText = ({
   const debouncedHideLoading = lDebounce(hideDebounceLoading, 1000);
 
   useEffect(() => {
-    if(value) {
+    if (value) {
       // Prevents showing the loader if the search text is empty
       setShowDebounceLoading(true);
       debouncedHideLoading();
@@ -83,7 +90,7 @@ const SearchText = ({
     setCurrentScreen(APP_SCREENS.LOCATION_MAP);
   };
 
-  const showLoading = showDebounceLoading || suggestions.loading
+  const showLoading = showDebounceLoading || suggestions.loading;
 
   return (
     <div id="search-page" style={{ height: `${bodyHeight}px` }}>

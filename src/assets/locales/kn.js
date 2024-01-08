@@ -48,7 +48,8 @@ const knTranslations = {
   "Brigade meadows, Kanakapura road": "ಬ್ರಿಗೇಡ್ ಮೆಡೋಸ್, ಕನಕಪುರ ರಸ್ತೆ",
 
   "Loading Google maps": "ಗೂಗಲ್ ನಕ್ಷೆಗಳು ಲೋಡ್ ಆಗುತ್ತಿದೆ",
-  "Error occurred loading Google API": "ಗೂಗಲ್ API ಅನ್ನು ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ ಸಂಭವಿಸಿದೆ",
+  "Error occurred loading Google API":
+    "ಗೂಗಲ್ API ಅನ್ನು ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ ಸಂಭವಿಸಿದೆ",
   "Try again": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸು",
 
   Close: "ಮುಚ್ಚಿ",

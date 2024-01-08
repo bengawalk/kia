@@ -275,7 +275,7 @@ h4 {
   .text-light {
     color: var(--color-grey-medium);
   }
-  &.selected {
+  &.highlighted {
     border: 1px solid var(--color-primary);
     .text-light {
       color: var(--color-grey-light);
@@ -284,14 +284,12 @@ h4 {
       background-color: var(--color-primary);
       color: #ffffff;
     }
-    .route-item-details {
-      display: block;
-    }
   }
 }
 
 .route-item-details {
-  display: none;
+  font-size: 0.7rem;
+  line-height: 1.1rem;
   padding: 8px 6px 12px 12px;
 }
 
@@ -319,23 +317,29 @@ h4 {
   height: 26px;
   color: var(--color-grey-medium);
   border: 1px solid var(--color-grey-medium);
-  border-radius: 8px;
+  border-radius: 4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   margin: 0 6px 10px 0;
+  cursor: pointer;
   &.disabled {
     color: var(--color-grey-light);
     border: 1px solid var(--color-grey-light);
   }
+  &.selected {
+    color: #ffffff;
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-primary);
+  }
 }
 
 .route-item-location {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   text-decoration: none;
   color: var(--color-primary);
-  margin: 0 0 8px;
+  margin: 5px 0 14px;
   &:hover {
     text-decoration: underline;
   }
@@ -369,7 +373,8 @@ h4 {
   //backdrop-filter: blur(10px) saturate(200%);
   background-color: #038cfc;
   background-size: 40%;
-  box-shadow: 0 1px 2px rgba(3, 140, 252, 0.12),
+  box-shadow:
+    0 1px 2px rgba(3, 140, 252, 0.12),
     0 1px 2px rgba(3, 140, 252, 0.24);
   box-sizing: border-box;
   background-position: center;
@@ -399,7 +404,8 @@ h4 {
   }
 
   50% {
-    box-shadow: 0 0 0 12px rgba(3, 140, 252, 0.14),
+    box-shadow:
+      0 0 0 12px rgba(3, 140, 252, 0.14),
       0 0 0 4px rgba(3, 140, 252, 0.14);
   }
   to {
@@ -658,4 +664,135 @@ h4 {
   position: fixed;
   top: 20px;
   right: 20px;
+}
+
+.sel-bus-back {
+  display: flex;
+  align-items: center;
+  border: 0;
+  color: #666666;
+  padding: 0;
+  background-color: transparent;
+  margin: 0 0 20px 0;
+  .icon-back-arrow {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
+}
+
+.sel-bus-title {
+  display: flex;
+  align-items: center;
+  font-size: 0.7rem;
+  margin-bottom: 10px;
+}
+
+.sel-but-title-name {
+  font-weight: bold;
+  color: #ffffff;
+  border: 2px solid #1967D3;
+  background-color: #1A73E9;
+  margin-left: 10px;
+  padding: 0 10px;
+  border-radius: 4px;
+}
+
+.sel-bus-from-to {
+  font-size: 0.7rem;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  .text-light {
+    color: var(--color-grey-medium);
+  }
+}
+
+.sel-bus-stops-heading {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  border-bottom: 1px solid #d9d9d9;
+  line-height: 2;
+}
+
+.sel-bus-stop-row-container {
+  position: relative;
+  &.start {
+    &::after {
+      content: "";
+      width: 4px;
+      position: absolute;
+      top: 28px;
+      bottom: 0;
+      left: 17px;
+      z-index: -1;
+      background-color: #1967D3;
+    }
+  }
+  &.end {
+    &::after {
+      content: "";
+      width: 4px;
+      position: absolute;
+      top: 0;
+      height: 20px;
+      left: 17px;
+      z-index: -1;
+      background-color: #1967D3;
+    }
+  }
+  &.intermediate {
+    &::after {
+      content: "";
+      width: 4px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 17px;
+      z-index: -1;
+      background-color: #1967D3;
+    }
+  }
+}
+
+.sel-bus-stop-row {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  &:hover {
+    background-color: #fafafa;
+    border: 1px solid #1967D3;
+  }
+}
+
+.sel-bus-stop-row-text {
+  flex-grow: 1;
+  line-height: 1.6;
+  padding-left: 10px;
+}
+
+.sel-bus-stop-chevron {
+  width: 16px;
+  height: 16px;
+  opacity: 0.4;
+  &.expanded {
+    transform: rotate(90deg);
+  }
+}
+
+.sel-bus-stop-row-selected-time {
+  font-size: 0.7rem;
+}
+
+#sel-bus-stops-list-container {
+  position: relative;
+}
+
+.sel-bus-stop-expanded-content {
+  padding-left: 34px;
+  font-size: 0.7rem;
 }

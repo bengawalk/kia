@@ -10,6 +10,17 @@ export const stopPropagation = (e) => {
   e.stopPropagation();
 };
 
+export const getHoursAndMinutes = (minutesSinceMidnight) => {
+  const hours = Math.floor(minutesSinceMidnight / 60);
+  const minutes = minutesSinceMidnight - hours * 60;
+  return {
+    hours,
+    minutes,
+  };
+};
+
+export const timeTextDisplay = (number) =>
+  number < 10 ? `0${number}` : number;
 
 export const getSuggestedBus = (buses, targetLocation) => {
   // Get the most optimum bus to take to reach the airport
@@ -83,8 +94,11 @@ export const saveLocationMetadata = (placeId, name, location) => {
 };
 
 export const getRoutesGeojson = (busData) => {
-  const filteredBusData = _.filter(busData, b => _.size(ALL_BUSES_TIMINGS[b.routename]) > 0);
-  return ({
+  const filteredBusData = _.filter(
+    busData,
+    (b) => _.size(ALL_BUSES_TIMINGS[b.routename]) > 0,
+  );
+  return {
     type: "geojson",
     data: {
       type: "FeatureCollection",
@@ -99,12 +113,15 @@ export const getRoutesGeojson = (busData) => {
         },
       })),
     },
-  });
+  };
 };
 
 export const getStopsGeoJson = (busData, selectedTab) => {
-  const filteredBusData = _.filter(busData, b => _.size(ALL_BUSES_TIMINGS[b.routename]) > 0);
-  return ({
+  const filteredBusData = _.filter(
+    busData,
+    (b) => _.size(ALL_BUSES_TIMINGS[b.routename]) > 0,
+  );
+  return {
     type: "geojson",
     data: {
       type: "FeatureCollection",
@@ -122,8 +139,27 @@ export const getStopsGeoJson = (busData, selectedTab) => {
         },
       })),
     },
-  });
-}
+  };
+};
+
+export const getIntermediateStopsGeoJson = (listOfStops) => {
+  return {
+    type: "geojson",
+    data: {
+      type: "FeatureCollection",
+      features: listOfStops.map((s) => ({
+        type: "Feature",
+        properties: {
+          name: s.name,
+        },
+        geometry: {
+          type: "Point",
+          coordinates: Array.from(s.loc).reverse(),
+        },
+      })),
+    },
+  };
+};
 
 export const getCurrentMsm = () =>
   Math.floor((new Date() - new Date().setHours(0, 0, 0, 0)) / 60000);

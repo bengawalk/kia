@@ -1,7 +1,7 @@
 import * as React from "react";
 import Map from "../components/map";
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { BUS_DATA } from "../utils/constants";
 import Sidebar from "../components/sidebar";
@@ -21,7 +21,9 @@ const InitialScreen = ({
   setLang,
   bodyHeight,
 }) => {
+  const mapRef = useRef();
   const [selectedBus, setSelectedBus] = useState(null);
+  const [highlightedSuggestion, setHighlightedSuggestion] = useState(null);
   const selectedTabData = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
 
   const suggestedBus = getSuggestedBus(selectedTabData, inputLocation);
@@ -29,16 +31,18 @@ const InitialScreen = ({
 
   useEffect(() => {
     if (suggestedBus) {
-      setSelectedBus(suggestedBus);
+      setHighlightedSuggestion(suggestedBus);
     }
   }, [suggestedBus, inputLocation]);
 
   return (
     <>
       <Sidebar
+        mapRef={mapRef}
         suggestedBusDetails={suggestedBusDetails}
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
+        highlightedSuggestion={highlightedSuggestion}
         selectedBus={selectedBus}
         setSelectedBus={setSelectedBus}
         suggestedBus={suggestedBus}
@@ -46,6 +50,7 @@ const InitialScreen = ({
         bodyHeight={bodyHeight}
       />
       <Map
+        mapRef={mapRef}
         inputLocation={inputLocation}
         busData={selectedTabData}
         userLocation={userLocation}

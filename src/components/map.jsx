@@ -6,8 +6,8 @@ import { getRoutesGeojson, getStopsGeoJson } from "../utils";
 import {
   BUS_DATA,
   MAP_STYLE_HIGHLIGHTED_ROUTE,
-  MAP_STYPE_ROUTE,
-  MAP_STYPE_STOP,
+  MAP_STYLE_ROUTE,
+  MAP_STYLE_STOP,
   MAPBOX_TOKEN,
   STOPS_DATA,
 } from "../utils/constants";
@@ -28,6 +28,7 @@ class Map extends React.PureComponent {
   }
 
   initMap = () => {
+    const { mapRef } = this.props;
     const { lng, lat, zoom } = this.state;
     const map = new mapboxgl.Map({
       container: this.mapContainer.current,
@@ -47,13 +48,15 @@ class Map extends React.PureComponent {
         zoom: map.getZoom().toFixed(2),
       });
     });
-    this.map = map;
+    mapRef.current = map;
+    // this.map = map;
   };
 
   componentDidMount() {
+    const { mapRef } = this.props;
     if (this.state.supported) {
       this.initMap();
-      this.map?.on("load", () => {
+      mapRef.current?.on("load", () => {
         this.renderMapData();
         this.addMapEvents();
       });
@@ -61,7 +64,7 @@ class Map extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { userLocation, inputLocation, selectedBus, selectedTab } =
+    const { userLocation, inputLocation, selectedBus, selectedTab, mapRef } =
       this.props;
     const {
       userLocation: prevUserLocation,
@@ -99,7 +102,7 @@ class Map extends React.PureComponent {
 
     if (selectedBus !== prevSelectedBus) {
       this.callFnIfMapLoaded(() => {
-        this.map.setFilter("routes-highlighted", [
+        mapRef.current.setFilter("routes-highlighted", [
           "==",
           "name",
           selectedBus || "",
@@ -107,24 +110,24 @@ class Map extends React.PureComponent {
 
         // this.map.setFilter("highlighted-bus", ["==", "name", selectedBus || ""]);
 
-        if (selectedBus && this.map.getLayer("stops")) {
+        if (selectedBus && mapRef.current.getLayer("stops")) {
           const busesList = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
           const busDetails = lFind(busesList, { name: selectedBus });
-          this.map.setFilter("stops", [
+          mapRef.current.setFilter("stops", [
             "==",
             "name",
             selectedTab === "ta" ? busDetails.start.name : busDetails.end.name,
           ]);
         } else {
-          this.map.setFilter("stops", true);
+          mapRef.current.setFilter("stops", true);
         }
       });
     }
   }
 
   centerMapOnInput = () => {
-    const { inputLocation } = this.props;
-    this.map.flyTo({
+    const { inputLocation, mapRef } = this.props;
+    mapRef.current.flyTo({
       center: [inputLocation.lng, inputLocation.lat],
       zoom: 12,
       pitch: 0,
@@ -135,41 +138,49 @@ class Map extends React.PureComponent {
   };
 
   callFnIfMapLoaded = (fn) => {
-    if (this.map._loaded) {
+    const { mapRef } = this.props;
+    if (mapRef.current._loaded) {
       fn();
     } else {
-      this.map.on("load", fn);
+      mapRef.current.on("load", fn);
     }
   };
 
   componentWillUnmount() {
-    this.map?.remove();
+    const { mapRef } = this.props;
+    mapRef.current?.remove();
   }
 
   renderMapData = () => {
-    const { busData, selectedBus, selectedTab, userLocation, inputLocation } =
-      this.props;
+    const {
+      busData,
+      selectedBus,
+      selectedTab,
+      userLocation,
+      inputLocation,
+      mapRef,
+    } = this.props;
 
-    this.map.addSource("routes", getRoutesGeojson(busData));
-    this.map.addLayer({
+    mapRef.current.addSource("routes", getRoutesGeojson(busData));
+    mapRef.current.addLayer({
       id: "routes",
       source: "routes",
-      ...MAP_STYPE_ROUTE,
+      ...MAP_STYLE_ROUTE,
     });
 
-    this.map.addLayer({
+    mapRef.current.addLayer({
       id: "routes-highlighted",
       source: "routes",
       ...MAP_STYLE_HIGHLIGHTED_ROUTE,
       filter: ["==", "name", selectedBus || ""],
     });
 
-    this.map.addSource("stops", getStopsGeoJson(busData, selectedTab));
+    mapRef.current.addSource("stops", getStopsGeoJson(busData, selectedTab));
 
-    this.map.addLayer({
+    mapRef.current.addLayer({
       id: "stops",
       source: "stops",
-      ...MAP_STYPE_STOP,
+      ...MAP_STYLE_STOP,
       filter: true,
     });
 
@@ -186,30 +197,32 @@ class Map extends React.PureComponent {
   };
 
   initLocationMarkers = () => {
+    const { mapRef } = this.props;
     // Show user location on the map
     const el = document.createElement("div");
     el.className = "user-location-indicator";
     this.userLocationMarker = new mapboxgl.Marker(el)
       .setLngLat({ lat: 0, lng: 0 })
-      .addTo(this.map);
+      .addTo(mapRef.current);
 
     // Show input location on the map
     const el2 = document.createElement("div");
     el2.className = "input-location-indicator";
     this.inputLocationMarker = new mapboxgl.Marker(el2)
       .setLngLat({ lat: 0, lng: 0 })
-      .addTo(this.map);
+      .addTo(mapRef.current);
   };
 
   addMapEvents = () => {
+    const { mapRef } = this.props;
     const popup = new mapboxgl.Popup({
       closeButton: false,
       closeOnClick: false,
     });
 
     // Show bus stop name on hovering on the circle
-    this.map.on("mouseenter", "stops", (e) => {
-      this.map.getCanvas().style.cursor = "pointer";
+    mapRef.current.on("mouseenter", "stops", (e) => {
+      mapRef.current.getCanvas().style.cursor = "pointer";
 
       const coordinates = e.features[0].geometry.coordinates.slice();
       const description = e.features[0].properties.name;
@@ -217,30 +230,30 @@ class Map extends React.PureComponent {
       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
-      popup.setLngLat(coordinates).setHTML(description).addTo(this.map);
+      popup.setLngLat(coordinates).setHTML(description).addTo(mapRef.current);
     });
 
-    this.map.on("mouseleave", "stops", () => {
-      this.map.getCanvas().style.cursor = "";
+    mapRef.current.on("mouseleave", "stops", () => {
+      mapRef.current.getCanvas().style.cursor = "";
       popup.remove();
     });
 
     // Show route as blue on hover
-    this.map.on("mouseenter", "routes", (e) => {
+    mapRef.current.on("mouseenter", "routes", (e) => {
       const { selectedBus } = this.props;
-      this.map.getCanvas().style.cursor = "pointer";
+      mapRef.current.getCanvas().style.cursor = "pointer";
 
       const feature = e.features[0];
 
       const { name } = feature.properties;
-      this.map.setFilter("routes-highlighted", [
+      mapRef.current.setFilter("routes-highlighted", [
         "==",
         "name",
         name || selectedBus || "",
       ]);
     });
 
-    this.map.on("click", "routes", (e) => {
+    mapRef.current.on("click", "routes", (e) => {
       const { setSelectedBus } = this.props;
       const feature = e.features[0];
 
@@ -248,10 +261,10 @@ class Map extends React.PureComponent {
       setSelectedBus(name);
     });
 
-    this.map.on("mouseleave", "routes", () => {
+    mapRef.current.on("mouseleave", "routes", () => {
       const { selectedBus } = this.props;
-      this.map.getCanvas().style.cursor = "";
-      this.map.setFilter("routes-highlighted", [
+      mapRef.current.getCanvas().style.cursor = "";
+      mapRef.current.setFilter("routes-highlighted", [
         "==",
         "name",
         selectedBus || "",
@@ -260,10 +273,10 @@ class Map extends React.PureComponent {
   };
 
   refreshMapData = () => {
-    const { busData, selectedTab } = this.props;
+    const { busData, selectedTab, mapRef } = this.props;
 
-    const routeSource = this.map.getSource("routes");
-    const stopsSource = this.map.getSource("stops");
+    const routeSource = mapRef.current.getSource("routes");
+    const stopsSource = mapRef.current.getSource("stops");
     routeSource.setData(getRoutesGeojson(busData).data);
     stopsSource.setData(getStopsGeoJson(busData, selectedTab).data);
   };

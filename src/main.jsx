@@ -1,7 +1,7 @@
 import * as React from "react";
 import { sortBy as lSortBy, map as lMap } from "lodash";
 import { createRoot } from "react-dom/client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import getDistance from "geolib/es/getDistance";
 import loadGoogleMapsApi from "load-google-maps-api";
 import i18n from "i18next";
@@ -35,7 +35,9 @@ if (SENTRY_DSN) {
 }
 
 const Container = () => {
-  const [googleScriptStatus, setGoogleScriptStatus] = useState(API_CALL_STATUSES.INITIAL);
+  const [googleScriptStatus, setGoogleScriptStatus] = useState(
+    API_CALL_STATUSES.INITIAL,
+  );
   const [currentScreen, setCurrentScreen] = useState(APP_SCREENS.INITIAL);
   const [bodyHeight, setBodyHeight] = useState(null);
   const [selectedTab, setSelectedTab] = useState(TABS[0].id);
@@ -52,12 +54,6 @@ const Container = () => {
     LOCATION_STATES.PENDING,
   );
   const [userLocation, setUserLocation] = useState(null);
-
-  // // Adds Google maps script tag if haven't already. Required before the user clicks on search since it uses the library
-  // usePlacesService({
-  //   apiKey: GOOGLE_API_KEY,
-  //   language: "&callback=dummyFunction", // Ugly hack. Library doesn't handle a callback param directly
-  // });
 
   const getUserLocation = () => {
     // TODO: The location is only retrieved once on load and never again.
@@ -108,7 +104,7 @@ const Container = () => {
     } catch (e) {
       setGoogleScriptStatus(API_CALL_STATUSES.ERROR);
     }
-  }
+  };
 
   useEffect(() => {
     // Fallback for older devices that don't support visualViewport API.
@@ -130,7 +126,7 @@ const Container = () => {
 
   useEffect(() => {
     // When the Google script loads, try to get user's location
-    if(googleScriptStatus !== API_CALL_STATUSES.SUCCESS) {
+    if (googleScriptStatus !== API_CALL_STATUSES.SUCCESS) {
       return;
     }
     if ("geolocation" in navigator) {
@@ -160,6 +156,7 @@ const Container = () => {
 
     if (closestLocation && closestLocation.distance < 50) {
       // There's a location in the past list within 50m of the current location input
+      // This prevents an unnecessary Google API call for geocoding.
       setInputLocationMetadata(closestLocation);
     } else {
       // Get the name of place from input location.

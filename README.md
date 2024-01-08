@@ -13,7 +13,11 @@
     yarn install
     yarn start
     ```
-
+## bmtc_utils
+This folder contains node.js scripts to query and manipulate BMTC API data.  
+`bmtc_api_data.csv`: KIA subset of the BMTC data with route names, IDs and other relevant info  
+`get_timings.json`: Gets the latest timetable and saves it to `src/utils/timings.json`  
+`get_stops.json`: Get the latest data of stops along all routes and saves to `src/utils/stops.json`  
 
 ## Contributing to the repo
 Before raising a pull request for feature additions, please open an issue discussing the change.  
