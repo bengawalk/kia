@@ -1,4 +1,4 @@
-import{n as s,r as t,k as a,L as r}from"./index-a996c9ec.js";import{i,S as m}from"./i18n-2e2fb54d.js";import{M as l}from"./index.modern-91651918.js";const n={en:`
+import{q as s,r as t,o as a,L as r}from"./index-a9678a31.js";import{i,S as m}from"./i18n-e2bc4001.js";import{M as l}from"./index.modern-ac5114a4.js";const n={en:`
 # Help and Support
 ## Immediate help
 For information on bus status, next available bus, timings, and issues with current bus please reach out to the BMTC Vayu Vajra helpline at [77609 91269](tel:7760991269)
@@ -17,4 +17,4 @@ You can also find us on [Twitter](https://twitter.com/bengawalk), [Instagram](ht
 ಸೈಟ್ ಅನ್ನು ಟೀಮ್ ಬೆಂಗಾವಾಕ್ ವಿನ್ಯಾಸಗೊಳಿಸಿದೆ ಮತ್ತು ಅಭಿವೃದ್ಧಿಪಡಿಸಿದೆ. ಅಪ್ಲಿಕೇಶನ್‌ಗಾಗಿ ದೋಷಗಳು, ಸಮಸ್ಯೆಗಳು ಅಥವಾ ವೈಶಿಷ್ಟ್ಯದ ವಿನಂತಿಗಳ ಸಂದರ್ಭದಲ್ಲಿ, [ಡಿಸ್ಕಾರ್ಡ್](https://discord.gg/XhmvDP4kXp) ಅಥವಾ [ಗಿಥಬ್‌ನಲ್ಲಿ](https://github.com/bengawalk/kia) ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ.  
 ನೀವು ನಮ್ಮನ್ನು [ಟ್ವಿಟರ್](https://twitter.com/bengawalk), [ಇನ್ಸ್ಟಾಗ್ರಾಮ್](https://www.instagram.com/bengawalk/) ಮತ್ತು [ಯೂಟ್ಯೂಬ್](https://www.youtube.com/@bengawalk) ನಲ್ಲಿಯೂ ಕಾಣಬಹುದು.
 `},u=()=>{const[e,o]=t.useState(a.getItem("lang")||r[0].code);return t.useEffect(()=>{a.setItem("lang",e),document.documentElement.setAttribute("lang",e),i.changeLanguage(e)},[e]),t.createElement(t.Fragment,null,t.createElement(m,{setLang:o}),t.createElement(l,null,n[e]||n.en))},c=s(document.getElementById("root"));c.render(t.createElement(u,null));
-//# sourceMappingURL=help-support-7f8701d7.js.map
+//# sourceMappingURL=help-support-e247551d.js.map
