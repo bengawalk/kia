@@ -34,13 +34,14 @@ const SelectedBusDetails = ({
   const toText = toAirport ? STOPS_DATA.airport.name : end.name;
 
   useEffect(() => {
+    const currentRef = mapRef.current;
     const popup = new mapboxgl.Popup({
       closeButton: false,
       closeOnClick: false,
     });
 
     const showPopup = (e) => {
-      mapRef.current.getCanvas().style.cursor = "pointer";
+      currentRef.getCanvas().style.cursor = "pointer";
 
       const coordinates = e.features[0].geometry.coordinates.slice();
       const description = e.features[0].properties.name;
@@ -52,30 +53,33 @@ const SelectedBusDetails = ({
     };
 
     const hidePopup = () => {
-      mapRef.current.getCanvas().style.cursor = "";
+      currentRef.getCanvas().style.cursor = "";
       popup.remove();
     };
 
-    mapRef.current.addSource(
+    currentRef.addSource(
       "intermediate_stops",
       getIntermediateStopsGeoJson(stops),
     );
-    mapRef.current.addLayer({
+    currentRef.addLayer({
       id: "intermediate_stops",
       source: "intermediate_stops",
       ...MAP_STYLE_INTERMEDIATE_STOP,
     });
 
     // Show bus stop name on hovering on the circle
-    mapRef.current.on("mouseenter", "intermediate_stops", showPopup);
-    mapRef.current.on("mouseleave", "intermediate_stops", hidePopup);
+    currentRef.on("mouseenter", "intermediate_stops", showPopup);
+    currentRef.on("mouseleave", "intermediate_stops", hidePopup);
 
     return () => {
-      mapRef.current.off("mouseenter", "intermediate_stops", showPopup);
-      mapRef.current.off("mouseleave", "intermediate_stops", hidePopup);
+      if (!currentRef) {
+        return;
+      }
+      currentRef.off("mouseenter", "intermediate_stops", showPopup);
+      currentRef.off("mouseleave", "intermediate_stops", hidePopup);
 
-      mapRef.current.removeLayer("intermediate_stops");
-      mapRef.current.removeSource("intermediate_stops");
+      currentRef.removeLayer("intermediate_stops");
+      currentRef.removeSource("intermediate_stops");
     };
   }, [mapRef.current]);
 
