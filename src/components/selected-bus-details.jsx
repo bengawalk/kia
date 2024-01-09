@@ -57,8 +57,6 @@ const SelectedBusDetails = ({
       popup.remove();
     };
 
-    console.log(currentRef);
-
     const addLayerAndEvents = () => {
       currentRef.addSource(
         "intermediate_stops",
@@ -73,9 +71,9 @@ const SelectedBusDetails = ({
       // Show bus stop name on hovering on the circle
       currentRef.on("mouseenter", "intermediate_stops", showPopup);
       currentRef.on("mouseleave", "intermediate_stops", hidePopup);
-    }
+    };
 
-    if(currentRef._loaded) {
+    if (currentRef._loaded) {
       addLayerAndEvents();
     } else {
       currentRef?.on("load", addLayerAndEvents);
@@ -92,7 +90,7 @@ const SelectedBusDetails = ({
       // When user opens details of a bus and clicks on search box, the map component is unmounted, and _canvas property is undefined.
       // In such cases getLayer and removeLayer throw error.
       // But when user opens details of a bus and clicks back to all buses, the layer needs to be removed.
-      if(currentRef._canvas) {
+      if (currentRef._canvas) {
         if (currentRef.getLayer("intermediate_stops")) {
           currentRef.removeLayer("intermediate_stops");
         }
