@@ -57,19 +57,29 @@ const SelectedBusDetails = ({
       popup.remove();
     };
 
-    currentRef.addSource(
-      "intermediate_stops",
-      getIntermediateStopsGeoJson(stops),
-    );
-    currentRef.addLayer({
-      id: "intermediate_stops",
-      source: "intermediate_stops",
-      ...MAP_STYLE_INTERMEDIATE_STOP,
-    });
+    console.log(currentRef);
 
-    // Show bus stop name on hovering on the circle
-    currentRef.on("mouseenter", "intermediate_stops", showPopup);
-    currentRef.on("mouseleave", "intermediate_stops", hidePopup);
+    const addLayerAndEvents = () => {
+      currentRef.addSource(
+        "intermediate_stops",
+        getIntermediateStopsGeoJson(stops),
+      );
+      currentRef.addLayer({
+        id: "intermediate_stops",
+        source: "intermediate_stops",
+        ...MAP_STYLE_INTERMEDIATE_STOP,
+      });
+
+      // Show bus stop name on hovering on the circle
+      currentRef.on("mouseenter", "intermediate_stops", showPopup);
+      currentRef.on("mouseleave", "intermediate_stops", hidePopup);
+    }
+
+    if(currentRef._loaded) {
+      addLayerAndEvents();
+    } else {
+      currentRef?.on("load", addLayerAndEvents);
+    }
 
     return () => {
       if (!currentRef) {
