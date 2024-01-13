@@ -796,3 +796,59 @@ h4 {
   padding-left: 34px;
   font-size: 0.7rem;
 }
+
+.btn-stop-all-buses {
+  background-color: #1967D3;
+  color: #ffffff;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin: 10px 0;
+  img {
+    width: 20px;
+  }
+}
+
+#bus-stop-timings-table {
+  font-size: 0.8rem;
+  th {
+    text-align: left;
+    cursor: pointer;
+    padding: 10px 5px;
+    border-bottom: 2px solid #dddddd;
+  }
+  td {
+    padding: 10px 5px;
+    border-bottom: 2px solid #f0f0f0;
+    font-size: 0.7rem;
+  }
+}
+
+.selected-stop-table-header {
+  display: flex;
+  img {
+    margin-left: 5px;
+    transform: rotateX(180deg);
+  }
+  &.reverse {
+    img {
+      transform: rotateX(0deg);
+    }
+  }
+}
+
+#selected-stop-heading {
+  color: inherit;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  img {
+    width: 30px;
+    margin-bottom: -8px;
+  }
+}

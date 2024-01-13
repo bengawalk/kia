@@ -9,6 +9,7 @@ import { getCurrentMsm } from "../utils";
 import { Trans, withTranslation } from "react-i18next";
 import BusesList from "./bus-list";
 import SelectedBusDetails from "./selected-bus-details";
+import SelectedStopDetails from "./selected-stop-details";
 
 const COLLAPSED_HEIGHT = 55;
 const FOOTER_HEIGHT = 90;
@@ -167,6 +168,8 @@ class Sidebar extends React.PureComponent {
       setSelectedTab,
       sortedTabData,
       selectedBus,
+      selectedStop,
+      setSelectedStop,
       highlightedSuggestion,
       setSelectedBus,
       suggestedBus,
@@ -220,16 +223,28 @@ class Sidebar extends React.PureComponent {
           </div>
         </div>
         <div id="sidebar-content" className="padding">
-          {selectedBus ? (
+          {selectedStop && (
+            <SelectedStopDetails
+              key={selectedStop}
+              selectedBus={selectedBus}
+              selectedTab={selectedTab}
+              selectedStop={selectedStop}
+              setSelectedStop={setSelectedStop}
+              mapRef={mapRef}
+            />
+          )}
+          {!selectedStop && selectedBus && (
             <SelectedBusDetails
               setSelectedBus={setSelectedBus}
               selectedBus={selectedBus}
+              setSelectedStop={setSelectedStop}
               currentTime={currentTime}
               selectedTabData={sortedTabData}
               toAirport={selectedTab === "ta"}
               mapRef={mapRef}
             />
-          ) : (
+          )}
+          {!selectedStop && !selectedBus && (
             <BusesList
               highlightedSuggestion={highlightedSuggestion}
               suggestedBusDetails={suggestedBusDetails}

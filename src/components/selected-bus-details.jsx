@@ -17,6 +17,7 @@ import mapboxgl from "mapbox-gl";
 const SelectedBusDetails = ({
   setSelectedBus,
   selectedBus,
+  setSelectedStop,
   currentTime,
   selectedTabData,
   toAirport,
@@ -52,6 +53,13 @@ const SelectedBusDetails = ({
       popup.setLngLat(coordinates).setHTML(description).addTo(mapRef.current);
     };
 
+    const onStopClick = (e) => {
+      const feature = e.features[0];
+
+      const { name } = feature.properties;
+      setSelectedStop(name);
+    };
+
     const hidePopup = () => {
       currentRef.getCanvas().style.cursor = "";
       popup.remove();
@@ -70,6 +78,7 @@ const SelectedBusDetails = ({
 
       // Show bus stop name on hovering on the circle
       currentRef.on("mouseenter", "intermediate_stops", showPopup);
+      mapRef.current.on("click", "intermediate_stops", onStopClick);
       currentRef.on("mouseleave", "intermediate_stops", hidePopup);
     };
 
@@ -84,6 +93,7 @@ const SelectedBusDetails = ({
         return;
       }
       currentRef.off("mouseenter", "intermediate_stops", showPopup);
+      currentRef.off("click", "intermediate_stops", onStopClick);
       currentRef.off("mouseleave", "intermediate_stops", hidePopup);
 
       // TODO: Figure out a better way for if check
@@ -91,6 +101,7 @@ const SelectedBusDetails = ({
       // In such cases getLayer and removeLayer throw error.
       // But when user opens details of a bus and clicks back to all buses, the layer needs to be removed.
       if (currentRef._canvas) {
+        hidePopup();
         if (currentRef.getLayer("intermediate_stops")) {
           currentRef.removeLayer("intermediate_stops");
         }
@@ -137,6 +148,7 @@ const SelectedBusDetails = ({
             name: fromText,
             name_kn: fromText,
           }}
+          setSelectedStop={setSelectedStop}
           totalDistance={totalDistance}
           timingsData={timingsData}
           currentTime={currentTime}
@@ -147,6 +159,7 @@ const SelectedBusDetails = ({
           <BusDetailsStop
             key={s.name}
             stopDetails={s}
+            setSelectedStop={setSelectedStop}
             totalDistance={totalDistance}
             timingsData={timingsData}
             currentTime={currentTime}
@@ -161,6 +174,7 @@ const SelectedBusDetails = ({
             name: toText,
             name_kn: toText,
           }}
+          setSelectedStop={setSelectedStop}
           totalDistance={totalDistance}
           timingsData={timingsData}
           currentTime={currentTime}

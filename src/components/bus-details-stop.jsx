@@ -9,9 +9,11 @@ import IconStopSource from "../assets/icon-stop-source.svg";
 import IconCollapseChevron from "../assets/icon-collapse-chevron.svg";
 
 import IconOpenLink from "../assets/icon-open-link.svg";
+import IconBusStop from "../assets/icon-bus-stop.svg";
 
 import { withTranslation } from "react-i18next";
 import { getHoursAndMinutes, timeTextDisplay } from "../utils";
+import { STOPS_DATA } from "../utils/constants";
 
 const BusDetailsStop = ({
   stopDetails,
@@ -20,6 +22,7 @@ const BusDetailsStop = ({
   currentTime,
   selectedTimeIndex,
   setSelectedTimeIndex,
+  setSelectedStop,
 }) => {
   const isStart = stopDetails.distance === 0;
   const isEnd = stopDetails.distance === totalDistance;
@@ -67,6 +70,15 @@ const BusDetailsStop = ({
       </div>
       {expanded && (
         <div className="sel-bus-stop-expanded-content">
+          {stopDetails.name !== STOPS_DATA.airport.name && (
+            <button
+              className="btn-stop-all-buses"
+              onClick={() => setSelectedStop(stopDetails.name)}
+            >
+              <img src={IconBusStop} alt="" />
+              View all buses through this stop
+            </button>
+          )}
           <a
             className="route-item-location"
             href={`https://www.google.com/maps/search/?api=1&query=${stopDetails.loc[0]},${stopDetails.loc[1]}`}

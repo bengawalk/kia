@@ -1,6 +1,8 @@
 import * as React from "react";
 import mapboxgl from "mapbox-gl";
 import { find as lFind } from "lodash";
+import _ from "lodash";
+import STOPS_MAP from "../utils/stops.json";
 
 import { getRoutesGeojson, getStopsGeoJson } from "../utils";
 import {
@@ -64,11 +66,18 @@ class Map extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { userLocation, inputLocation, selectedBus, selectedTab, mapRef } =
-      this.props;
+    const {
+      userLocation,
+      inputLocation,
+      selectedBus,
+      selectedStop,
+      selectedTab,
+      mapRef,
+    } = this.props;
     const {
       userLocation: prevUserLocation,
       selectedBus: prevSelectedBus,
+      selectedStop: prevSelectedStop,
       selectedTab: prevSelectedTab,
       inputLocation: prevInputLocation,
     } = prevProps;
@@ -110,6 +119,7 @@ class Map extends React.PureComponent {
 
         // this.map.setFilter("highlighted-bus", ["==", "name", selectedBus || ""]);
 
+        // TODO: Remove repetition below
         if (selectedBus && mapRef.current.getLayer("stops")) {
           const busesList = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
           const busDetails = lFind(busesList, { name: selectedBus });
@@ -122,6 +132,46 @@ class Map extends React.PureComponent {
           mapRef.current.setFilter("stops", true);
         }
       });
+    }
+
+    if (selectedStop !== prevSelectedStop) {
+      if (selectedStop && mapRef.current.getLayer("routes")) {
+        const busesList = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
+        const filteredRoutes = _.filter(busesList, (b) => {
+          const stops = [...STOPS_MAP[b.routename].stops, b.start, b.end];
+          return _.some(stops, (s) => s.name === selectedStop);
+        });
+        const filteredStartPoints = _.map(filteredRoutes, (f) => {
+          if (selectedTab === "ta") {
+            return f.start;
+          } else {
+            return f.end;
+          }
+        });
+        mapRef.current.setFilter("routes", [
+          "in",
+          "name",
+          ..._.map(filteredRoutes, "name"),
+        ]);
+        mapRef.current.setFilter("stops", [
+          "in",
+          "name",
+          ..._.map(filteredStartPoints, "name"),
+        ]);
+      } else {
+        mapRef.current.setFilter("routes", true);
+        if (selectedBus && mapRef.current.getLayer("stops")) {
+          const busesList = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
+          const busDetails = lFind(busesList, { name: selectedBus });
+          mapRef.current.setFilter("stops", [
+            "==",
+            "name",
+            selectedTab === "ta" ? busDetails.start.name : busDetails.end.name,
+          ]);
+        } else {
+          mapRef.current.setFilter("stops", true);
+        }
+      }
     }
   }
 
@@ -231,6 +281,14 @@ class Map extends React.PureComponent {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
       popup.setLngLat(coordinates).setHTML(description).addTo(mapRef.current);
+    });
+
+    mapRef.current.on("click", "stops", (e) => {
+      const { setSelectedStop } = this.props;
+      const feature = e.features[0];
+
+      const { name } = feature.properties;
+      setSelectedStop(name);
     });
 
     mapRef.current.on("mouseleave", "stops", () => {
