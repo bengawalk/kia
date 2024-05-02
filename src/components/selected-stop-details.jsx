@@ -38,6 +38,8 @@ const SelectedStopDetails = ({
   const [sortDirection, setSortDirection] = useState(1);
   const [directionSortedData, setDirectionSortedData] = useState([]);
 
+  const uniqueName = `${selectedBus}_${DIRECTION}_selected_stop`;
+
   const onHeaderClick = (selectedSort) => {
     if (sort === selectedSort) {
       setSortDirection(sortDirection * -1);
@@ -55,14 +57,14 @@ const SelectedStopDetails = ({
         _.values(STOPS_DATA),
       );
       currentRef.addSource(
-        "selected_stop",
+        uniqueName,
         getIntermediateStopsGeoJson([
           _.find(ALL_STOPS, { name: selectedStop }),
         ]),
       );
       currentRef.addLayer({
-        id: "selected_stop",
-        source: "selected_stop",
+        id: uniqueName,
+        source: uniqueName,
         ...MAP_STYLE_INTERMEDIATE_STOP,
       });
     };
@@ -83,11 +85,11 @@ const SelectedStopDetails = ({
       // In such cases getLayer and removeLayer throw error.
       // But when user opens details of a bus and clicks back to all buses, the layer needs to be removed.
       if (currentRef._canvas) {
-        if (currentRef.getLayer("selected_stop")) {
-          currentRef.removeLayer("selected_stop");
+        if (currentRef.getLayer(uniqueName)) {
+          currentRef.removeLayer(uniqueName);
         }
-        if (currentRef.getSource("selected_stop")) {
-          currentRef.removeSource("selected_stop");
+        if (currentRef.getSource(uniqueName)) {
+          currentRef.removeSource(uniqueName);
         }
       }
     };

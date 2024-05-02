@@ -33,6 +33,8 @@ const SelectedBusDetails = ({
 
   const fromText = toAirport ? start.name : STOPS_DATA.airport.name;
   const toText = toAirport ? STOPS_DATA.airport.name : end.name;
+  const direction = toAirport ? "up" : "down";
+  const uniqueName = `${selectedBus}_${direction}_intermediate_stops`;
 
   useEffect(() => {
     const currentRef = mapRef.current;
@@ -66,20 +68,17 @@ const SelectedBusDetails = ({
     };
 
     const addLayerAndEvents = () => {
-      currentRef.addSource(
-        "intermediate_stops",
-        getIntermediateStopsGeoJson(stops),
-      );
+      currentRef.addSource(uniqueName, getIntermediateStopsGeoJson(stops));
       currentRef.addLayer({
-        id: "intermediate_stops",
-        source: "intermediate_stops",
+        id: uniqueName,
+        source: uniqueName,
         ...MAP_STYLE_INTERMEDIATE_STOP,
       });
 
       // Show bus stop name on hovering on the circle
-      currentRef.on("mouseenter", "intermediate_stops", showPopup);
-      mapRef.current.on("click", "intermediate_stops", onStopClick);
-      currentRef.on("mouseleave", "intermediate_stops", hidePopup);
+      currentRef.on("mouseenter", uniqueName, showPopup);
+      mapRef.current.on("click", uniqueName, onStopClick);
+      currentRef.on("mouseleave", uniqueName, hidePopup);
     };
 
     if (currentRef._loaded) {
@@ -92,9 +91,9 @@ const SelectedBusDetails = ({
       if (!currentRef) {
         return;
       }
-      currentRef.off("mouseenter", "intermediate_stops", showPopup);
-      currentRef.off("click", "intermediate_stops", onStopClick);
-      currentRef.off("mouseleave", "intermediate_stops", hidePopup);
+      currentRef.off("mouseenter", uniqueName, showPopup);
+      currentRef.off("click", uniqueName, onStopClick);
+      currentRef.off("mouseleave", uniqueName, hidePopup);
 
       // TODO: Figure out a better way for if check
       // When user opens details of a bus and clicks on search box, the map component is unmounted, and _canvas property is undefined.
@@ -102,11 +101,11 @@ const SelectedBusDetails = ({
       // But when user opens details of a bus and clicks back to all buses, the layer needs to be removed.
       if (currentRef._canvas) {
         hidePopup();
-        if (currentRef.getLayer("intermediate_stops")) {
-          currentRef.removeLayer("intermediate_stops");
+        if (currentRef.getLayer(uniqueName)) {
+          currentRef.removeLayer(uniqueName);
         }
-        if (currentRef.getSource("intermediate_stops")) {
-          currentRef.removeSource("intermediate_stops");
+        if (currentRef.getSource(uniqueName)) {
+          currentRef?.removeSource(uniqueName);
         }
       }
     };

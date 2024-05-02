@@ -58,6 +58,12 @@ class Container extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.map && this.map.getSource("route")) {
+      this.map.removeSource("route");
+    }
+  }
+
   initMap = () => {
     const { lng, lat, zoom } = this.state;
     const map = new mapboxgl.Map({
