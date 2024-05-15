@@ -199,11 +199,13 @@ class Map extends React.PureComponent {
   componentWillUnmount() {
     const { mapRef } = this.props;
     if (mapRef.current) {
-      mapRef.current.removeLayer("routes");
-      mapRef.current.removeLayer("routes-highlighted");
-      mapRef.current.removeSource("routes");
-      mapRef.current.removeLayer("stops");
-      mapRef.current.removeSource("stops");
+      if (mapRef.current.getLayer("routes")) {
+        mapRef.current.removeLayer("routes");
+        mapRef.current.removeLayer("routes-highlighted");
+        mapRef.current.removeSource("routes");
+        mapRef.current.removeLayer("stops");
+        mapRef.current.removeSource("stops");
+      }
       mapRef.current.remove();
     }
   }
