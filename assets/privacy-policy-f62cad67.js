@@ -1,4 +1,4 @@
-import{q as s,r as e,o,L as n}from"./index-f0b11c0d.js";import{i as r,S as c}from"./i18n-eb8e0d1e.js";import{M as l}from"./index.modern-eb7c0b0f.js";const a={en:`
+import{q as s,r as e,o,L as n}from"./index-2946b534.js";import{i as r,S as c}from"./i18n-cb9b6408.js";import{M as l}from"./index.modern-ee1e1199.js";const a={en:`
 # Privacy policy
 The purpose of this privacy policy is to be transparent and give an accurate detail of how the website handles the data you provide while using it.
 
@@ -91,4 +91,4 @@ For any clarification and information regarding privacy, please reach out to [de
 ### ಸಂಪರ್ಕಿಸಿ
 ಗೌಪ್ಯತೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಯಾವುದೇ ಸ್ಪಷ್ಟೀಕರಣ ಮತ್ತು ಮಾಹಿತಿಗಾಗಿ, ದಯವಿಟ್ಟು [deep@euclidxr.com](mailto:deep@euclidxr.com) ಅನ್ನು ಸಂಪರ್ಕಿಸಿ
 `},d=()=>{const[t,i]=e.useState(o.getItem("lang")||n[0].code);return e.useEffect(()=>{o.setItem("lang",t),document.documentElement.setAttribute("lang",t),r.changeLanguage(t)},[t]),e.createElement(e.Fragment,null,e.createElement(c,{setLang:i}),e.createElement(l,null,a[t]||a.en))},h=s(document.getElementById("root"));h.render(e.createElement(d,null));
-//# sourceMappingURL=privacy-policy-e83c34dc.js.map
+//# sourceMappingURL=privacy-policy-f62cad67.js.map
