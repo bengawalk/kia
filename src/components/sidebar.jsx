@@ -36,7 +36,6 @@ class Sidebar extends React.PureComponent {
       move: 0,
       currentTime: getCurrentMsm(),
       resized: 0,
-      bodyHeight: null,
     };
     this.mouseTime = 0;
     this.secondInterval = null;

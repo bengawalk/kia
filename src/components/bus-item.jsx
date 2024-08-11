@@ -1,12 +1,10 @@
 import React from "react";
 import IconBus from "../assets/icon-bus";
-import IconOpenLink from "../assets/icon-open-link.svg";
 import { STOPS_DATA } from "../utils/constants";
-import BusItemTime from "./bus-item-time";
-import ALL_BUSES_TIMINGS from "../utils/timings.json";
 
 import { withTranslation, Trans } from "react-i18next";
 import _ from "lodash";
+import { ALL_BUSES_TIMINGS } from "../utils";
 
 const BusItem = ({ busDetails, highlighted, setSelectedBus, toAirport, t }) => {
   const { name, start, end, routename } = busDetails;

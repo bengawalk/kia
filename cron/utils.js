@@ -33,10 +33,10 @@ const getBmtcData = () => {
 const DEFAULT_HEADERS = {
   "Content-Type": "application/json",
   Accept: "application/json, text/plain, */*",
-  "Accept-Language": "en-US,en;q=0.5",
   deviceType: "WEB",
-  Origin: "https://bmtcwebportal.amnex.com",
-  Referer: "https://bmtcwebportal.amnex.com",
+  lan: "en",
+  // Origin: "https://bmtcwebportal.amnex.com",
+  // Referer: "https://bmtcwebportal.amnex.com",
 };
 
 module.exports = {

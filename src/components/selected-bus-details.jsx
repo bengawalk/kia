@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Trans, withTranslation } from "react-i18next";
-import ALL_BUSES_TIMINGS from "../utils/timings.json";
 import ALL_BUSES_STOPS from "../utils/stops.json";
 import _ from "lodash";
 import IconBusSide from "../assets/icon-bus-side-blue.svg";
@@ -11,7 +10,7 @@ import {
 } from "../utils/constants";
 import BusDetailsStop from "./bus-details-stop";
 import IconArrowBack from "../assets/icon-arrow-back";
-import { getIntermediateStopsGeoJson, getRoutesGeojson } from "../utils";
+import { ALL_BUSES_TIMINGS, getIntermediateStopsGeoJson } from "../utils";
 import mapboxgl from "mapbox-gl";
 
 const SelectedBusDetails = ({

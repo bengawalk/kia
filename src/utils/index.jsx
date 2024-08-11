@@ -1,10 +1,24 @@
 import polyline from "google-polyline";
 import _ from "lodash";
-import ALL_BUSES_TIMINGS from "./timings.json";
+import BUS_TIMINGS_RAW from "./timings.tsv?raw";
 
 import { getDistance } from "geolib";
 import { STOPS_DATA } from "./constants";
 import appStorage from "./storage";
+
+export const readTSV = (csvString) => {
+  const [headersText, ...dataLines] = _.split(csvString, "\r\n");
+  const headers = _.split(headersText, "\t");
+  return _.map(dataLines, line => {
+    const splitLine = _.split(line, "\t");
+    const data = {};
+    _.each(headers, (h, index) => {
+      const cellData = splitLine[index];
+      data[h] = cellData;
+    });
+    return data;
+  });
+}
 
 export const stopPropagation = (e) => {
   e.stopPropagation();
@@ -21,6 +35,12 @@ export const getHoursAndMinutes = (minutesSinceMidnight) => {
 
 export const timeTextDisplay = (number) =>
   number < 10 ? `0${number}` : number;
+
+export const textToMinutes = (text) => {
+  const [hours, minutes] = text.split(":");
+  return _.toNumber(hours) * 60 + _.toNumber(minutes);
+};
+
 
 export const getSuggestedBus = (buses, targetLocation) => {
   // Get the most optimum bus to take to reach the airport
@@ -169,3 +189,17 @@ export const getCurrentMsm = () =>
 // console.log(encodeURIComponent(
 //   polyline.encode(JSON.parse(backendResponse).data.map(b => ([_.toNumber(b.longitude), _.toNumber(b.latitude)])))
 // ));
+
+const ALL_BUSES_TIMINGS = {};
+_.each(
+  readTSV(BUS_TIMINGS_RAW),
+  ({ route_no, time, duration }) => {
+    const durationMinutes = textToMinutes(duration);
+      ALL_BUSES_TIMINGS[route_no] = _.map(_.split(time, " "), t => ({
+        start: textToMinutes(t),
+        duration: durationMinutes,
+      }));
+  }
+);
+
+export { ALL_BUSES_TIMINGS };
