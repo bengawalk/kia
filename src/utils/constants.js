@@ -1,3 +1,6 @@
+// import _ from "lodash";
+// import polyline from "google-polyline";
+
 export const TABS = [
   {
     text: "To airport",
@@ -571,6 +574,41 @@ export const BUS_DATA = {
     },
   ],
 };
+
+// const busRoutesPoints = _.map(BUS_DATA.from, ({ routename, route }) => ({
+//   routename,
+//   geojson: { "type": "FeatureCollection",
+//     "features": [
+//           { "type": "Feature",
+//               "geometry": {
+//                   "type": "LineString",
+//                   "coordinates": polyline.decode(decodeURIComponent(route)),
+//               },
+//           },
+//       ],
+//   },
+// }));
+
+// const downloadGeojson = (data, name) => {
+//   const geoJsonString = JSON.stringify(data, null, 2);
+
+//   const blob = new Blob([geoJsonString], {});
+//   const linkElement = document.createElement('a');
+
+//   const url = window.URL.createObjectURL(blob);
+//   linkElement.href = url;
+//   linkElement.download = `${name}.geojson`;
+//   linkElement.click();
+
+//   URL.revokeObjectURL(url);
+// }
+
+// // console.log(busRoutesPoints);
+
+// busRoutesPoints.forEach(bus => {
+//   downloadGeojson(bus.geojson, bus.routename);
+// });
+
 
 const COLOR_HIGHLIGHT = "#4264fb";
 const COLOR_MUTED = "#aaaaaa";

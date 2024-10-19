@@ -37,6 +37,10 @@ const SelectedBusDetails = ({
 
   useEffect(() => {
     const currentRef = mapRef.current;
+    if(!currentRef) {
+      return;
+    }
+
     const popup = new mapboxgl.Popup({
       closeButton: false,
       closeOnClick: false,

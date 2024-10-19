@@ -50,6 +50,9 @@ const SelectedStopDetails = ({
 
   useEffect(() => {
     const currentRef = mapRef.current;
+    if(!currentRef) {
+      return;
+    }
 
     const addLayerAndEvents = () => {
       const ALL_STOPS = _.union(
