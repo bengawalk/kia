@@ -54,6 +54,14 @@ const SelectedStopDetails = ({
       return;
     }
 
+    const callFnIfMapLoaded = (fn) => {
+      if (mapRef.current._loaded) {
+        fn();
+      } else {
+        mapRef.current.on("load", fn);
+      }
+    };
+
     const addLayerAndEvents = () => {
       const ALL_STOPS = _.union(
         ..._.values(_.mapValues(BUS_STOPS_MAP, "stops")),
@@ -72,11 +80,7 @@ const SelectedStopDetails = ({
       });
     };
 
-    if (currentRef._loaded) {
-      addLayerAndEvents();
-    } else {
-      currentRef?.on("load", addLayerAndEvents);
-    }
+    callFnIfMapLoaded(addLayerAndEvents);
 
     return () => {
       if (!currentRef) {

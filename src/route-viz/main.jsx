@@ -59,6 +59,9 @@ class Container extends React.Component {
   }
 
   componentWillUnmount() {
+    if (this.map && this.map.getLayer("route")) {
+      this.map.removeLayer("route");
+    }
     if (this.map && this.map.getSource("route")) {
       this.map.removeSource("route");
     }

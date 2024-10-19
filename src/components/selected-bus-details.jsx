@@ -70,6 +70,14 @@ const SelectedBusDetails = ({
       popup.remove();
     };
 
+    const callFnIfMapLoaded = (fn) => {
+      if (mapRef.current._loaded) {
+        fn();
+      } else {
+        mapRef.current.on("load", fn);
+      }
+    };
+
     const addLayerAndEvents = () => {
       currentRef.addSource(uniqueName, getIntermediateStopsGeoJson(stops));
       currentRef.addLayer({
@@ -84,11 +92,7 @@ const SelectedBusDetails = ({
       currentRef.on("mouseleave", uniqueName, hidePopup);
     };
 
-    if (currentRef._loaded) {
-      addLayerAndEvents();
-    } else {
-      currentRef?.on("load", addLayerAndEvents);
-    }
+    callFnIfMapLoaded(addLayerAndEvents);
 
     return () => {
       if (!currentRef) {

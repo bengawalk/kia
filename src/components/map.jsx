@@ -220,30 +220,32 @@ class Map extends React.PureComponent {
       mapRef,
     } = this.props;
 
-    mapRef.current.addSource("routes", getRoutesGeojson(busData));
-    mapRef.current.addLayer({
-      id: "routes",
-      source: "routes",
-      ...MAP_STYLE_ROUTE,
+    this.callFnIfMapLoaded(() => {
+      mapRef.current.addSource("routes", getRoutesGeojson(busData));
+      mapRef.current.addLayer({
+        id: "routes",
+        source: "routes",
+        ...MAP_STYLE_ROUTE,
+      });
+
+      mapRef.current.addLayer({
+        id: "routes-highlighted",
+        source: "routes",
+        ...MAP_STYLE_HIGHLIGHTED_ROUTE,
+        filter: ["==", "name", selectedBus || ""],
+      });
+
+      mapRef.current.addSource("stops", getStopsGeoJson(busData, selectedTab));
+
+      mapRef.current.addLayer({
+        id: "stops",
+        source: "stops",
+        ...MAP_STYLE_STOP,
+        filter: true,
+      });
+
+      this.initLocationMarkers();
     });
-
-    mapRef.current.addLayer({
-      id: "routes-highlighted",
-      source: "routes",
-      ...MAP_STYLE_HIGHLIGHTED_ROUTE,
-      filter: ["==", "name", selectedBus || ""],
-    });
-
-    mapRef.current.addSource("stops", getStopsGeoJson(busData, selectedTab));
-
-    mapRef.current.addLayer({
-      id: "stops",
-      source: "stops",
-      ...MAP_STYLE_STOP,
-      filter: true,
-    });
-
-    this.initLocationMarkers();
 
     if (userLocation) {
       this.userLocationMarker.setLngLat(userLocation);
