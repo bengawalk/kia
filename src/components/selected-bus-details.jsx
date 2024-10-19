@@ -23,17 +23,7 @@ const SelectedBusDetails = ({
   t,
   mapRef,
 }) => {
-  const busDetails = _.find(selectedTabData, { name: selectedBus });
   const [selectedTimeIndex, setSelectedTimeIndex] = useState(null);
-
-  const { name, start, end, routename } = busDetails;
-  const timingsData = ALL_BUSES_TIMINGS[routename];
-  const { stops, totalDistance } = ALL_BUSES_STOPS[routename];
-
-  const fromText = toAirport ? start.name : STOPS_DATA.airport.name;
-  const toText = toAirport ? STOPS_DATA.airport.name : end.name;
-  const direction = toAirport ? "up" : "down";
-  const uniqueName = `${selectedBus}_${direction}_intermediate_stops`;
 
   useEffect(() => {
     const currentRef = mapRef.current;
@@ -117,6 +107,28 @@ const SelectedBusDetails = ({
       }
     };
   }, [mapRef.current]);
+
+  useEffect(() => {
+    if(!_.find(selectedTabData, { name: selectedBus })) {
+      setSelectedBus(null);
+    }
+  }, [selectedTabData, selectedBus]);
+
+  const busDetails = _.find(selectedTabData, { name: selectedBus });
+  if(!busDetails) {
+    return null;
+  }
+
+  const { name, start, end, routename } = busDetails;
+  const timingsData = ALL_BUSES_TIMINGS[routename];
+  const { stops, totalDistance } = ALL_BUSES_STOPS[routename];
+
+  const fromText = toAirport ? start.name : STOPS_DATA.airport.name;
+  const toText = toAirport ? STOPS_DATA.airport.name : end.name;
+  const direction = toAirport ? "up" : "down";
+  const uniqueName = `${selectedBus}_${direction}_intermediate_stops`;
+
+
 
   return (
     <>
