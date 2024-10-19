@@ -2,6 +2,8 @@ import polyline from "google-polyline";
 import _ from "lodash";
 import BUS_TIMINGS_RAW from "./timings.tsv?raw";
 
+import allBusesRouteLines from "./routelines.json";
+
 import { getDistance } from "geolib";
 import { STOPS_DATA } from "./constants";
 import appStorage from "./storage";
@@ -41,7 +43,6 @@ export const textToMinutes = (text) => {
   return _.toNumber(hours) * 60 + _.toNumber(minutes);
 };
 
-
 export const getSuggestedBus = (buses, targetLocation) => {
   // Get the most optimum bus to take to reach the airport
   // At present this is the combination of the closest routes to the location
@@ -62,7 +63,7 @@ export const getSuggestedBus = (buses, targetLocation) => {
   const busParameters = _.map(buses, (b) => {
     const pointToCompare =
       buses[0].start === STOPS_DATA.airport ? "end" : "start";
-    const routePoints = polyline.decode(decodeURIComponent(b.route));
+    const routePoints = polyline.decode(decodeURIComponent(allBusesRouteLines[b.routename]));
     const nearestPoint = _.minBy(routePoints, (r) =>
       distanceToTarget(r[1], r[0]),
     );
@@ -129,7 +130,7 @@ export const getRoutesGeojson = (busData) => {
         },
         geometry: {
           type: "LineString",
-          coordinates: polyline.decode(decodeURIComponent(b.route)),
+          coordinates: polyline.decode(decodeURIComponent(allBusesRouteLines[b.routename])),
         },
       })),
     },
@@ -183,12 +184,6 @@ export const getIntermediateStopsGeoJson = (listOfStops) => {
 
 export const getCurrentMsm = () =>
   Math.floor((new Date() - new Date().setHours(0, 0, 0, 0)) / 60000);
-
-// To add a new route from the Backend API response for /RoutePoints
-// const backendResponse = "";
-// console.log(encodeURIComponent(
-//   polyline.encode(JSON.parse(backendResponse).data.map(b => ([_.toNumber(b.longitude), _.toNumber(b.latitude)])))
-// ));
 
 const ALL_BUSES_TIMINGS = {};
 _.each(
