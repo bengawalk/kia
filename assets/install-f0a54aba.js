@@ -1,4 +1,4 @@
-import{q as p,r as e,o as s,L as m}from"./index-4d079531.js";import{i as g,S as h}from"./i18n-498b6688.js";import{M as w}from"./index.modern-0bbb62a0.js";const a="/assets/install_android_1-1df71918.webp",n="/assets/install_android_2-db96f1b0.webp",i="/assets/install_ios_1-f83f7c7f.webp",o="/assets/install_ios_2-96a7ec7f.webp",r="/assets/install_ios_3-f47ff182.webp",l="/assets/install_desktop-e368c155.webp",c={en:`
+import{q as p,r as e,o as s,L as m}from"./index-009876ad.js";import{i as g,S as h}from"./i18n-715f841a.js";import{M as w}from"./index.modern-46a3cdc6.js";const a="/assets/install_android_1-1df71918.webp",n="/assets/install_android_2-db96f1b0.webp",i="/assets/install_ios_1-f83f7c7f.webp",o="/assets/install_ios_2-96a7ec7f.webp",r="/assets/install_ios_3-f47ff182.webp",l="/assets/install_desktop-e368c155.webp",c={en:`
 # Install app
 The application is a [Progressive Web App(PWA)](https://en.wikipedia.org/wiki/Progressive_web_app) and hence, can be installed and used on any mobile/desktop device.  
 On installation, it behaves like a native app accessible from the Home screen launcher. This gives a faster, and more convenient experience while always staying up-to-date.
@@ -51,4 +51,4 @@ On installation, it behaves like a native app accessible from the Home screen la
 
 <img src="${l}" alt="" width="750px" />
 `},b=()=>{const[t,d]=e.useState(s.getItem("lang")||m[0].code);return e.useEffect(()=>{s.setItem("lang",t),document.documentElement.setAttribute("lang",t),g.changeLanguage(t)},[t]),e.createElement(e.Fragment,null,e.createElement(h,{setLang:d}),e.createElement(w,null,c[t]||c.en))},f=p(document.getElementById("root"));f.render(e.createElement(b,null));
-//# sourceMappingURL=install-dd79df52.js.map
+//# sourceMappingURL=install-f0a54aba.js.map
