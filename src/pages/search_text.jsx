@@ -39,9 +39,9 @@ const SearchText = ({
     clearSuggestions,
   } = usePlacesAutocomplete({
     requestOptions: {
-      locationBias: new window.google.maps.LatLngBounds(
-        new window.google.maps.LatLng(12.789201188889859, 77.39869888194104), // South west point. Somewhere near Bidadi
-        new window.google.maps.LatLng(13.230422232290332, 77.78540557324757), // North east point. Above hoskote and airport
+      locationBias: new google.maps.LatLngBounds(
+        new google.maps.LatLng(12.789201188889859, 77.39869888194104), // South west point. Somewhere near Bidadi
+        new google.maps.LatLng(13.230422232290332, 77.78540557324757), // North east point. Above hoskote and airport
       ),
       componentRestrictions: {
         country: "in",

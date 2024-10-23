@@ -3,7 +3,7 @@ import { sortBy as lSortBy, map as lMap } from "lodash";
 import { createRoot } from "react-dom/client";
 import { useEffect, useRef, useState } from "react";
 import getDistance from "geolib/es/getDistance";
-import loadGoogleMapsApi from "load-google-maps-api";
+import { Loader as GoogleMapsLoader } from "@googlemaps/js-api-loader";
 import i18n from "i18next";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
@@ -96,12 +96,15 @@ const Container = () => {
   const loadGoogleMapsScript = async () => {
     setGoogleScriptStatus(API_CALL_STATUSES.LOADING);
     try {
-      await loadGoogleMapsApi({
-        key: GOOGLE_API_KEY,
-        libraries: ["places"],
+      const loader = new GoogleMapsLoader({
+        apiKey: GOOGLE_API_KEY,
+        version: 'weekly',
+        libraries: ['places'],
       });
+      await loader.load();
       setGoogleScriptStatus(API_CALL_STATUSES.SUCCESS);
     } catch (e) {
+      console.log(e);
       setGoogleScriptStatus(API_CALL_STATUSES.ERROR);
     }
   };
@@ -163,9 +166,9 @@ const Container = () => {
       // This happens if the user selects a lat,lng on the map and adjusts it farther from previously input text or
       // if the user cleared local storage
       const geocodeInput = async () => {
-        const geocoder = new google.maps.Geocoder();
-        geocoder
-          .geocode({ location: inputLocation })
+        const { Geocoder } = await google.maps.importLibrary("geocoding");
+        const geocoder = new Geocoder();
+        geocoder.geocode({ location: inputLocation })
           .then(({ results }) => {
             const { formatted_address, place_id } = results[0] || {};
             saveLocationMetadata(place_id, formatted_address, [

@@ -17,6 +17,7 @@
     "node": "20.10.0"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.8",
     "@sentry/react": "^7.29.0",
     "@sentry/tracing": "^7.29.0",
     "axios": "^1.6.2",
@@ -28,9 +29,8 @@
     "gh-pages": "^6.0.0",
     "google-polyline": "^1.0.3",
     "i18next": "^23.5.1",
-    "load-google-maps-api": "^2.0.2",
     "lodash": "^4.17.21",
-    "mapbox-gl": "^2.10.0",
+    "mapbox-gl": "^3.7.0",
     "markdown-to-jsx": "^7.3.2",
     "qs": "^6.11.0",
     "react": "^18.2.0",
