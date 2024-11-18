@@ -175,6 +175,8 @@ class Sidebar extends React.PureComponent {
       suggestedBusDetails,
       t,
       mapRef,
+      liveBusData,
+      setLiveBusData,
     } = this.props;
     const { currentTime, move } = this.state;
     return (
@@ -230,6 +232,8 @@ class Sidebar extends React.PureComponent {
               selectedStop={selectedStop}
               setSelectedStop={setSelectedStop}
               mapRef={mapRef}
+              liveBusData={liveBusData}
+              setLiveBusData={setLiveBusData}
             />
           )}
           {!selectedStop && selectedBus && (
@@ -241,6 +245,8 @@ class Sidebar extends React.PureComponent {
               selectedTabData={sortedTabData}
               toAirport={selectedTab === "ta"}
               mapRef={mapRef}
+              liveBusData={liveBusData}
+              setLiveBusData={setLiveBusData}
             />
           )}
           {!selectedStop && !selectedBus && (

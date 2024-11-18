@@ -137,6 +137,41 @@ export const getRoutesGeojson = (busData) => {
   };
 };
 
+export const getVehiclesGeoJson = (liveBusData) => {
+  const points = [];
+  if(liveBusData){
+    // console.log(liveBusData);
+    for(var info of Object.values(liveBusData)){
+      // console.log("OBJECT VALUES");
+      // console.log(info);
+      for(var li of Object.values(info)){
+        // console.log("LI VALUES");
+        // console.log(li);
+        points.push(...li);
+      }
+    }
+  }
+  return {
+    type: "geojson",
+    data: {
+      type: "FeatureCollection",
+      features: points.map((l) => ({
+        type: "Feature",
+        properties: {
+          name: l.regno,
+          refresh: l.refresh,
+          routename: l.routeno,
+          passed: l.lastKnownStop
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [l.long, l.lat]
+        }
+      }))
+    }
+  }
+}
+
 export const getStopsGeoJson = (busData, selectedTab) => {
   const filteredBusData = _.filter(
     busData,

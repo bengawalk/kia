@@ -4,12 +4,13 @@ import { find as lFind } from "lodash";
 import _ from "lodash";
 import STOPS_MAP from "../utils/stops.json";
 
-import { getRoutesGeojson, getStopsGeoJson } from "../utils";
+import { getRoutesGeojson, getStopsGeoJson, getVehiclesGeoJson } from "../utils";
 import {
   BUS_DATA,
   MAP_STYLE_HIGHLIGHTED_ROUTE,
   MAP_STYLE_ROUTE,
   MAP_STYLE_STOP,
+  MAP_STYLE_VEHICLE,
   MAPBOX_TOKEN,
   STOPS_DATA,
 } from "../utils/constants";
@@ -205,6 +206,8 @@ class Map extends React.PureComponent {
         mapRef.current.removeSource("routes");
         mapRef.current.removeLayer("stops");
         mapRef.current.removeSource("stops");
+        mapRef.current.removeLayer("vehicles");
+        mapRef.current.removeSource("vehicles");
       }
       mapRef.current.remove();
     }
@@ -218,6 +221,7 @@ class Map extends React.PureComponent {
       userLocation,
       inputLocation,
       mapRef,
+      liveBusData
     } = this.props;
 
     this.callFnIfMapLoaded(() => {
@@ -243,6 +247,14 @@ class Map extends React.PureComponent {
         ...MAP_STYLE_STOP,
         filter: true,
       });
+      
+      mapRef.current.addSource("vehicles", getVehiclesGeoJson(liveBusData));
+
+      mapRef.current.addLayer({
+        id: "vehicles",
+        source: "vehicles",
+        ...MAP_STYLE_VEHICLE,
+      })
 
       this.initLocationMarkers();
     });
@@ -339,15 +351,32 @@ class Map extends React.PureComponent {
         selectedBus || "",
       ]);
     });
+    // Show bus regno and details on hovering on the bus circle
+    mapRef.current.on("mouseenter", "vehicles", (e) => {
+
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const description = `<h2>${e.features[0].properties.name}</h2><h3>${e.features[0].properties.routename}</h3><h3>${e.features[0].properties.passed}</h3><h3>Last Updated: ${e.features[0].properties.refresh}</h3>`;
+
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+      popup.setLngLat(coordinates).setHTML(description).addTo(mapRef.current);
+    });
+
+    mapRef.current.on("mouseleave", "vehicles", () => {
+      popup.remove();
+    });
   };
 
   refreshMapData = () => {
-    const { busData, selectedTab, mapRef } = this.props;
+    const { busData, selectedTab, mapRef, liveBusData, } = this.props;
 
     const routeSource = mapRef.current.getSource("routes");
     const stopsSource = mapRef.current.getSource("stops");
+    const vehiclesSource = mapRef.current.getSource("vehicles");
     routeSource.setData(getRoutesGeojson(busData).data);
     stopsSource.setData(getStopsGeoJson(busData, selectedTab).data);
+    vehiclesSource.setData(getVehiclesGeoJson(liveBusData).data);
   };
 
   render() {

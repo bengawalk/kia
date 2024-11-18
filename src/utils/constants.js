@@ -27,6 +27,9 @@ export const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 export const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 export const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 
+export const BMTC_API_ENDPOINT = import.meta.env.VITE_BMTC_API_ENDPOINT;
+export const CORS_ANYWHERE = import.meta.env.VITE_CORS_ANYWHERE;
+
 export const HELPLINE_NUMBER = "77609 91269";
 
 export const APP_SCREENS = {
@@ -501,6 +504,16 @@ export const BUS_DATA = {
 
 const COLOR_HIGHLIGHT = "#4264fb";
 const COLOR_MUTED = "#aaaaaa";
+
+export const MAP_STYLE_VEHICLE = {
+  type: "circle",
+  paint: {
+    "circle-color": COLOR_MUTED,
+    "circle-radius": 5,
+    "circle-stroke-width": 3,
+    "circle-stroke-color": COLOR_HIGHLIGHT,
+  },
+};
 
 export const MAP_STYLE_STOP = {
   type: "circle",

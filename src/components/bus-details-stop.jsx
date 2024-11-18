@@ -14,6 +14,7 @@ import IconBusStop from "../assets/icon-bus-stop.svg";
 import { withTranslation } from "react-i18next";
 import { getHoursAndMinutes, timeTextDisplay } from "../utils";
 import { STOPS_DATA } from "../utils/constants";
+import BusItemLive from "./bus-item-live";
 
 const BusDetailsStop = ({
   stopDetails,
@@ -23,6 +24,9 @@ const BusDetailsStop = ({
   selectedTimeIndex,
   setSelectedTimeIndex,
   setSelectedStop,
+  busData,
+  mapRef,
+  refresh
 }) => {
   const isStart = stopDetails.distance === 0;
   const isEnd = stopDetails.distance === totalDistance;
@@ -99,6 +103,14 @@ const BusDetailsStop = ({
           ))}
         </div>
       )}
+      {busData && busData.map((b) => (
+          <BusItemLive
+          key={b.regno}
+          liveBusDetails={b}
+          mapRef={mapRef}
+          refreshFunction={refresh}
+          />
+      ))}
     </div>
   );
 };

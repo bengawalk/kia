@@ -25,6 +25,7 @@ const InitialScreen = ({
   const [selectedBus, setSelectedBus] = useState(null);
   const [selectedStop, setSelectedStop] = useState(null);
   const [highlightedSuggestion, setHighlightedSuggestion] = useState(null);
+  const [liveBusData, setLiveBusData] = useState(null)
   const selectedTabData = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
 
   const suggestedBus = getSuggestedBus(selectedTabData, inputLocation);
@@ -51,6 +52,8 @@ const InitialScreen = ({
         suggestedBus={suggestedBus}
         sortedTabData={selectedTabData}
         bodyHeight={bodyHeight}
+        liveBusData={liveBusData}
+        setLiveBusData={setLiveBusData}
       />
       <Map
         mapRef={mapRef}
@@ -62,6 +65,7 @@ const InitialScreen = ({
         selectedStop={selectedStop}
         setSelectedStop={setSelectedStop}
         selectedTab={selectedTab}
+        liveBusData={liveBusData}
       />
       <MapLocationInput
         googleScriptStatus={googleScriptStatus}
