@@ -30,19 +30,135 @@ const SelectedBusDetails = ({
   setLiveBusData
 }) => {
   const [selectedTimeIndex, setSelectedTimeIndex] = useState(null);
+  const updateBusData = (newData) => {
+    const currentRef = mapRef.current;
+    if(currentRef){
+      currentRef.getSource("vehicles").setData(getVehiclesGeoJson(newData, toAirport).data);
+    }
+    setLiveBusData(newData);
+
+  } 
+  const constructBusData = async (data) => {
+    const stop_names = ALL_BUSES_STOPS[routename].stops.map(item => item.name); // We need to add kannada names properly here, then we can map kannada names provided by api as well
+    const stop_names_kn = ALL_BUSES_STOPS[routename].stops.map(item => item.name_kn); 
+    // Modify data to remove unnecessary info and put only bus data in state
+    const newData = {};
+    if(data.up.data.length > 0){
+      const suffix = "UP";
+      const vehicles = {}; // Vehicle ID: Last Stop, Current Stop, Last Known Stop (Known as in matched with local data), Lat and Long, Reg Number
+      for(var stopData of data.up.data){
+        const currStop = stopData.stationname;
+        const currStopId = stopData.stationid;
+        if(stopData.vehicleDetails.length > 0){
+          var stopCoveredAll = 1;
+          for(var vehicleData of stopData.vehicleDetails){
+            if(!vehicles[vehicleData.vehicleid]){
+              vehicles[vehicleData.vehicleid] = {
+                regno: vehicleData.vehiclenumber,
+                lat: vehicleData.centerlat,
+                long: vehicleData.centerlong,
+                refresh: vehicleData.lastrefreshon,
+                currentStop: currStop,
+                lastStop: stopData.from,
+                lastKnownStop: stop_names.includes(stopData.from) ? stopData.from : null,
+                stopCovered: vehicleData.stopCoveredStatus,
+                stopCoveredOriginal: vehicleData.stopCoveredStatus, // Save original as well for bad data
+                routeno: `${stopData.routeno} ${suffix}`,
+                direction: suffix,
+                currentStopLocationId: vehicleData.currentlocationid
+              };
+            }
+            if(vehicles[vehicleData.vehicleid].stopCovered === 1 || vehicles[vehicleData.vehicleid].stopCoveredOriginal === 0){
+              stopCoveredAll = 0;
+              if(stop_names.includes(vehicles[vehicleData.vehicleid].currentStop)){
+                vehicles[vehicleData.vehicleid].lastKnownStop = vehicles[vehicleData.vehicleid].currentStop;
+              }
+              vehicles[vehicleData.vehicleid].lastStop = vehicles[vehicleData.vehicleid].currentStop;
+              vehicles[vehicleData.vehicleid].currentStop = currStop;
+              vehicles[vehicleData.vehicleid].stopCovered = vehicleData.stopCoveredStatus;
+              if(vehicles[vehicleData.vehicleid].currentStopLocationId == currStopId) {
+                vehicles[vehicleData.vehicleid].stopCoveredOriginal = 1;
+              }
+            }
+          }
+          if(stopCoveredAll === 1){
+            break;
+          }
+        }
+      }
+      newData[`${name} ${suffix}`] = {} // Instantiate our direction obj
+      for(var vehicle of Object.values(vehicles)){
+        if(!newData[`${name} ${suffix}`][vehicle.lastKnownStop]){
+          newData[`${name} ${suffix}`][vehicle.lastKnownStop] = []
+        }
+        newData[`${name} ${suffix}`][vehicle.lastKnownStop].push(vehicle)
+      }
+    }
+    if(data.down.data.length > 0){
+      const suffix = "DOWN";
+      const vehicles = {}; // Vehicle ID: Last Stop, Current Stop, Last Known Stop (Known as in matched with local data), Lat and Long, Reg Number
+      for(var stopData of data.down.data){
+        const currStop = stopData.stationname;
+        const currStopId = stopData.stationid;
+        if(stopData.vehicleDetails.length > 0){
+          stopCoveredAll = 1;
+          for(var vehicleData of stopData.vehicleDetails){
+            if(!vehicles[vehicleData.vehicleid]){
+              vehicles[vehicleData.vehicleid] = {
+                regno: vehicleData.vehiclenumber,
+                lat: vehicleData.centerlat,
+                long: vehicleData.centerlong,
+                refresh: vehicleData.lastrefreshon,
+                currentStop: currStop,
+                lastStop: stopData.from,
+                lastKnownStop: stop_names.includes(stopData.from) ? stopData.from : null,
+                stopCovered: vehicleData.stopCoveredStatus,
+                stopCoveredOriginal: vehicleData.stopCoveredStatus, // Save original as well for bad data
+                routeno: `${stopData.routeno} ${suffix}`,
+                direction: suffix,
+                currentStopLocationId: vehicleData.currentlocationid
+              };
+            }
+            if(vehicles[vehicleData.vehicleid].stopCovered === 1 || vehicles[vehicleData.vehicleid].stopCoveredOriginal === 0){
+              stopCoveredAll = 0;
+              if(stop_names.includes(vehicles[vehicleData.vehicleid].currentStop)){
+                vehicles[vehicleData.vehicleid].lastKnownStop = vehicles[vehicleData.vehicleid].currentStop;
+              }
+              vehicles[vehicleData.vehicleid].lastStop = vehicles[vehicleData.vehicleid].currentStop;
+              vehicles[vehicleData.vehicleid].currentStop = currStop;
+              vehicles[vehicleData.vehicleid].stopCovered = vehicleData.stopCoveredStatus;
+              if(vehicles[vehicleData.vehicleid].currentStopLocationId == currStopId) {
+                vehicles[vehicleData.vehicleid].stopCoveredOriginal = 1;
+              }
+            }
+          }
+          if(stopCoveredAll === 1){
+            break;
+          }
+        }
+      }
+      newData[`${name} ${suffix}`] = {} // Instantiate our direction obj
+      for(var vehicle of Object.values(vehicles)){
+        if(!newData[`${name} ${suffix}`][vehicle.lastKnownStop]){
+          newData[`${name} ${suffix}`][vehicle.lastKnownStop] = [];
+        }
+        newData[`${name} ${suffix}`][vehicle.lastKnownStop].push(vehicle);
+      }
+    }
+    newData.pollDate = Date.now();
+    updateBusData(newData);
+  }
   const fetchBusData = async () => {
     if(liveBusData){ // We dont want to poll too frequently
-      if((liveBusData.pollDate - Date.now()) < 20000){ // 20 second timer
+      if(liveBusData.pollDate && (liveBusData.pollDate - Date.now()) < 20000){ // 20 second timer
         console.warn("Live data poll request too frequent!");
         return;
       }
     }
-    const stop_names = ALL_BUSES_STOPS[routename].stops.map(item => item.name); // We need to add kannada names properly here, then we can map kannada names provided by api as well
-    const stop_names_kn = ALL_BUSES_STOPS[routename].stops.map(item => item.name_kn); 
 
     try {
       // This will be in backend if we get backend up and running
-      const response = await fetch(`${CORS_ANYWHERE}/${BMTC_API_ENDPOINT}/SearchByRouteDetails_v4`, { // cors bypass, make sure cors bypass is in index.html as well under default-src
+      const response = await fetch(`${CORS_ANYWHERE}${BMTC_API_ENDPOINT}/SearchByRouteDetails_v4`, { // cors bypass, make sure cors bypass is in index.html as well under default-src
         method: 'POST', // Specify the HTTP method as POST
         headers: {
           'Content-Type': 'application/json', // Set the headers required
@@ -55,104 +171,7 @@ const SelectedBusDetails = ({
         }), // Convert the JavaScript object to a JSON string
       });
       const data = await response.json();
-      // Modify data to remove unnecessary info and put only bus data in state
-      const newData = {};
-      if(data.up.data.length > 0){
-        const suffix = ' UP';
-        const vehicles = {}; // Vehicle ID: Last Stop, Current Stop, Last Known Stop (Known as in matched with local data), Lat and Long, Reg Number
-        for(var stopData of data.up.data){
-          const currStop = stopData.stationname;
-          if(stopData.vehicleDetails.length > 0){
-            var stopCoveredAll = 1;
-            for(var vehicleData of stopData.vehicleDetails){
-              if(!vehicles[vehicleData.vehicleid]){
-                vehicles[vehicleData.vehicleid] = {
-                  regno: vehicleData.vehiclenumber,
-                  lat: vehicleData.centerlat,
-                  long: vehicleData.centerlong,
-                  refresh: vehicleData.lastrefreshon,
-                  currentStop: currStop,
-                  lastStop: stopData.from,
-                  lastKnownStop: stop_names.includes(stopData.from) ? stopData.from : null,
-                  stopCovered: vehicleData.stopCoveredStatus,
-                  routeno: `${stopData.routeno} ${STOPS_DATA.airport.name == stopData.from ? 'from' : 'to'} ${STOPS_DATA.airport.name}`
-                };
-              }
-              if(vehicles[vehicleData.vehicleid].stopCovered === 1){
-                stopCoveredAll = 0;
-                if(stop_names.includes(vehicles[vehicleData.vehicleid].currentStop)){
-                  vehicles[vehicleData.vehicleid].lastKnownStop = vehicles[vehicleData.vehicleid].currentStop;
-                }
-                vehicles[vehicleData.vehicleid].lastStop = vehicles[vehicleData.vehicleid].currentStop;
-                vehicles[vehicleData.vehicleid].currentStop = currStop;
-                vehicles[vehicleData.vehicleid].stopCovered = vehicleData.stopCoveredStatus;
-              }
-            }
-            if(stopCoveredAll === 1){
-              break;
-            }
-          }
-        }
-        newData[`${name}${suffix}`] = {} // Instantiate our direction obj
-        for(var vehicle of Object.values(vehicles)){
-          if(!newData[`${name}${suffix}`][vehicle.lastKnownStop]){
-            newData[`${name}${suffix}`][vehicle.lastKnownStop] = []
-          }
-          newData[`${name}${suffix}`][vehicle.lastKnownStop].push(vehicle)
-        }
-      }
-      if(data.down.data.length > 0){
-        const suffix = ' DOWN';
-        const vehicles = {}; // Vehicle ID: Last Stop, Current Stop, Last Known Stop (Known as in matched with local data), Lat and Long, Reg Number
-        for(var stopData of data.down.data){
-          const currStop = stopData.stationname;
-          if(stopData.vehicleDetails.length > 0){
-            stopCoveredAll = 1;
-            for(var vehicleData of stopData.vehicleDetails){
-              if(!vehicles[vehicleData.vehicleid]){
-                vehicles[vehicleData.vehicleid] = {
-                  regno: vehicleData.vehiclenumber,
-                  lat: vehicleData.centerlat,
-                  long: vehicleData.centerlong,
-                  refresh: vehicleData.lastrefreshon,
-                  currentStop: currStop,
-                  lastStop: stopData.from,
-                  lastKnownStop: stop_names.includes(stopData.from) ? stopData.from : null,
-                  stopCovered: vehicleData.stopCoveredStatus,
-                  routeno: `${stopData.routeno} ${"Kempegowda International Airport" == stopData.from ? 'from' : 'to'} ${STOPS_DATA.airport.name}`,
-                  direction: "Kempegowda International Airport" == stopData.from ? 'down' : 'up'
-                };
-              }
-              if(vehicles[vehicleData.vehicleid].stopCovered === 1){
-                stopCoveredAll = 0;
-                if(stop_names.includes(vehicles[vehicleData.vehicleid].currentStop)){
-                  vehicles[vehicleData.vehicleid].lastKnownStop = vehicles[vehicleData.vehicleid].currentStop;
-                }
-                vehicles[vehicleData.vehicleid].lastStop = vehicles[vehicleData.vehicleid].currentStop;
-                vehicles[vehicleData.vehicleid].currentStop = currStop;
-                vehicles[vehicleData.vehicleid].stopCovered = vehicleData.stopCoveredStatus;
-              }
-            }
-            if(stopCoveredAll === 1){
-              break;
-            }
-          }
-        }
-        newData[`${name}${suffix}`] = {} // Instantiate our direction obj
-        for(var vehicle of Object.values(vehicles)){
-          if(!newData[`${name}${suffix}`][vehicle.lastKnownStop]){
-            newData[`${name}${suffix}`][vehicle.lastKnownStop] = [];
-          }
-          newData[`${name}${suffix}`][vehicle.lastKnownStop].push(vehicle);
-        }
-      }
-      newData.pollDate = Date.now();
-      const currentRef = mapRef.current;
-      if(currentRef){
-        currentRef.getSource("vehicles").setData(getVehiclesGeoJson(newData).data);
-      }
-      setLiveBusData(newData);
-
+      constructBusData(data);
     } catch (error) {
       console.error('Error fetching bus data:', error);
     }
@@ -222,6 +241,9 @@ const SelectedBusDetails = ({
     return () => {
       // Cleanup interval on component unmount
       clearInterval(intervalId);
+      // Cleanup live data on component unmount
+      // We wont do this when we use back-end and have site-wide live data (as opposed to route-wide rn)
+      setLiveBusData(null);
       if (!currentRef) {
         return;
       }
@@ -268,6 +290,12 @@ const SelectedBusDetails = ({
   if(!liveBusData || !liveBusData[routename] || !liveBusData_[routename]){
     liveBusData_[routename] = {};
     fetchBusData();
+  }
+  if(liveBusData){ // Update on every reload as toAirport might have changed
+    const currentRef = mapRef.current;
+    if(currentRef){
+      currentRef.getSource("vehicles").setData(getVehiclesGeoJson(liveBusData, toAirport).data);
+    }
   }
 
 

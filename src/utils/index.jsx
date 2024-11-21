@@ -137,17 +137,25 @@ export const getRoutesGeojson = (busData) => {
   };
 };
 
-export const getVehiclesGeoJson = (liveBusData) => {
+export const getVehiclesGeoJson = (liveBusData, toAirport) => {
   const points = [];
   if(liveBusData){
-    // console.log(liveBusData);
-    for(var info of Object.values(liveBusData)){
-      // console.log("OBJECT VALUES");
-      // console.log(info);
-      for(var li of Object.values(info)){
-        // console.log("LI VALUES");
-        // console.log(li);
-        points.push(...li);
+    for(var info of Object.keys(liveBusData)){
+      if(info != 'pollDate'){
+        for(var li of Object.values(liveBusData[info])){
+          if(toAirport === true || toAirport === false){
+            const direction = toAirport ? "UP" : "DOWN";
+            for(var l of li){
+              if(l.direction === direction){
+                points.push(l);
+              } else {
+                console.log(`filtered out ${l.regno}`);
+              }
+            }
+          } else {
+            points.push(...li);
+          }
+        }
       }
     }
   }

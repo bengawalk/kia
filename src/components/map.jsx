@@ -3,6 +3,8 @@ import mapboxgl from "mapbox-gl";
 import { find as lFind } from "lodash";
 import _ from "lodash";
 import STOPS_MAP from "../utils/stops.json";
+// import iconBusStop from "../assets/icon-bus-stop-map.svg";
+// import iconLiveBus from "../assets/icon-live-bus-location.svg";
 
 import { getRoutesGeojson, getStopsGeoJson, getVehiclesGeoJson } from "../utils";
 import {
@@ -225,6 +227,82 @@ class Map extends React.PureComponent {
     } = this.props;
 
     this.callFnIfMapLoaded(() => {
+      // const busStopImg = new Image(24, 24);
+      // const liveBusImg = new Image(24, 24);
+      // busStopImg.onload = () => {
+      // };
+      // liveBusImg.onload = () => {
+      // };
+      // liveBusImg.src = `data:image/svg+xml;charset=utf-8,${iconBusStop}`;
+      // busStopImg.src = `data:image/svg+xml;charset=utf-8,${iconLiveBus}`;
+
+      fetch("../assets/icon-bus-stop-map.svg")
+      .then(res => res.text())
+      .then(svgText => {
+        // Create a Blob from the SVG text
+        const svgBlob = new Blob([svgText], { type: 'image/svg+xml' });
+    
+        // Create a URL for the blob
+        const url = URL.createObjectURL(svgBlob);
+    
+        // Create an image element
+        const img = new Image();
+        img.src = url;
+    
+        img.onload = function () {
+          // Once the image has loaded, create an ImageBitmap
+          createImageBitmap(img).then(imageBitmap => {
+            // Add the ImageBitmap to the map
+            mapRef.current.addImage('bus-stop', imageBitmap, { sdf: false });
+    
+            mapRef.current.addSource("stops", getStopsGeoJson(busData, selectedTab));
+    
+            mapRef.current.addLayer({
+              id: "stops",
+              source: "stops",
+              ...MAP_STYLE_STOP,
+              filter: true,
+            });
+    
+            // Revoke the URL after using it
+            URL.revokeObjectURL(url);
+          });
+        };
+      });
+    
+    fetch("../assets/icon-live-bus-location.svg")
+      .then(res => res.text())
+      .then(svgText => {
+        // Create a Blob from the SVG text
+        const svgBlob = new Blob([svgText], { type: 'image/svg+xml' });
+    
+        // Create a URL for the blob
+        const url = URL.createObjectURL(svgBlob);
+    
+        // Create an image element
+        const img = new Image();
+        img.src = url;
+    
+        img.onload = function () {
+          // Once the image has loaded, create an ImageBitmap
+          createImageBitmap(img).then(imageBitmap => {
+            // Add the ImageBitmap to the map
+            mapRef.current.addImage('live-bus', imageBitmap, { sdf: false });
+    
+            mapRef.current.addSource("vehicles", getVehiclesGeoJson(liveBusData));
+    
+            mapRef.current.addLayer({
+              id: "vehicles",
+              source: "vehicles",
+              ...MAP_STYLE_VEHICLE,
+            });
+    
+            // Revoke the URL after using it
+            URL.revokeObjectURL(url);
+          });
+        };
+      });
+    
       mapRef.current.addSource("routes", getRoutesGeojson(busData));
       mapRef.current.addLayer({
         id: "routes",
@@ -238,23 +316,6 @@ class Map extends React.PureComponent {
         ...MAP_STYLE_HIGHLIGHTED_ROUTE,
         filter: ["==", "name", selectedBus || ""],
       });
-
-      mapRef.current.addSource("stops", getStopsGeoJson(busData, selectedTab));
-
-      mapRef.current.addLayer({
-        id: "stops",
-        source: "stops",
-        ...MAP_STYLE_STOP,
-        filter: true,
-      });
-      
-      mapRef.current.addSource("vehicles", getVehiclesGeoJson(liveBusData));
-
-      mapRef.current.addLayer({
-        id: "vehicles",
-        source: "vehicles",
-        ...MAP_STYLE_VEHICLE,
-      })
 
       this.initLocationMarkers();
     });

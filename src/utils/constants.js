@@ -505,35 +505,62 @@ export const BUS_DATA = {
 const COLOR_HIGHLIGHT = "#4264fb";
 const COLOR_MUTED = "#aaaaaa";
 
-export const MAP_STYLE_VEHICLE = {
-  type: "circle",
-  paint: {
-    "circle-color": COLOR_MUTED,
-    "circle-radius": 5,
-    "circle-stroke-width": 3,
-    "circle-stroke-color": COLOR_HIGHLIGHT,
-  },
-};
+export const MAP_STYLE_VEHICLE = 
+{
+  type: 'symbol',
+  layout: {
+    'icon-image': 'live-bus',
+    "icon-allow-overlap": true,
+    "icon-size": 1
+  }
+}
+// {
+//   type: "circle",
+//   paint: {
+//     "circle-color": COLOR_MUTED,
+//     "circle-radius": 5,
+//     "circle-stroke-width": 3,
+//     "circle-stroke-color": COLOR_HIGHLIGHT,
+//   },
+// };
 
-export const MAP_STYLE_STOP = {
-  type: "circle",
-  paint: {
-    "circle-color": "#ffffff",
-    "circle-radius": 8,
-    "circle-stroke-width": 3,
-    "circle-stroke-color": COLOR_HIGHLIGHT,
-  },
-};
+export const MAP_STYLE_STOP = 
+{
+  type: 'symbol',
+  layout: {
+    'icon-image': 'bus-stop',
+    // "icon-allow-overlap": true,
+    "icon-size": 1
+  }
+}
+// {
+//   type: "circle",
+//   paint: {
+//     "circle-color": "#ffffff",
+//     "circle-radius": 8,
+//     "circle-stroke-width": 3,
+//     "circle-stroke-color": COLOR_HIGHLIGHT,
+//   },
+// };
 
-export const MAP_STYLE_INTERMEDIATE_STOP = {
-  type: "circle",
-  paint: {
-    "circle-color": "#ffffff",
-    "circle-radius": 6,
-    "circle-stroke-width": 2,
-    "circle-stroke-color": COLOR_HIGHLIGHT,
-  },
-};
+export const MAP_STYLE_INTERMEDIATE_STOP = 
+{
+  type: 'symbol',
+  layout: {
+    'icon-image': 'bus-stop',
+    // "icon-allow-overlap": true,
+    "icon-size": 1
+  }
+}
+// {
+//   type: "circle",
+//   paint: {
+//     "circle-color": "#ffffff",
+//     "circle-radius": 6,
+//     "circle-stroke-width": 2,
+//     "circle-stroke-color": COLOR_HIGHLIGHT,
+//   },
+// };
 
 export const MAP_STYLE_ROUTE = {
   type: "line",
