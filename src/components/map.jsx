@@ -3,8 +3,8 @@ import mapboxgl from "mapbox-gl";
 import { find as lFind } from "lodash";
 import _ from "lodash";
 import STOPS_MAP from "../utils/stops.json";
-// import iconBusStop from "../assets/icon-bus-stop-map.svg";
-// import iconLiveBus from "../assets/icon-live-bus-location.svg";
+import iconBusStop from "../assets/icon-bus-stop-map.svg";
+import iconLiveBus from "../assets/icon-live-bus-location.svg";
 
 import { getRoutesGeojson, getStopsGeoJson, getVehiclesGeoJson } from "../utils";
 import {
@@ -231,7 +231,7 @@ class Map extends React.PureComponent {
 
     this.callFnIfMapLoaded(() => {
 
-      fetch("../assets/icon-bus-stop-map.svg")
+      fetch(iconBusStop)
       .then(res => res.text())
       .then(svgText => {
         // Create a Blob from the SVG text
@@ -265,7 +265,7 @@ class Map extends React.PureComponent {
         };
       });
     
-    fetch("../assets/icon-live-bus-location.svg")
+    fetch(iconLiveBus)
       .then(res => res.text())
       .then(svgText => {
         // Create a Blob from the SVG text
