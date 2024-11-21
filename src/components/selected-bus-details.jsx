@@ -31,10 +31,10 @@ const SelectedBusDetails = ({
 }) => {
   const [selectedTimeIndex, setSelectedTimeIndex] = useState(null);
   const updateBusData = (newData) => {
-    const currentRef = mapRef.current;
-    if(currentRef){
-      currentRef.getSource("vehicles").setData(getVehiclesGeoJson(newData, toAirport).data);
-    }
+    // const currentRef = mapRef.current;
+    // if(currentRef){
+    //   currentRef.getSource("vehicles").setData(getVehiclesGeoJson(newData, toAirport).data);
+    // }
     setLiveBusData(newData);
 
   } 
@@ -45,6 +45,7 @@ const SelectedBusDetails = ({
     const newData = {};
     if(data.up.data.length > 0){
       const suffix = "UP";
+      const fallbackName = ALL_BUSES_STOPS[`${name} ${suffix}`].stops[0].name;
       const vehicles = {}; // Vehicle ID: Last Stop, Current Stop, Last Known Stop (Known as in matched with local data), Lat and Long, Reg Number
       for(var stopData of data.up.data){
         const currStop = stopData.stationname;
@@ -60,7 +61,7 @@ const SelectedBusDetails = ({
                 refresh: vehicleData.lastrefreshon,
                 currentStop: currStop,
                 lastStop: stopData.from,
-                lastKnownStop: stop_names.includes(stopData.from) ? stopData.from : null,
+                lastKnownStop: stop_names.includes(stopData.from) ? stopData.from : fallbackName,
                 stopCovered: vehicleData.stopCoveredStatus,
                 stopCoveredOriginal: vehicleData.stopCoveredStatus, // Save original as well for bad data
                 routeno: `${stopData.routeno} ${suffix}`,
@@ -96,6 +97,7 @@ const SelectedBusDetails = ({
     }
     if(data.down.data.length > 0){
       const suffix = "DOWN";
+      const fallbackName = ALL_BUSES_STOPS[`${name} ${suffix}`].stops[0].name;
       const vehicles = {}; // Vehicle ID: Last Stop, Current Stop, Last Known Stop (Known as in matched with local data), Lat and Long, Reg Number
       for(var stopData of data.down.data){
         const currStop = stopData.stationname;
@@ -111,7 +113,7 @@ const SelectedBusDetails = ({
                 refresh: vehicleData.lastrefreshon,
                 currentStop: currStop,
                 lastStop: stopData.from,
-                lastKnownStop: stop_names.includes(stopData.from) ? stopData.from : null,
+                lastKnownStop: stop_names.includes(stopData.from) ? stopData.from : fallbackName,
                 stopCovered: vehicleData.stopCoveredStatus,
                 stopCoveredOriginal: vehicleData.stopCoveredStatus, // Save original as well for bad data
                 routeno: `${stopData.routeno} ${suffix}`,
@@ -294,7 +296,7 @@ const SelectedBusDetails = ({
   if(liveBusData){ // Update on every reload as toAirport might have changed
     const currentRef = mapRef.current;
     if(currentRef){
-      currentRef.getSource("vehicles").setData(getVehiclesGeoJson(liveBusData, toAirport).data);
+      currentRef.getSource("vehicles").setData(getVehiclesGeoJson(liveBusData, routename).data);
     }
   }
 

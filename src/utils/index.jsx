@@ -137,19 +137,19 @@ export const getRoutesGeojson = (busData) => {
   };
 };
 
-export const getVehiclesGeoJson = (liveBusData, toAirport) => {
+export const getVehiclesGeoJson = (liveBusData, routename) => {
   const points = [];
   if(liveBusData){
     for(var info of Object.keys(liveBusData)){
       if(info != 'pollDate'){
         for(var li of Object.values(liveBusData[info])){
-          if(toAirport === true || toAirport === false){
-            const direction = toAirport ? "UP" : "DOWN";
+          if(routename){
             for(var l of li){
-              if(l.direction === direction){
+              if(l.routeno.toUpperCase() === routename.toUpperCase()){
                 points.push(l);
               } else {
-                console.log(`filtered out ${l.regno}`);
+                // console.log(`filtered out ${l.regno} ${l.routeno}`);
+                // console.log(l)
               }
             }
           } else {

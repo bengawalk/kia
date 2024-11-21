@@ -54,7 +54,6 @@ class Map extends React.PureComponent {
       });
     });
     mapRef.current = map;
-    // this.map = map;
   };
 
   componentDidMount() {
@@ -227,14 +226,6 @@ class Map extends React.PureComponent {
     } = this.props;
 
     this.callFnIfMapLoaded(() => {
-      // const busStopImg = new Image(24, 24);
-      // const liveBusImg = new Image(24, 24);
-      // busStopImg.onload = () => {
-      // };
-      // liveBusImg.onload = () => {
-      // };
-      // liveBusImg.src = `data:image/svg+xml;charset=utf-8,${iconBusStop}`;
-      // busStopImg.src = `data:image/svg+xml;charset=utf-8,${iconLiveBus}`;
 
       fetch("../assets/icon-bus-stop-map.svg")
       .then(res => res.text())
@@ -288,7 +279,7 @@ class Map extends React.PureComponent {
           createImageBitmap(img).then(imageBitmap => {
             // Add the ImageBitmap to the map
             mapRef.current.addImage('live-bus', imageBitmap, { sdf: false });
-    
+            // Once we have a back-end for live data snapshot, we will query it here then do the below code
             mapRef.current.addSource("vehicles", getVehiclesGeoJson(liveBusData));
     
             mapRef.current.addLayer({
