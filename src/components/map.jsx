@@ -205,8 +205,12 @@ class Map extends React.PureComponent {
         mapRef.current.removeLayer("routes");
         mapRef.current.removeLayer("routes-highlighted");
         mapRef.current.removeSource("routes");
+      } 
+      if (mapRef.current.getLayer("stops")) {
         mapRef.current.removeLayer("stops");
         mapRef.current.removeSource("stops");
+      } 
+      if (mapRef.current.getLayer("vehicles")) {
         mapRef.current.removeLayer("vehicles");
         mapRef.current.removeSource("vehicles");
       }
