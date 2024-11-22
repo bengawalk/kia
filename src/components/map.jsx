@@ -391,11 +391,29 @@ class Map extends React.PureComponent {
     });
 
     mapRef.current.on("click", "routes", (e) => {
-      const { setSelectedBus } = this.props;
+      const { selectedBus, setSelectedBus, setSelectedStop } = this.props;
       const feature = e.features[0];
 
       const { name } = feature.properties;
-      setSelectedBus(name);
+      if(selectedBus && selectedBus !== name) { // The selected-bus-details component doesnt unmount, so we remove the layers here manually
+        const uniqueDown = `${selectedBus}_down_intermediate_stops`;
+        const uniqueUp = `${selectedBus}_up_intermediate_stops`;
+        if (mapRef.current.getLayer(uniqueDown)) {
+          mapRef.current.removeLayer(uniqueDown);
+        }
+        if (mapRef.current.getSource(uniqueDown)) {
+          mapRef.current.removeSource(uniqueDown);
+        }
+        if (mapRef.current.getLayer(uniqueUp)) {
+          mapRef.current.removeLayer(uniqueUp);
+        }
+        if (mapRef.current.getSource(uniqueUp)) {
+          mapRef.current.removeSource(uniqueUp);
+        }
+      }
+      // setSelectedStop(null);
+      setSelectedBus(name); 
+      
     });
 
     mapRef.current.on("mouseleave", "routes", () => {

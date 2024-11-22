@@ -31,12 +31,7 @@ const SelectedBusDetails = ({
 }) => {
   const [selectedTimeIndex, setSelectedTimeIndex] = useState(null);
   const updateBusData = (newData) => {
-    // const currentRef = mapRef.current;
-    // if(currentRef){
-    //   currentRef.getSource("vehicles").setData(getVehiclesGeoJson(newData, toAirport).data);
-    // }
     setLiveBusData(newData);
-
   } 
   const constructBusData = async (data) => {
     const stop_names = ALL_BUSES_STOPS[routename].stops.map(item => item.name); // We need to add kannada names properly here, then we can map kannada names provided by api as well
@@ -87,7 +82,7 @@ const SelectedBusDetails = ({
           }
         }
       }
-      newData[`${name} ${suffix}`] = {} // Instantiate our direction obj
+      newData[`${name} ${suffix}`] = {pollDate: Date.now()} // Instantiate our direction obj
       for(var vehicle of Object.values(vehicles)){
         if(!newData[`${name} ${suffix}`][vehicle.lastKnownStop]){
           newData[`${name} ${suffix}`][vehicle.lastKnownStop] = []
@@ -139,7 +134,7 @@ const SelectedBusDetails = ({
           }
         }
       }
-      newData[`${name} ${suffix}`] = {} // Instantiate our direction obj
+      newData[`${name} ${suffix}`] = {pollDate: Date.now()} // Instantiate our direction obj
       for(var vehicle of Object.values(vehicles)){
         if(!newData[`${name} ${suffix}`][vehicle.lastKnownStop]){
           newData[`${name} ${suffix}`][vehicle.lastKnownStop] = [];
@@ -147,19 +142,19 @@ const SelectedBusDetails = ({
         newData[`${name} ${suffix}`][vehicle.lastKnownStop].push(vehicle);
       }
     }
-    newData.pollDate = Date.now();
+    // newData.pollDate = Date.now();
     updateBusData(newData);
   }
   const fetchBusData = async () => {
-    if(liveBusData){ // We dont want to poll too frequently
-      if(liveBusData.pollDate && (liveBusData.pollDate - Date.now()) < 20000){ // 20 second timer
+    if(liveBusData && liveBusData[routename]){ // We dont want to poll too frequently, spamming refresh will not refresh the data and log a warning
+      if(liveBusData[routename].pollDate && (liveBusData[routename].pollDate - Date.now()) < 20000){ // 20 second timer
         console.warn("Live data poll request too frequent!");
         return;
       }
-    }
+    } // We still want to poll fresh data if bus data for [routename] doesnt exist in our local
 
     try {
-      // This will be in backend if we get backend up and running
+      // This code block will be in backend if we get backend up and running
       const response = await fetch(`${CORS_ANYWHERE}${BMTC_API_ENDPOINT}/SearchByRouteDetails_v4`, { // cors bypass, make sure cors bypass is in index.html as well under default-src
         method: 'POST', // Specify the HTTP method as POST
         headers: {
@@ -178,51 +173,50 @@ const SelectedBusDetails = ({
       console.error('Error fetching bus data:', error);
     }
   };
+  const callFnIfMapLoaded = (fn) => {
+    if (mapRef.current._loaded) {
+      fn();
+    } else {
+      mapRef.current.on("load", fn);
+    }
+  };
 
-  useEffect(() => {
+  const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+  });
+
+  const showPopup = (e) => {
+    mapRef.current.getCanvas().style.cursor = "pointer";
+
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const description = e.features[0].properties.name;
+
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+    popup.setLngLat(coordinates).setHTML(description).addTo(mapRef.current);
+  };
+
+  const onStopClick = (e) => {
+    const feature = e.features[0];
+
+    const { name } = feature.properties;
+    setSelectedStop(name);
+  };
+
+  const hidePopup = () => {
+    mapRef.current.getCanvas().style.cursor = "";
+    popup.remove();
+  };
+
+  const addLayerAndEvents = () => {
     const currentRef = mapRef.current;
-    if(!currentRef) {
+    if(!currentRef){
       return;
     }
+    if(!currentRef.getLayer(uniqueName) && !currentRef.getSource(uniqueName)){ // We dont want to duplicate layers
 
-    const popup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false,
-    });
-
-    const showPopup = (e) => {
-      currentRef.getCanvas().style.cursor = "pointer";
-
-      const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.name;
-
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
-      popup.setLngLat(coordinates).setHTML(description).addTo(mapRef.current);
-    };
-
-    const onStopClick = (e) => {
-      const feature = e.features[0];
-
-      const { name } = feature.properties;
-      setSelectedStop(name);
-    };
-
-    const hidePopup = () => {
-      currentRef.getCanvas().style.cursor = "";
-      popup.remove();
-    };
-
-    const callFnIfMapLoaded = (fn) => {
-      if (mapRef.current._loaded) {
-        fn();
-      } else {
-        mapRef.current.on("load", fn);
-      }
-    };
-
-    const addLayerAndEvents = () => {
       currentRef.addSource(uniqueName, getIntermediateStopsGeoJson(stops));
       currentRef.addLayer({
         id: uniqueName,
@@ -234,10 +228,10 @@ const SelectedBusDetails = ({
       currentRef.on("mouseenter", uniqueName, showPopup);
       mapRef.current.on("click", uniqueName, onStopClick);
       currentRef.on("mouseleave", uniqueName, hidePopup);
-    };
-
-    callFnIfMapLoaded(addLayerAndEvents);
-
+    }
+  };
+  useEffect(() => {
+    addLayerAndEvents();
     const intervalId = setInterval(fetchBusData, 30000); // Set interval for every 30 seconds
 
     return () => {
@@ -246,6 +240,7 @@ const SelectedBusDetails = ({
       // Cleanup live data on component unmount
       // We wont do this when we use back-end and have site-wide live data (as opposed to route-wide rn)
       setLiveBusData(null);
+      const currentRef = mapRef.current;
       if (!currentRef) {
         return;
       }
@@ -288,6 +283,7 @@ const SelectedBusDetails = ({
   const toText = toAirport ? STOPS_DATA.airport.name : end.name;
   const direction = toAirport ? "up" : "down";
   const uniqueName = `${selectedBus}_${direction}_intermediate_stops`;
+  callFnIfMapLoaded(addLayerAndEvents); // Run this on every reload, as when a different route is selected by clicking on the map the selected-bus-details is not remounted, and only reloaded
   const liveBusData_ = liveBusData ? liveBusData : {};
   if(!liveBusData || !liveBusData[routename] || !liveBusData_[routename]){
     liveBusData_[routename] = {};
