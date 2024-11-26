@@ -8,8 +8,8 @@ import { getDistance } from "geolib";
 import { STOPS_DATA } from "./constants";
 import appStorage from "./storage";
 import mapboxgl from "mapbox-gl";
-import svgIconUp from "../assets/icon-bus-up-map.svg";
-import svgIconDown from "../assets/icon-bus-down-map.svg";
+import iconBusUp from "../assets/icon-bus-up-map.svg";
+import iconBusDown from "../assets/icon-bus-down-map.svg";
 
 export const readTSV = (csvString) => {
   const [headersText, ...dataLines] = _.split(csvString, "\r\n");
