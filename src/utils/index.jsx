@@ -8,6 +8,8 @@ import { getDistance } from "geolib";
 import { STOPS_DATA } from "./constants";
 import appStorage from "./storage";
 import mapboxgl from "mapbox-gl";
+import svgIconUp from "../assets/icon-bus-up-map.svg";
+import svgIconDown from "../assets/icon-bus-down-map.svg";
 
 export const readTSV = (csvString) => {
   const [headersText, ...dataLines] = _.split(csvString, "\r\n");
@@ -246,7 +248,7 @@ export const setLiveBusMarkerLayer = (mapRef, geoJsonData) => {
     // } else {
     const el = document.createElement("div");
     // el.className = `live-bus-${feature.properties.routename.includes('UP') ? 'up' : 'down'}-marker`;
-    fetch(`../assets/icon-bus-${feature.properties.routename.includes('UP') ? 'up' : 'down'}-map.svg`)
+    fetch(feature.properties.routename.includes('UP') ? iconBusUp : iconBusDown)
     .then( svgIcon => svgIcon.text()
     .then(
       svgText => 
