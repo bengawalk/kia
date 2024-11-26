@@ -281,6 +281,46 @@ export const setLiveBusMarkerLayer = (mapRef, geoJsonData) => {
       `
       popup.setHTML(description).addTo(mapRef.current);
     });
+    markerDiv.addEventListener('touchend', event => {
+      const target = event.target;
+      const markerWasClicked = markerDiv.contains(target);
+      if(markerWasClicked){
+        const datePattern = /^(\d{2})-(\d{2})-(\d{4})\s(\d{1,2}):(\d{2}):(\d{2})$/;
+        const [, day, month, year, rawHour, min] = datePattern.exec(feature.properties.refresh);
+        const updatedDate = new Date(`${year}-${month}-${day}T${('0' + rawHour).slice(-2)}:${min}:00`);
+        const updated = Math.floor((Date.now() - updatedDate)/1000);
+        const description = `
+        <h5 class="bus-modal-map-small">Bus route</h5>
+        <h2 class="bus-modal-map-large">${feature.properties.routename.replace("UP", "to Airport").replace("DOWN", "from Airport")}</h2>
+        <h5 class="bus-modal-map-small">Bus registration number</h5>
+        <h2 class="bus-modal-map-large">${feature.properties.name}</h2>
+        <h5 class="bus-modal-map-small">Last seen</h5>
+        <h2 class="bus-modal-map-large">${feature.properties.passed}</h2>
+        <h5 class="bus-modal-map-time">Updated ${updated <= 60 ? `${updated} seconds` : (Math.floor(updated/60) > 1 ? `${Math.floor(updated/60)} minutes` : `${Math.floor(updated/60)} minute`)} ago</h5>
+        `
+        popup.setHTML(description).addTo(mapRef.current);
+      }
+      // Mapbox handles this for us
+      //  else {
+      //   popup.remove();
+      // }
+    });
+    markerDiv.addEventListener('mouseenter', () => {
+      const datePattern = /^(\d{2})-(\d{2})-(\d{4})\s(\d{1,2}):(\d{2}):(\d{2})$/;
+      const [, day, month, year, rawHour, min] = datePattern.exec(feature.properties.refresh);
+      const updatedDate = new Date(`${year}-${month}-${day}T${('0' + rawHour).slice(-2)}:${min}:00`);
+      const updated = Math.floor((Date.now() - updatedDate)/1000);
+      const description = `
+      <h5 class="bus-modal-map-small">Bus route</h5>
+      <h2 class="bus-modal-map-large">${feature.properties.routename.replace("UP", "to Airport").replace("DOWN", "from Airport")}</h2>
+      <h5 class="bus-modal-map-small">Bus registration number</h5>
+      <h2 class="bus-modal-map-large">${feature.properties.name}</h2>
+      <h5 class="bus-modal-map-small">Last seen</h5>
+      <h2 class="bus-modal-map-large">${feature.properties.passed}</h2>
+      <h5 class="bus-modal-map-time">Updated ${updated <= 60 ? `${updated} seconds` : (Math.floor(updated/60) > 1 ? `${Math.floor(updated/60)} minutes` : `${Math.floor(updated/60)} minute`)} ago</h5>
+      `
+      popup.setHTML(description).addTo(mapRef.current);
+    });
     markerDiv.addEventListener('mouseleave', () => {
       popup.remove();
     });
