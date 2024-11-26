@@ -4,7 +4,6 @@ import { find as lFind } from "lodash";
 import _ from "lodash";
 import STOPS_MAP from "../utils/stops.json";
 import iconBusStop from "../assets/icon-bus-stop-map.svg";
-import iconLiveBus from "../assets/icon-live-bus-location.svg";
 
 import { getRoutesGeojson, getStopsGeoJson, getVehiclesGeoJson } from "../utils";
 import {
@@ -12,13 +11,13 @@ import {
   MAP_STYLE_HIGHLIGHTED_ROUTE,
   MAP_STYLE_ROUTE,
   MAP_STYLE_STOP,
-  MAP_STYLE_VEHICLE,
   MAPBOX_TOKEN,
   STOPS_DATA,
 } from "../utils/constants";
 import { withTranslation, Trans } from "react-i18next";
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
+
 
 class Map extends React.PureComponent {
   constructor(props) {
@@ -231,71 +230,71 @@ class Map extends React.PureComponent {
 
     this.callFnIfMapLoaded(() => {
 
-      fetch(iconBusStop)
-      .then(res => res.text())
-      .then(svgText => {
-        // Create a Blob from the SVG text
-        const svgBlob = new Blob([svgText], { type: 'image/svg+xml' });
+      // fetch(iconLiveBusDown)
+      // .then(res => res.text())
+      // .then(svgText => {
+      //   // Create a Blob from the SVG text
+      //   const svgBlob = new Blob([svgText], { type: 'image/svg+xml' });
     
-        // Create a URL for the blob
-        const url = URL.createObjectURL(svgBlob);
+      //   // Create a URL for the blob
+      //   const url = URL.createObjectURL(svgBlob);
     
-        // Create an image element
-        const img = new Image();
-        img.src = url;
+      //   // Create an image element
+      //   const img = new Image();
+      //   img.src = url;
     
-        img.onload = function () {
-          // Once the image has loaded, create an ImageBitmap
-          createImageBitmap(img).then(imageBitmap => {
-            // Add the ImageBitmap to the map
-            mapRef.current.addImage('bus-stop', imageBitmap, { sdf: false });
+      //   img.onload = function () {
+      //     // Once the image has loaded, create an ImageBitmap
+      //     createImageBitmap(img).then(imageBitmap => {
+      //       // Add the ImageBitmap to the map
+      //       mapRef.current.addImage('live-bus', imageBitmap, { sdf: false });
+      //       // Once we have a back-end for live data snapshot, we will query it here then do the below code
+      //       mapRef.current.addSource("vehicles", getVehiclesGeoJson(liveBusData));
     
-            mapRef.current.addSource("stops", getStopsGeoJson(busData, selectedTab));
+      //       mapRef.current.addLayer({
+      //         id: "vehicles",
+      //         source: "vehicles",
+      //         ...MAP_STYLE_VEHICLE,
+      //       });
     
-            mapRef.current.addLayer({
-              id: "stops",
-              source: "stops",
-              ...MAP_STYLE_STOP,
-              filter: true,
-            });
+      //       // Revoke the URL after using it
+      //       URL.revokeObjectURL(url);
+      //     });
+      //   };
+      // });
+
+      // fetch(iconBusStop)
+      // .then(res => res.text())
+      // .then(svgText => {
+      //   // Create a Blob from the SVG text
+      //   const svgBlob = new Blob([svgText], { type: 'image/svg+xml' });
     
-            // Revoke the URL after using it
-            URL.revokeObjectURL(url);
-          });
-        };
-      });
+      //   // Create a URL for the blob
+      //   const url = URL.createObjectURL(svgBlob);
     
-    fetch(iconLiveBus)
-      .then(res => res.text())
-      .then(svgText => {
-        // Create a Blob from the SVG text
-        const svgBlob = new Blob([svgText], { type: 'image/svg+xml' });
+      //   // Create an image element
+      //   const img = new Image();
+      //   img.src = url;
     
-        // Create a URL for the blob
-        const url = URL.createObjectURL(svgBlob);
+      //   img.onload = function () {
+      //     // Once the image has loaded, create an ImageBitmap
+      //     createImageBitmap(img).then(imageBitmap => {
+      //       // Add the ImageBitmap to the map
+      //       mapRef.current.addImage('bus-stop', imageBitmap, { sdf: false });
     
-        // Create an image element
-        const img = new Image();
-        img.src = url;
+      //       // Revoke the URL after using it
+      //       URL.revokeObjectURL(url);
+      //     });
+      //   };
+      // });
+
+      mapRef.current.addSource("stops", getStopsGeoJson(busData, selectedTab));
     
-        img.onload = function () {
-          // Once the image has loaded, create an ImageBitmap
-          createImageBitmap(img).then(imageBitmap => {
-            // Add the ImageBitmap to the map
-            mapRef.current.addImage('live-bus', imageBitmap, { sdf: false });
-            // Once we have a back-end for live data snapshot, we will query it here then do the below code
-            mapRef.current.addSource("vehicles", getVehiclesGeoJson(liveBusData));
-    
-            mapRef.current.addLayer({
-              id: "vehicles",
-              source: "vehicles",
-              ...MAP_STYLE_VEHICLE,
-            });
-    
-            // Revoke the URL after using it
-            URL.revokeObjectURL(url);
-          });
-        };
+      mapRef.current.addLayer({
+        id: "stops",
+        source: "stops",
+        ...MAP_STYLE_STOP,
+        filter: true,
       });
     
       mapRef.current.addSource("routes", getRoutesGeojson(busData));
@@ -426,20 +425,33 @@ class Map extends React.PureComponent {
       ]);
     });
     // Show bus regno and details on hovering on the bus circle
-    mapRef.current.on("mouseenter", "vehicles", (e) => {
+    // mapRef.current.on("mouseenter", "vehicles", (e) => {
 
-      const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = `<h2>${e.features[0].properties.name}</h2><h3>${e.features[0].properties.routename}</h3><h3>${e.features[0].properties.passed}</h3><h3>Last Updated: ${e.features[0].properties.refresh}</h3>`;
+    //   const coordinates = e.features[0].geometry.coordinates.slice();
+    //   const datePattern = /^(\d{2})-(\d{2})-(\d{4})\s(\d{1,2}):(\d{2})$/;
+    //   const [, day, month, year, rawHour, min] = datePattern.exec(e.features[0].properties.refresh);
+    //   const updatedDate = new Date(`${year}-${month}-${day}T${('0' + rawHour).slice(-2)}:${min}:00`);
+    //   const updated = (Date.now() - updatedDate)/100;
+    //   const description = `
+    //   <h5>Bus route</h5>
+    //   <h2>${e.features[0].properties.routename}</h2>
+    //   <h5>Bus registration number</h5>
+    //   <h2>${e.features[0].properties.name}</h2>
+    //   <h5>Last seen</h5>
+    //   <h2>${e.features[0].properties.passed}</h2>
+    //   <h5>Updated ${updated} seconds ago</h5>
+    //   `
+    //   // `<h2>${e.features[0].properties.name}</h2><h3>${e.features[0].properties.routename}</h3><h3>${e.features[0].properties.passed}</h3><h3>Last Updated: ${e.features[0].properties.refresh}</h3>`;
 
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
-      popup.setLngLat(coordinates).setHTML(description).addTo(mapRef.current);
-    });
+    //   while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+    //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    //   }
+    //   popup.setLngLat(coordinates).setHTML(description).addTo(mapRef.current);
+    // });
 
-    mapRef.current.on("mouseleave", "vehicles", () => {
-      popup.remove();
-    });
+    // mapRef.current.on("mouseleave", "vehicles", () => {
+    //   popup.remove();
+    // });
   };
 
   refreshMapData = () => {

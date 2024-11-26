@@ -12,7 +12,7 @@ const BusItemLive = ({
     onClick={() => mapRef.current.panTo([long, lat])}
     className={`sel-bus-stop-row `}
   >
-    <img src={icon} alt="" className="sel-bus-stop-icon" />
+    <img src={icon} alt="" className="sel-bus-live-icon" />
     <div className="sel-bus-stop-row-text">{regno}</div>
   </div>
   );

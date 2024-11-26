@@ -14,7 +14,7 @@ import {
 import BusDetailsStop from "./bus-details-stop";
 import IconArrowBack from "../assets/icon-arrow-back";
 import iconRefresh from "../assets/icon-refresh.svg";
-import { ALL_BUSES_TIMINGS, getIntermediateStopsGeoJson, getVehiclesGeoJson } from "../utils";
+import { ALL_BUSES_TIMINGS, getIntermediateStopsGeoJson, getVehiclesGeoJson, setLiveBusMarkerLayer } from "../utils";
 import mapboxgl from "mapbox-gl";
 
 const SelectedBusDetails = ({
@@ -30,8 +30,13 @@ const SelectedBusDetails = ({
   setLiveBusData
 }) => {
   const [selectedTimeIndex, setSelectedTimeIndex] = useState(null);
+  const [update, forceUpdate] = useState(0);
   const updateBusData = (newData) => {
     setLiveBusData(newData);
+    const currentRef = mapRef.current;
+    if(currentRef){
+      setLiveBusMarkerLayer(mapRef, getVehiclesGeoJson(newData).data);
+    }
   } 
   const constructBusData = async (data) => {
     const stop_names = ALL_BUSES_STOPS[routename].stops.map(item => item.name); // We need to add kannada names properly here, then we can map kannada names provided by api as well
@@ -147,11 +152,12 @@ const SelectedBusDetails = ({
   }
   const fetchBusData = async () => {
     if(liveBusData && liveBusData[routename]){ // We dont want to poll too frequently, spamming refresh will not refresh the data and log a warning
-      if(liveBusData[routename].pollDate && (liveBusData[routename].pollDate - Date.now()) < 20000){ // 20 second timer
+      if(liveBusData[routename].pollDate && (Date.now() - liveBusData[routename].pollDate) < 20000){ // 20 second timer
         console.warn("Live data poll request too frequent!");
         return;
       }
     } // We still want to poll fresh data if bus data for [routename] doesnt exist in our local
+
 
     try {
       // This code block will be in backend if we get backend up and running
@@ -170,6 +176,7 @@ const SelectedBusDetails = ({
       const data = await response.json();
       constructBusData(data);
     } catch (error) {
+      console.error(error);
       console.error('Error fetching bus data:', error);
     }
   };
@@ -232,7 +239,8 @@ const SelectedBusDetails = ({
   };
   useEffect(() => {
     addLayerAndEvents();
-    const intervalId = setInterval(fetchBusData, 30000); // Set interval for every 30 seconds
+    // Force update so we auto-update live data.
+    const intervalId = setInterval(() => forceUpdate(update + 1), 30000); // Set auto-update interval for every 30 seconds
 
     return () => {
       // Cleanup interval on component unmount
@@ -289,11 +297,15 @@ const SelectedBusDetails = ({
     liveBusData_[routename] = {};
     fetchBusData();
   }
-  if(liveBusData){ // Update on every reload as toAirport might have changed
-    const currentRef = mapRef.current;
-    if(currentRef){
-      currentRef.getSource("vehicles").setData(getVehiclesGeoJson(liveBusData, routename).data);
+  if(liveBusData && liveBusData[routename]){ // Update on every reload as toAirport might have changed
+    if((Date.now() - liveBusData[routename].pollDate) > 30000){ // 30 sec limit
+      fetchBusData();
     }
+    // const currentRef = mapRef.current;
+    // if(currentRef){
+    //   // setLiveBusMarkerLayer(mapRef, getVehiclesGeoJson(liveBusData).data);
+    //   // currentRef.getSource("vehicles").setData(getVehiclesGeoJson(liveBusData).data);
+    // }
   }
 
 

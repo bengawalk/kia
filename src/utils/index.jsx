@@ -7,6 +7,7 @@ import allBusesRouteLines from "./routelines.json";
 import { getDistance } from "geolib";
 import { STOPS_DATA } from "./constants";
 import appStorage from "./storage";
+import mapboxgl from "mapbox-gl";
 
 export const readTSV = (csvString) => {
   const [headersText, ...dataLines] = _.split(csvString, "\r\n");
@@ -141,8 +142,9 @@ export const getVehiclesGeoJson = (liveBusData, routename) => {
   const points = [];
   if(liveBusData){
     for(var info of Object.keys(liveBusData)){
-      if(info != 'pollDate'){
-        for(var li of Object.values(liveBusData[info])){
+      for(var liKey of Object.keys(liveBusData[info])){
+        const li = liveBusData[info][liKey];
+        if(liKey !== 'pollDate'){
           if(routename){
             for(var l of li){
               if(l.routeno.toUpperCase() === routename.toUpperCase()){
@@ -223,6 +225,72 @@ export const getIntermediateStopsGeoJson = (listOfStops) => {
       })),
     },
   };
+};
+
+let liveBusMarkerLayer = {};
+
+export const setLiveBusMarkerLayer = (mapRef, geoJsonData) => {
+  if(!mapRef || !mapRef.current){
+    return;
+  }
+  for(const marker of Object.values(liveBusMarkerLayer)){
+    marker.remove();
+  }
+  liveBusMarkerLayer = {};
+  if(!geoJsonData){
+    return;
+  }
+  for(const feature of geoJsonData.features){
+    // if(liveBusMarkerLayer[feature.name]){
+    //   liveBusMarkerLayer[feature.name].setLngLat(feature.geometry.coordinates);
+    // } else {
+    const el = document.createElement("div");
+    // el.className = `live-bus-${feature.properties.routename.includes('UP') ? 'up' : 'down'}-marker`;
+    fetch(`../assets/icon-bus-${feature.properties.routename.includes('UP') ? 'up' : 'down'}-map.svg`)
+    .then( svgIcon => svgIcon.text()
+    .then(
+      svgText => 
+        {
+          const scalePercent = 1 + (mapRef.current.getZoom() - 22)  * 0.05;
+          el.innerHTML += svgText;
+          const svgElement = el.children[0];
+          if(svgElement){
+            svgElement.style.transform = `scale(${scalePercent})`;
+            svgElement.style.transformOrigin = 'center';
+          }
+        }
+    ));
+    const popup = new mapboxgl.Popup({closeButton: false});
+    liveBusMarkerLayer[feature.properties.name] = new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).setPopup(popup).addTo(mapRef.current);
+    const markerDiv = liveBusMarkerLayer[feature.properties.name].getElement();
+    markerDiv.addEventListener('mouseenter', () => {
+      const datePattern = /^(\d{2})-(\d{2})-(\d{4})\s(\d{1,2}):(\d{2}):(\d{2})$/;
+      const [, day, month, year, rawHour, min] = datePattern.exec(feature.properties.refresh);
+      const updatedDate = new Date(`${year}-${month}-${day}T${('0' + rawHour).slice(-2)}:${min}:00`);
+      const updated = Math.floor((Date.now() - updatedDate)/1000);
+      const description = `
+      <h5 class="bus-modal-map-small">Bus route</h5>
+      <h2 class="bus-modal-map-large">${feature.properties.routename.replace("UP", "to Airport").replace("DOWN", "from Airport")}</h2>
+      <h5 class="bus-modal-map-small">Bus registration number</h5>
+      <h2 class="bus-modal-map-large">${feature.properties.name}</h2>
+      <h5 class="bus-modal-map-small">Last seen</h5>
+      <h2 class="bus-modal-map-large">${feature.properties.passed}</h2>
+      <h5 class="bus-modal-map-time">Updated ${updated <= 60 ? `${updated} seconds` : (Math.floor(updated/60) > 1 ? `${Math.floor(updated/60)} minutes` : `${Math.floor(updated/60)} minute`)} ago</h5>
+      `
+      popup.setHTML(description).addTo(mapRef.current);
+    });
+    markerDiv.addEventListener('mouseleave', () => {
+      popup.remove();
+    });
+    mapRef.current.on('zoom', () => {
+      const scalePercent = 1 + (mapRef.current.getZoom() - 22)  * 0.05;
+      const svgElement = markerDiv.children[0];
+      if(svgElement){
+        svgElement.style.transform = `scale(${scalePercent})`;
+        svgElement.style.transformOrigin = 'center';
+      }
+    });
+  }
 };
 
 export const getCurrentMsm = () =>

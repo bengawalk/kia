@@ -505,15 +505,15 @@ export const BUS_DATA = {
 const COLOR_HIGHLIGHT = "#4264fb";
 const COLOR_MUTED = "#aaaaaa";
 
-export const MAP_STYLE_VEHICLE = 
-{
-  type: 'symbol',
-  layout: {
-    'icon-image': 'live-bus',
-    "icon-allow-overlap": true,
-    "icon-size": 1
-  }
-}
+// export const MAP_STYLE_VEHICLE = 
+// {
+//   type: 'symbol',
+//   layout: {
+//     'icon-image': 'live-bus',
+//     "icon-allow-overlap": true,
+//     "icon-size": 1
+//   }
+// }
 // {
 //   type: "circle",
 //   paint: {
@@ -525,42 +525,54 @@ export const MAP_STYLE_VEHICLE =
 // };
 
 export const MAP_STYLE_STOP = 
-{
-  type: 'symbol',
-  layout: {
-    'icon-image': 'bus-stop',
-    // "icon-allow-overlap": true,
-    "icon-size": 1
-  }
-}
 // {
-//   type: "circle",
-//   paint: {
-//     "circle-color": "#ffffff",
-//     "circle-radius": 8,
-//     "circle-stroke-width": 3,
-//     "circle-stroke-color": COLOR_HIGHLIGHT,
-//   },
+//   type: 'symbol',
+//   layout: {
+//     'icon-image': 'bus-stop',
+//     // "icon-allow-overlap": true,
+//     "icon-size": 1
+//   }
 // };
+{
+  type: "circle",
+  paint: {
+    "circle-color": "#ffffff",
+    "circle-radius": [
+      "interpolate", ["linear"], ["zoom"],
+      // zoom is 10 (or less) -> circle radius will be 1.5px
+      10, 1.5,
+      14, 4,
+      18, 3
+  ],
+    "circle-stroke-width": 3,
+    "circle-stroke-color": COLOR_HIGHLIGHT,
+  },
+};
 
 export const MAP_STYLE_INTERMEDIATE_STOP = 
-{
-  type: 'symbol',
-  layout: {
-    'icon-image': 'bus-stop',
-    // "icon-allow-overlap": true,
-    "icon-size": 1
-  }
-}
 // {
-//   type: "circle",
-//   paint: {
-//     "circle-color": "#ffffff",
-//     "circle-radius": 6,
-//     "circle-stroke-width": 2,
-//     "circle-stroke-color": COLOR_HIGHLIGHT,
-//   },
+//   type: 'symbol',
+//   layout: {
+//     'icon-image': 'bus-stop',
+//     // "icon-allow-overlap": true,
+//     "icon-size": 1
+//   }
 // };
+{
+  type: "circle",
+  paint: {
+    "circle-color": "#ffffff",
+    "circle-radius": [
+      "interpolate", ["linear"], ["zoom"],
+      // zoom is 10 (or less) -> circle radius will be 2px
+      10, 1.5,
+      14, 4,
+      18, 3
+  ],
+    "circle-stroke-width": 3,
+    "circle-stroke-color": COLOR_HIGHLIGHT,
+  },
+};
 
 export const MAP_STYLE_ROUTE = {
   type: "line",

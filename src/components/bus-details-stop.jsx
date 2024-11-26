@@ -4,7 +4,7 @@ import { floor as lFloor } from "lodash";
 import BusItemTime from "./bus-item-time";
 
 import IconStopDestination from "../assets/icon-stop-destination.svg";
-import IconStopIntermediate from "../assets/icon-stop-intermediate.svg";
+import IconStopIntermediate from "../assets/icon-bus-stop-map.svg";
 import IconStopSource from "../assets/icon-stop-source.svg";
 import IconCollapseChevron from "../assets/icon-collapse-chevron.svg";
 
@@ -58,7 +58,7 @@ const BusDetailsStop = ({
         onClick={() => setExpanded(!expanded)}
         className={`sel-bus-stop-row ${expanded ? "expanded" : ""}`}
       >
-        <img src={icon} alt="" className="sel-bus-stop-icon" />
+        <img src={icon} alt="" className={isStart || isEnd ? "sel-bus-stop-icon" : "sel-bus-stop-icon-small"} />
         <div className="sel-bus-stop-row-text">{stopDetails.name}</div>
         {selectedTime && (
           <span className="sel-bus-stop-row-selected-time">
