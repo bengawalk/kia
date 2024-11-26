@@ -247,19 +247,18 @@ export const setLiveBusMarkerLayer = (mapRef, geoJsonData) => {
     //   liveBusMarkerLayer[feature.name].setLngLat(feature.geometry.coordinates);
     // } else {
     const el = document.createElement("div");
-    // el.className = `live-bus-${feature.properties.routename.includes('UP') ? 'up' : 'down'}-marker`;
     fetch(feature.properties.routename.includes('UP') ? iconBusUp : iconBusDown)
     .then( svgIcon => svgIcon.text()
     .then(
       svgText => 
         {
-          const scalePercent = 1 + (mapRef.current.getZoom() - 22)  * 0.05;
+          // const scalePercent = 1 + (mapRef.current.getZoom() - 22)  * 0.05;
           el.innerHTML += svgText;
-          const svgElement = el.children[0];
-          if(svgElement){
-            svgElement.style.transform = `scale(${scalePercent})`;
-            svgElement.style.transformOrigin = 'center';
-          }
+          // const svgElement = el.children[0]; 
+          // if(svgElement){
+          //   svgElement.style.transform = `scale(${scalePercent})`;
+          //   svgElement.style.transformOrigin = 'center';
+          // }
         }
     ));
     const popup = new mapboxgl.Popup({closeButton: false});
@@ -324,14 +323,14 @@ export const setLiveBusMarkerLayer = (mapRef, geoJsonData) => {
     markerDiv.addEventListener('mouseleave', () => {
       popup.remove();
     });
-    mapRef.current.on('zoom', () => {
-      const scalePercent = 1 + (mapRef.current.getZoom() - 22)  * 0.05;
-      const svgElement = markerDiv.children[0];
-      if(svgElement){
-        svgElement.style.transform = `scale(${scalePercent})`;
-        svgElement.style.transformOrigin = 'center';
-      }
-    });
+    // mapRef.current.on('zoom', () => {
+    //   const scalePercent = 1 + (mapRef.current.getZoom() - 22)  * 0.05;
+    //   const svgElement = markerDiv.children[0];
+    //   if(svgElement){
+    //     svgElement.style.transform = `scale(${scalePercent})`;
+    //     svgElement.style.transformOrigin = 'center';
+    //   }
+    // });
   }
 };
 
