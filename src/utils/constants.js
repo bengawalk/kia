@@ -27,6 +27,9 @@ export const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 export const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 export const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 
+export const LIVE_SOURCE = import.meta.env.VITE_LIVE_SOURCE;
+export const USE_LIVE_SOURCE = import.meta.env.VITE_USE_LIVE_SOURCE;
+
 export const BMTC_API_ENDPOINT = import.meta.env.VITE_BMTC_API_ENDPOINT;
 export const CORS_ANYWHERE = import.meta.env.VITE_CORS_ANYWHERE;
 

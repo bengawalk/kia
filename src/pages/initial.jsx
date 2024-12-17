@@ -66,6 +66,7 @@ const InitialScreen = ({
         setSelectedStop={setSelectedStop}
         selectedTab={selectedTab}
         liveBusData={liveBusData}
+        setLiveBusData={setLiveBusData}
       />
       <MapLocationInput
         googleScriptStatus={googleScriptStatus}
