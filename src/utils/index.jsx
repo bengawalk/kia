@@ -177,7 +177,9 @@ export const getVehiclesGeoJson = (liveBusData, routename) => {
           name: l.regno,
           refresh: l.refresh,
           routename: l.routeno,
-          passed: l.lastKnownStop
+          routeno: l.routeno.replace(" UP", "").replace(" DOWN", ""),
+          passed: l.lastKnownStop,
+          destination: l.destination
         },
         geometry: {
           type: "Point",
@@ -261,27 +263,28 @@ export const setLiveBusMarkerLayer = (mapRef, geoJsonData) => {
         // All fetching is done, we have downIcon and upIcon fetched to inject into our new elements
         // We wont face much lag in placing new elements or making old elements hidden
         for(const feature of geoJsonData.features){
+          const getPopupDescription = () => {
+            const datePattern = /^(\d{2})-(\d{2})-(\d{4})\s(\d{1,2}):(\d{2}):(\d{2})$/;
+            const [, day, month, year, rawHour, min] = datePattern.exec(feature.properties.refresh);
+            const updatedDate = new Date(`${year}-${month}-${day}T${('0' + rawHour).slice(-2)}:${min}:00`);
+            const updated = Math.floor((Date.now() - updatedDate)/1000);
+            console.log(`Processing description for feature ${feature.properties.name} with routename ${feature.properties.routename} and destination ${feature.properties.destination}`)
+            return `
+            <h5 class="bus-modal-map-small">Bus route</h5>
+            <h2 class="bus-modal-map-large">${feature.properties.routeno} ${feature.properties.destination.includes('Kempegowda International Airport') ? ' to Airport' : ' from Airport'}</h2>
+            <h5 class="bus-modal-map-small">Bus registration number</h5>
+            <h2 class="bus-modal-map-large">${feature.properties.name}</h2>
+            <h5 class="bus-modal-map-small">Last seen</h5>
+            <h2 class="bus-modal-map-large">${feature.properties.passed}</h2>
+            <h5 class="bus-modal-map-time">Updated ${updated <= 60 ? `${updated} seconds` : (Math.floor(updated/60) > 1 ? `${Math.floor(updated/60)} minutes` : `${Math.floor(updated/60)} minute`)} ago</h5>
+            `;
+          };
           if(liveBusMarkerLayer[feature.properties.name]){ // if they exist, make them visible again
             // console.log(`${feature.properties.name} MARKER REMAINS`)
             const marker = liveBusMarkerLayer[feature.properties.name];
 
             marker.setLngLat(feature.geometry.coordinates);
             const popup = marker.getPopup();
-            const getPopupDescription = () => {
-              const datePattern = /^(\d{2})-(\d{2})-(\d{4})\s(\d{1,2}):(\d{2}):(\d{2})$/;
-              const [, day, month, year, rawHour, min] = datePattern.exec(feature.properties.refresh);
-              const updatedDate = new Date(`${year}-${month}-${day}T${('0' + rawHour).slice(-2)}:${min}:00`);
-              const updated = Math.floor((Date.now() - updatedDate)/1000);
-              return `
-              <h5 class="bus-modal-map-small">Bus route</h5>
-              <h2 class="bus-modal-map-large">${feature.properties.routename.replace("UP", "to Airport").replace("DOWN", "from Airport")}</h2>
-              <h5 class="bus-modal-map-small">Bus registration number</h5>
-              <h2 class="bus-modal-map-large">${feature.properties.name}</h2>
-              <h5 class="bus-modal-map-small">Last seen</h5>
-              <h2 class="bus-modal-map-large">${feature.properties.passed}</h2>
-              <h5 class="bus-modal-map-time">Updated ${updated <= 60 ? `${updated} seconds` : (Math.floor(updated/60) > 1 ? `${Math.floor(updated/60)} minutes` : `${Math.floor(updated/60)} minute`)} ago</h5>
-              `;
-            };
             const markerDiv = marker.getElement();
             markerDiv
             markerDiv.addEventListener('mouseenter', () => {
@@ -313,27 +316,12 @@ export const setLiveBusMarkerLayer = (mapRef, geoJsonData) => {
           // // Scale the initial icon to the current zoom level
           // const scalePercent = 1 + (mapRef.current.getZoom() - 22)  * 0.05;
             const el = document.createElement("div");
-            el.innerHTML += feature.properties.routename.includes('UP') ? upIcon : downIcon;
+            el.innerHTML += feature.properties.destination.includes('Kempegowda International Airport') ? upIcon : downIcon;
           // const svgElement = el.children[0]; 
           // if(svgElement){
           //   svgElement.style.transform = `scale(${scalePercent})`;
           //   svgElement.style.transformOrigin = 'center';
           // }
-    const getPopupDescription = () => {
-      const datePattern = /^(\d{2})-(\d{2})-(\d{4})\s(\d{1,2}):(\d{2}):(\d{2})$/;
-      const [, day, month, year, rawHour, min] = datePattern.exec(feature.properties.refresh);
-      const updatedDate = new Date(`${year}-${month}-${day}T${('0' + rawHour).slice(-2)}:${min}:00`);
-      const updated = Math.floor((Date.now() - updatedDate)/1000);
-      return `
-      <h5 class="bus-modal-map-small">Bus route</h5>
-      <h2 class="bus-modal-map-large">${feature.properties.routename.replace("UP", "to Airport").replace("DOWN", "from Airport")}</h2>
-      <h5 class="bus-modal-map-small">Bus registration number</h5>
-      <h2 class="bus-modal-map-large">${feature.properties.name}</h2>
-      <h5 class="bus-modal-map-small">Last seen</h5>
-      <h2 class="bus-modal-map-large">${feature.properties.passed}</h2>
-      <h5 class="bus-modal-map-time">Updated ${updated <= 60 ? `${updated} seconds` : (Math.floor(updated/60) > 1 ? `${Math.floor(updated/60)} minutes` : `${Math.floor(updated/60)} minute`)} ago</h5>
-      `;
-    };
     const popup = new mapboxgl.Popup({closeButton: false});
     liveBusMarkerLayer[feature.properties.name] = new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).setPopup(popup).addTo(mapRef.current);
     const markerDiv = liveBusMarkerLayer[feature.properties.name].getElement();
@@ -419,6 +407,7 @@ const constructBusData = (data, routename) => {
               refresh: vehicleData.lastrefreshon,
               currentStop: currStop,
               lastStop: stopData.from,
+              destination: stopData.to,
               lastKnownStop: stop_names.includes(stopData.from) ? stopData.from : fallbackName,
               stopCovered: vehicleData.stopCoveredStatus,
               stopCoveredOriginal: vehicleData.stopCoveredStatus, // Save original as well for bad data
@@ -471,6 +460,7 @@ const constructBusData = (data, routename) => {
               refresh: vehicleData.lastrefreshon,
               currentStop: currStop,
               lastStop: stopData.from,
+              destination: stopData.to,
               lastKnownStop: stop_names.includes(stopData.from) ? stopData.from : fallbackName,
               stopCovered: vehicleData.stopCoveredStatus,
               stopCoveredOriginal: vehicleData.stopCoveredStatus, // Save original as well for bad data
