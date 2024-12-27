@@ -5,8 +5,13 @@
     ```dotenv
     VITE_MAPBOX_TOKEN=insert_mapbox_token_here
     VITE_GOOGLE_API_KEY=insert_google_api_key_here
-    BMTC_API_ENDPOINT=endpoint_of_btmc_web_api
+    VITE_BMTC_API_ENDPOINT=endpoint_of_btmc_web_api
+    VITE_CORS_ANYWHERE=insert_cors_anywhere_url_here
+    VITE_LIVE_SOURCE=insert_live_source_url_here
+    VITE_USE_LIVE_SOURCE=FALSE
     ```
+  The BMTC web API is used to query for live bus data, it is queried through a cors-anywhere proxy.
+  The Live source is used to query a live feed of kia buses, it can be enabled and the relevant url inputted, if the live source is enabled the BMTC_API_ENDPOINT and CORS_ANYWHERE are not used.
   The BMTC web api is used to refresh the `src/utils/timings.json` file when there are updates to bus timings. It is not publicly available. If you need it, please reach out to the team on [Discord](https://discord.gg/XhmvDP4kXp).
 - Run the below commands
     ```bash

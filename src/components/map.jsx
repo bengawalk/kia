@@ -3,9 +3,9 @@ import mapboxgl from "mapbox-gl";
 import { find as lFind } from "lodash";
 import _ from "lodash";
 import STOPS_MAP from "../utils/stops.json";
-import iconBusStop from "../assets/icon-bus-stop-map.svg";
+// import iconBusStop from "../assets/icon-bus-stop-map.svg";
 
-import { getRoutesGeojson, getStopsGeoJson, getVehiclesGeoJson } from "../utils";
+import { getRoutesGeojson, getStopsGeoJson, updateLiveInfo } from "../utils";
 import {
   BUS_DATA,
   MAP_STYLE_HIGHLIGHTED_ROUTE,
@@ -225,68 +225,11 @@ class Map extends React.PureComponent {
       userLocation,
       inputLocation,
       mapRef,
-      liveBusData
+      liveBusData, 
+      setLiveBusData
     } = this.props;
 
     this.callFnIfMapLoaded(() => {
-
-      // fetch(iconLiveBusDown)
-      // .then(res => res.text())
-      // .then(svgText => {
-      //   // Create a Blob from the SVG text
-      //   const svgBlob = new Blob([svgText], { type: 'image/svg+xml' });
-    
-      //   // Create a URL for the blob
-      //   const url = URL.createObjectURL(svgBlob);
-    
-      //   // Create an image element
-      //   const img = new Image();
-      //   img.src = url;
-    
-      //   img.onload = function () {
-      //     // Once the image has loaded, create an ImageBitmap
-      //     createImageBitmap(img).then(imageBitmap => {
-      //       // Add the ImageBitmap to the map
-      //       mapRef.current.addImage('live-bus', imageBitmap, { sdf: false });
-      //       // Once we have a back-end for live data snapshot, we will query it here then do the below code
-      //       mapRef.current.addSource("vehicles", getVehiclesGeoJson(liveBusData));
-    
-      //       mapRef.current.addLayer({
-      //         id: "vehicles",
-      //         source: "vehicles",
-      //         ...MAP_STYLE_VEHICLE,
-      //       });
-    
-      //       // Revoke the URL after using it
-      //       URL.revokeObjectURL(url);
-      //     });
-      //   };
-      // });
-
-      // fetch(iconBusStop)
-      // .then(res => res.text())
-      // .then(svgText => {
-      //   // Create a Blob from the SVG text
-      //   const svgBlob = new Blob([svgText], { type: 'image/svg+xml' });
-    
-      //   // Create a URL for the blob
-      //   const url = URL.createObjectURL(svgBlob);
-    
-      //   // Create an image element
-      //   const img = new Image();
-      //   img.src = url;
-    
-      //   img.onload = function () {
-      //     // Once the image has loaded, create an ImageBitmap
-      //     createImageBitmap(img).then(imageBitmap => {
-      //       // Add the ImageBitmap to the map
-      //       mapRef.current.addImage('bus-stop', imageBitmap, { sdf: false });
-    
-      //       // Revoke the URL after using it
-      //       URL.revokeObjectURL(url);
-      //     });
-      //   };
-      // });
 
       mapRef.current.addSource("stops", getStopsGeoJson(busData, selectedTab));
     
@@ -310,6 +253,8 @@ class Map extends React.PureComponent {
         ...MAP_STYLE_HIGHLIGHTED_ROUTE,
         filter: ["==", "name", selectedBus || ""],
       });
+
+      updateLiveInfo(mapRef, liveBusData, setLiveBusData, undefined);
 
       this.initLocationMarkers();
     });
@@ -455,14 +400,14 @@ class Map extends React.PureComponent {
   };
 
   refreshMapData = () => {
-    const { busData, selectedTab, mapRef, liveBusData, } = this.props;
+    const { busData, selectedTab, mapRef, } = this.props;
 
     const routeSource = mapRef.current.getSource("routes");
     const stopsSource = mapRef.current.getSource("stops");
-    const vehiclesSource = mapRef.current.getSource("vehicles");
+    // const vehiclesSource = mapRef.current.getSource("vehicles");
     routeSource.setData(getRoutesGeojson(busData).data);
     stopsSource.setData(getStopsGeoJson(busData, selectedTab).data);
-    vehiclesSource.setData(getVehiclesGeoJson(liveBusData).data);
+    // vehiclesSource.setData(getVehiclesGeoJson(liveBusData).data);
   };
 
   render() {
