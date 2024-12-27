@@ -254,7 +254,7 @@ class Map extends React.PureComponent {
         filter: ["==", "name", selectedBus || ""],
       });
 
-      updateLiveInfo(mapRef, liveBusData, setLiveBusData, undefined);
+      updateLiveInfo(mapRef, liveBusData, setLiveBusData, undefined, undefined);
 
       this.initLocationMarkers();
     });

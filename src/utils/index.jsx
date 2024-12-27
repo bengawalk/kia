@@ -10,8 +10,8 @@ import appStorage from "./storage";
 import mapboxgl from "mapbox-gl";
 import iconBusUp from "../assets/icon-bus-up-map.svg";
 import iconBusDown from "../assets/icon-bus-down-map.svg";
-import ALL_BUSES_STOPS from "../utils/stops.json";
-import PARENT_IDS from "../utils/bmtc_api_data.json";
+import ALL_BUSES_STOPS from "./stops.json";
+import PARENT_IDS from "./bmtc_api_data.json";
 
 export const readTSV = (csvString) => {
   const [headersText, ...dataLines] = _.split(csvString, "\r\n");
@@ -505,7 +505,7 @@ export const fetchBusData = (liveBusData, routename) => {
       console.warn("Live data poll request too frequent!");
       return Promise.resolve(); // Return a resolved promise with no data
     }
-  } 
+  }
 
   return fetch(`${CORS_ANYWHERE}${BMTC_API_ENDPOINT}/SearchByRouteDetails_v4`, {
     method: 'POST', 
@@ -548,25 +548,24 @@ export const fetchLiveBusData = () => {
     });
 };
 
-export const updateLiveInfo = (mapRef, liveBusData, setLiveBusData, filter) => {
+export const updateLiveInfo = (mapRef, liveBusData, setLiveBusData, filter, rname) => {
   let dataP;
   if (USE_LIVE_SOURCE && USE_LIVE_SOURCE.toUpperCase() === "TRUE") {
     dataP = fetchLiveBusData();
   } else {
-    if (filter && !isUndefined(filter)) {
-      dataP = fetchBusData(liveBusData, filter);
+    if (rname && !isUndefined(rname)) {
+      dataP = fetchBusData(liveBusData, rname);
     }
   }
 
   if (!dataP) {
-    console.log('No data promise available');
     clearLiveBusMarkerLayer(mapRef);
     return;
   }
 
   dataP.then((dataE) => {
     if (isUndefined(dataE)) {
-      console.log('Data is undefined:', dataE);
+      console.error('Data is undefined:', dataE);
       clearLiveBusMarkerLayer(mapRef);
       return;
     }

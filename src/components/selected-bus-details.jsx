@@ -143,15 +143,16 @@ const SelectedBusDetails = ({
   // updateLiveInfo(mapRef, liveBusData, setLiveBusData, routename);
   if(!liveBusData || !liveBusData[routename] || !liveBusData_[routename]){
     liveBusData_[routename] = {};
-  //   updateLiveInfo(mapRef, liveBusData, setLiveBusData, routename);
   }
 
   const fetchBusDataHere = () => {
     if(liveBusData && liveBusData[routename]){ // Update on every reload as toAirport might have changed
       if((Date.now() - liveBusData[routename].pollDate) > 30000){ // 30 sec limit
-        updateLiveInfo(mapRef, liveBusData, setLiveBusData, name);
+        updateLiveInfo(mapRef, liveBusData, setLiveBusData, name, routename);
       }
-  }
+  } else { // First update of live data
+      updateLiveInfo(mapRef, liveBusData, setLiveBusData, name, routename);
+    }
     // const currentRef = mapRef.current;
     // if(currentRef){
     //   // setLiveBusMarkerLayer(mapRef, getVehiclesGeoJson(liveBusData).data);
