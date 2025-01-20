@@ -27,6 +27,12 @@ export const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 export const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 export const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 
+export const LIVE_SOURCE = import.meta.env.VITE_LIVE_SOURCE;
+export const USE_LIVE_SOURCE = import.meta.env.VITE_USE_LIVE_SOURCE;
+
+export const BMTC_API_ENDPOINT = import.meta.env.VITE_BMTC_API_ENDPOINT;
+export const CORS_ANYWHERE = import.meta.env.VITE_CORS_ANYWHERE;
+
 export const HELPLINE_NUMBER = "77609 91269";
 
 export const APP_SCREENS = {
@@ -502,22 +508,71 @@ export const BUS_DATA = {
 const COLOR_HIGHLIGHT = "#4264fb";
 const COLOR_MUTED = "#aaaaaa";
 
-export const MAP_STYLE_STOP = {
+// export const MAP_STYLE_VEHICLE = 
+// {
+//   type: 'symbol',
+//   layout: {
+//     'icon-image': 'live-bus',
+//     "icon-allow-overlap": true,
+//     "icon-size": 1
+//   }
+// }
+// {
+//   type: "circle",
+//   paint: {
+//     "circle-color": COLOR_MUTED,
+//     "circle-radius": 5,
+//     "circle-stroke-width": 3,
+//     "circle-stroke-color": COLOR_HIGHLIGHT,
+//   },
+// };
+
+export const MAP_STYLE_STOP = 
+// {
+//   type: 'symbol',
+//   layout: {
+//     'icon-image': 'bus-stop',
+//     // "icon-allow-overlap": true,
+//     "icon-size": 1
+//   }
+// };
+{
   type: "circle",
   paint: {
     "circle-color": "#ffffff",
-    "circle-radius": 8,
+    "circle-radius": [
+      "interpolate", ["linear"], ["zoom"],
+      // zoom is 10 (or less) -> circle radius will be 1.5px
+      10, 1.5,
+      14, 4,
+      18, 3
+  ],
     "circle-stroke-width": 3,
     "circle-stroke-color": COLOR_HIGHLIGHT,
   },
 };
 
-export const MAP_STYLE_INTERMEDIATE_STOP = {
+export const MAP_STYLE_INTERMEDIATE_STOP = 
+// {
+//   type: 'symbol',
+//   layout: {
+//     'icon-image': 'bus-stop',
+//     // "icon-allow-overlap": true,
+//     "icon-size": 1
+//   }
+// };
+{
   type: "circle",
   paint: {
     "circle-color": "#ffffff",
-    "circle-radius": 6,
-    "circle-stroke-width": 2,
+    "circle-radius": [
+      "interpolate", ["linear"], ["zoom"],
+      // zoom is 10 (or less) -> circle radius will be 2px
+      10, 1.5,
+      14, 4,
+      18, 3
+  ],
+    "circle-stroke-width": 3,
     "circle-stroke-color": COLOR_HIGHLIGHT,
   },
 };

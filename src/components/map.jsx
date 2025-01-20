@@ -3,8 +3,9 @@ import mapboxgl from "mapbox-gl";
 import { find as lFind } from "lodash";
 import _ from "lodash";
 import STOPS_MAP from "../utils/stops.json";
+// import iconBusStop from "../assets/icon-bus-stop-map.svg";
 
-import { getRoutesGeojson, getStopsGeoJson } from "../utils";
+import { getRoutesGeojson, getStopsGeoJson, updateLiveInfo } from "../utils";
 import {
   BUS_DATA,
   MAP_STYLE_HIGHLIGHTED_ROUTE,
@@ -16,6 +17,7 @@ import {
 import { withTranslation, Trans } from "react-i18next";
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
+
 
 class Map extends React.PureComponent {
   constructor(props) {
@@ -51,7 +53,6 @@ class Map extends React.PureComponent {
       });
     });
     mapRef.current = map;
-    // this.map = map;
   };
 
   componentDidMount() {
@@ -203,8 +204,14 @@ class Map extends React.PureComponent {
         mapRef.current.removeLayer("routes");
         mapRef.current.removeLayer("routes-highlighted");
         mapRef.current.removeSource("routes");
+      } 
+      if (mapRef.current.getLayer("stops")) {
         mapRef.current.removeLayer("stops");
         mapRef.current.removeSource("stops");
+      } 
+      if (mapRef.current.getLayer("vehicles")) {
+        mapRef.current.removeLayer("vehicles");
+        mapRef.current.removeSource("vehicles");
       }
       mapRef.current.remove();
     }
@@ -218,9 +225,21 @@ class Map extends React.PureComponent {
       userLocation,
       inputLocation,
       mapRef,
+      liveBusData, 
+      setLiveBusData
     } = this.props;
 
     this.callFnIfMapLoaded(() => {
+
+      mapRef.current.addSource("stops", getStopsGeoJson(busData, selectedTab));
+    
+      mapRef.current.addLayer({
+        id: "stops",
+        source: "stops",
+        ...MAP_STYLE_STOP,
+        filter: true,
+      });
+    
       mapRef.current.addSource("routes", getRoutesGeojson(busData));
       mapRef.current.addLayer({
         id: "routes",
@@ -235,14 +254,7 @@ class Map extends React.PureComponent {
         filter: ["==", "name", selectedBus || ""],
       });
 
-      mapRef.current.addSource("stops", getStopsGeoJson(busData, selectedTab));
-
-      mapRef.current.addLayer({
-        id: "stops",
-        source: "stops",
-        ...MAP_STYLE_STOP,
-        filter: true,
-      });
+      updateLiveInfo(mapRef, liveBusData, setLiveBusData, undefined, undefined);
 
       this.initLocationMarkers();
     });
@@ -323,11 +335,29 @@ class Map extends React.PureComponent {
     });
 
     mapRef.current.on("click", "routes", (e) => {
-      const { setSelectedBus } = this.props;
+      const { selectedBus, setSelectedBus, setSelectedStop } = this.props;
       const feature = e.features[0];
 
       const { name } = feature.properties;
-      setSelectedBus(name);
+      if(selectedBus && selectedBus !== name) { // The selected-bus-details component doesnt unmount, so we remove the layers here manually
+        const uniqueDown = `${selectedBus}_down_intermediate_stops`;
+        const uniqueUp = `${selectedBus}_up_intermediate_stops`;
+        if (mapRef.current.getLayer(uniqueDown)) {
+          mapRef.current.removeLayer(uniqueDown);
+        }
+        if (mapRef.current.getSource(uniqueDown)) {
+          mapRef.current.removeSource(uniqueDown);
+        }
+        if (mapRef.current.getLayer(uniqueUp)) {
+          mapRef.current.removeLayer(uniqueUp);
+        }
+        if (mapRef.current.getSource(uniqueUp)) {
+          mapRef.current.removeSource(uniqueUp);
+        }
+      }
+      // setSelectedStop(null);
+      setSelectedBus(name); 
+      
     });
 
     mapRef.current.on("mouseleave", "routes", () => {
@@ -339,15 +369,45 @@ class Map extends React.PureComponent {
         selectedBus || "",
       ]);
     });
+    // Show bus regno and details on hovering on the bus circle
+    // mapRef.current.on("mouseenter", "vehicles", (e) => {
+
+    //   const coordinates = e.features[0].geometry.coordinates.slice();
+    //   const datePattern = /^(\d{2})-(\d{2})-(\d{4})\s(\d{1,2}):(\d{2})$/;
+    //   const [, day, month, year, rawHour, min] = datePattern.exec(e.features[0].properties.refresh);
+    //   const updatedDate = new Date(`${year}-${month}-${day}T${('0' + rawHour).slice(-2)}:${min}:00`);
+    //   const updated = (Date.now() - updatedDate)/100;
+    //   const description = `
+    //   <h5>Bus route</h5>
+    //   <h2>${e.features[0].properties.routename}</h2>
+    //   <h5>Bus registration number</h5>
+    //   <h2>${e.features[0].properties.name}</h2>
+    //   <h5>Last seen</h5>
+    //   <h2>${e.features[0].properties.passed}</h2>
+    //   <h5>Updated ${updated} seconds ago</h5>
+    //   `
+    //   // `<h2>${e.features[0].properties.name}</h2><h3>${e.features[0].properties.routename}</h3><h3>${e.features[0].properties.passed}</h3><h3>Last Updated: ${e.features[0].properties.refresh}</h3>`;
+
+    //   while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+    //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    //   }
+    //   popup.setLngLat(coordinates).setHTML(description).addTo(mapRef.current);
+    // });
+
+    // mapRef.current.on("mouseleave", "vehicles", () => {
+    //   popup.remove();
+    // });
   };
 
   refreshMapData = () => {
-    const { busData, selectedTab, mapRef } = this.props;
+    const { busData, selectedTab, mapRef, } = this.props;
 
     const routeSource = mapRef.current.getSource("routes");
     const stopsSource = mapRef.current.getSource("stops");
+    // const vehiclesSource = mapRef.current.getSource("vehicles");
     routeSource.setData(getRoutesGeojson(busData).data);
     stopsSource.setData(getStopsGeoJson(busData, selectedTab).data);
+    // vehiclesSource.setData(getVehiclesGeoJson(liveBusData).data);
   };
 
   render() {

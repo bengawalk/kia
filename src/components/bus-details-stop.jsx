@@ -4,7 +4,7 @@ import { floor as lFloor } from "lodash";
 import BusItemTime from "./bus-item-time";
 
 import IconStopDestination from "../assets/icon-stop-destination.svg";
-import IconStopIntermediate from "../assets/icon-stop-intermediate.svg";
+import IconStopIntermediate from "../assets/icon-bus-stop-map.svg";
 import IconStopSource from "../assets/icon-stop-source.svg";
 import IconCollapseChevron from "../assets/icon-collapse-chevron.svg";
 
@@ -14,6 +14,7 @@ import IconBusStop from "../assets/icon-bus-stop.svg";
 import { withTranslation } from "react-i18next";
 import { getHoursAndMinutes, timeTextDisplay } from "../utils";
 import { STOPS_DATA } from "../utils/constants";
+import BusItemLive from "./bus-item-live";
 
 const BusDetailsStop = ({
   stopDetails,
@@ -23,6 +24,9 @@ const BusDetailsStop = ({
   selectedTimeIndex,
   setSelectedTimeIndex,
   setSelectedStop,
+  busData,
+  mapRef,
+  refresh
 }) => {
   const isStart = stopDetails.distance === 0;
   const isEnd = stopDetails.distance === totalDistance;
@@ -54,7 +58,7 @@ const BusDetailsStop = ({
         onClick={() => setExpanded(!expanded)}
         className={`sel-bus-stop-row ${expanded ? "expanded" : ""}`}
       >
-        <img src={icon} alt="" className="sel-bus-stop-icon" />
+        <img src={icon} alt="" className={isStart || isEnd ? "sel-bus-stop-icon" : "sel-bus-stop-icon-small"} />
         <div className="sel-bus-stop-row-text">{stopDetails.name}</div>
         {selectedTime && (
           <span className="sel-bus-stop-row-selected-time">
@@ -99,6 +103,14 @@ const BusDetailsStop = ({
           ))}
         </div>
       )}
+      {busData && busData.map((b) => (
+          <BusItemLive
+          key={b.regno}
+          liveBusDetails={b}
+          mapRef={mapRef}
+          refreshFunction={refresh}
+          />
+      ))}
     </div>
   );
 };

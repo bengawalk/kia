@@ -5,7 +5,7 @@ import _ from "lodash";
 import IconTabArrow from "../assets/icon-tab-arrow.svg";
 import IconCall from "../assets/icon-call.svg";
 import { HELPLINE_NUMBER, TABS } from "../utils/constants";
-import { getCurrentMsm } from "../utils";
+import { clearLiveBusMarkerLayer, getCurrentMsm, updateLiveInfo } from "../utils";
 import { Trans, withTranslation } from "react-i18next";
 import BusesList from "./bus-list";
 import SelectedBusDetails from "./selected-bus-details";
@@ -36,6 +36,7 @@ class Sidebar extends React.PureComponent {
       move: 0,
       currentTime: getCurrentMsm(),
       resized: 0,
+      updateInterval: null,
     };
     this.mouseTime = 0;
     this.secondInterval = null;
@@ -51,9 +52,14 @@ class Sidebar extends React.PureComponent {
     window.addEventListener("touchmove", this.onPointerMove, { passive: true });
     window.addEventListener("mouseup", this.onPointerUp, { passive: true });
     window.addEventListener("touchend", this.onPointerUp, { passive: true });
+    this.state.updateInterval = setInterval(() => updateLiveInfo(this.props.mapRef, this.props.liveBusData, this.props.setLiveBusData, undefined), 
+    30000);
   }
 
   componentWillUnmount() {
+    if(this.updateInterval){
+      clearInterval(this.updateInterval);
+    }
     clearInterval(this.secondInterval);
     window.removeEventListener("mousemove", this.onPointerMove, {
       passive: true,
@@ -68,7 +74,8 @@ class Sidebar extends React.PureComponent {
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { selectedBus, bodyHeight: newBodyHeight } = this.props;
     const { selectedBus: prevSelectedBus, bodyHeight } = prevProps;
-    const { move } = this.state;
+    const { move, updateInterval } = this.state;
+    // const { prevUpdateInterval } = prevState;
 
     // Handle resize for bottom tray sizing
     const delta = bodyHeight ? newBodyHeight - bodyHeight : 0;
@@ -76,9 +83,32 @@ class Sidebar extends React.PureComponent {
       move: move < -(MIDWAY_HEIGHT + 200) ? move - delta : move,
     });
 
+    // Remove or add update interval
+    if(!selectedBus && selectedBus !== prevSelectedBus){  // As route is no longer selected, sidebar can query global data
+      // add update interval
+      if(!updateInterval){
+        updateLiveInfo(this.props.mapRef, this.props.liveBusData, this.props.setLiveBusData, undefined);
+        const newUpdateInterval = setInterval(() => updateLiveInfo(this.props.mapRef, this.props.liveBusData, this.props.setLiveBusData, undefined), 
+        30000);
+        this.setState({
+          updateInterval: newUpdateInterval
+        })
+      }
+    }
+    if(!prevSelectedBus && prevSelectedBus !== selectedBus){  // As route is now selected, bus-detals tab will query global data
+      // remove update interval
+      if(updateInterval) {
+        clearInterval(updateInterval);
+        this.setState({
+          updateInterval: null
+        })
+      }
+    }
+
     // Handle change in selected buses to show and hide tray
     if (selectedBus && selectedBus !== prevSelectedBus) {
       const sidebarItem = document.querySelector(`.bus-${selectedBus}`);
+      clearLiveBusMarkerLayer();
       if (!sidebarItem) {
         // TODO: Figure out when this error occurs
         return;
@@ -175,6 +205,8 @@ class Sidebar extends React.PureComponent {
       suggestedBusDetails,
       t,
       mapRef,
+      liveBusData,
+      setLiveBusData,
     } = this.props;
     const { currentTime, move } = this.state;
     return (
@@ -230,6 +262,8 @@ class Sidebar extends React.PureComponent {
               selectedStop={selectedStop}
               setSelectedStop={setSelectedStop}
               mapRef={mapRef}
+              liveBusData={liveBusData}
+              setLiveBusData={setLiveBusData}
             />
           )}
           {!selectedStop && selectedBus && (
@@ -241,6 +275,8 @@ class Sidebar extends React.PureComponent {
               selectedTabData={sortedTabData}
               toAirport={selectedTab === "ta"}
               mapRef={mapRef}
+              liveBusData={liveBusData}
+              setLiveBusData={setLiveBusData}
             />
           )}
           {!selectedStop && !selectedBus && (
