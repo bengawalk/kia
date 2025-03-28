@@ -14,7 +14,7 @@
     "refresh-timings": "env-cmd node cron/get_timings.js"
   },
   "engines": {
-    "node": "20.10.0"
+    "node": "^22.0.0"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.8",
