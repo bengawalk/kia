@@ -40,7 +40,7 @@ name of the place. This data is not used for any other inferences, not linked to
 **Advertisers**: We do not show advertisements in the site nor do we
   work with third-party advertisers. If you notice an ad, it is likely
   injected by a browser extension and could be malicious.  
-**Mapbox**: The mapping library we use in the website stores two
+**MapLibre**: The mapping library we use in the website stores two
   values in the local storage which are sent to their servers. This is
   anonymous and not linked to the application data in any way.
 

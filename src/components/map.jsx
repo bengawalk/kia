@@ -1,5 +1,5 @@
 import * as React from "react";
-import mapboxgl from "mapbox-gl";
+import maplibregl from "maplibre-gl";
 import { find as lFind } from "lodash";
 import _ from "lodash";
 import STOPS_MAP from "../utils/stops.json";
@@ -218,21 +218,21 @@ class Map extends React.PureComponent {
     // Show user location on the map
     const el = document.createElement("div");
     el.className = "user-location-indicator";
-    this.userLocationMarker = new mapboxgl.Marker(el)
+    this.userLocationMarker = new maplibregl.Marker(el)
       .setLngLat({ lat: 0, lng: 0 })
       .addTo(mapRef.current);
 
     // Show input location on the map
     const el2 = document.createElement("div");
     el2.className = "input-location-indicator";
-    this.inputLocationMarker = new mapboxgl.Marker(el2)
+    this.inputLocationMarker = new maplibregl.Marker(el2)
       .setLngLat({ lat: 0, lng: 0 })
       .addTo(mapRef.current);
   };
 
   addMapEvents = () => {
     const { mapRef } = this.props;
-    const popup = new mapboxgl.Popup({
+    const popup = new maplibregl.Popup({
       closeButton: false,
       closeOnClick: false,
     });

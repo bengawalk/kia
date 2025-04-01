@@ -1,5 +1,5 @@
 import * as React from "react";
-import mapboxgl from "mapbox-gl";
+import maplibregl from "maplibre-gl";
 import Map from "../components/map";
 import _ from "lodash";
 import { useEffect, useRef, useState } from "react";
@@ -10,9 +10,24 @@ import MapLocationInput from "../components/map-location-input";
 import { getSuggestedBus } from "../utils";
 import SideMenu from "../components/side-menu";
 
-import { MAPBOX_TOKEN, STOPS_DATA } from "../utils/constants";
+import { STOPS_DATA } from "../utils/constants";
 
-mapboxgl.accessToken = MAPBOX_TOKEN;
+function isWebglSupported() {
+  if (window.WebGLRenderingContext) {
+    const canvas = document.createElement('canvas');
+    try {
+      const context = canvas.getContext('webgl2') || canvas.getContext('webgl');
+      if (context && typeof context.getParameter == 'function') {
+        return true;
+      }
+    } catch (e) {
+      // WebGL is supported, but disabled
+    }
+    return false;
+  }
+  // WebGL not supported
+  return false;
+}
 
 const InitialScreen = ({
   googleScriptStatus,
@@ -35,14 +50,14 @@ const InitialScreen = ({
 
   const suggestedBus = getSuggestedBus(selectedTabData, inputLocation);
   const suggestedBusDetails = _.find(selectedTabData, { name: suggestedBus });
-  const mapboxSupported = mapboxgl.supported();
+  const webglSupported = isWebglSupported();
 
   useEffect(() => {
-    if (!mapboxSupported) return;
+    if (!webglSupported) return;
 
-    const map = new mapboxgl.Map({
+    const map = new maplibregl.Map({
       container: mapContainerRef.current,
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
       center: [STOPS_DATA.majestic.loc[1], STOPS_DATA.majestic.loc[0]],
       zoom: 11,
       minZoom: 10,
@@ -65,7 +80,7 @@ const InitialScreen = ({
         mapRef.current = null;
       }
     };
-  }, [mapboxSupported]); // Only re-run if mapbox support changes
+  }, [webglSupported]); // Only re-run if WebGL support changes
 
   useEffect(() => {
     if (suggestedBus) {
@@ -89,7 +104,7 @@ const InitialScreen = ({
         sortedTabData={selectedTabData}
         bodyHeight={bodyHeight}
       />
-      {mapboxSupported ? (
+      {webglSupported ? (
         <div id="map" ref={mapContainerRef} className="map-container" />
       ) : (
         <div className="center padding" id="error-page">
