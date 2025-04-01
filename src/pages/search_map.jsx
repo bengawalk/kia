@@ -35,7 +35,19 @@ const SearchMap = ({
       center: [tempLocation.lng, tempLocation.lat],
       zoom: zoom,
     });
-  });
+
+    // Cleanup function
+    return () => {
+      if (map.current && mapContainer.current) {
+        try {
+          map.current.remove();
+        } catch (error) {
+          console.warn("Error removing map:", error);
+        }
+        map.current = null;
+      }
+    };
+  }, []); // Empty dependency array since we only want to initialize once
 
   const onConfirm = () => {
     const { lat, lng } = map.current.getCenter();

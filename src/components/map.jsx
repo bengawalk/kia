@@ -10,59 +10,19 @@ import {
   MAP_STYLE_HIGHLIGHTED_ROUTE,
   MAP_STYLE_ROUTE,
   MAP_STYLE_STOP,
-  MAPBOX_TOKEN,
-  STOPS_DATA,
 } from "../utils/constants";
-import { withTranslation, Trans } from "react-i18next";
-
-mapboxgl.accessToken = MAPBOX_TOKEN;
 
 class Map extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      lat: STOPS_DATA.majestic.loc[0],
-      lng: STOPS_DATA.majestic.loc[1],
-      zoom: 11,
-      supported: mapboxgl.supported(),
-    };
-    this.mapContainer = React.createRef();
   }
-
-  initMap = () => {
-    const { mapRef } = this.props;
-    const { lng, lat, zoom } = this.state;
-    const map = new mapboxgl.Map({
-      container: this.mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [lng, lat],
-      zoom: zoom,
-      minZoom: 10,
-      maxZoom: 18,
-    });
-    map.dragRotate.disable();
-    map.touchZoomRotate.disableRotation();
-
-    map.on("move", () => {
-      this.setState({
-        lng: map.getCenter().lng.toFixed(4),
-        lat: map.getCenter().lat.toFixed(4),
-        zoom: map.getZoom().toFixed(2),
-      });
-    });
-    mapRef.current = map;
-    // this.map = map;
-  };
 
   componentDidMount() {
     const { mapRef } = this.props;
-    if (this.state.supported) {
-      this.initMap();
-      mapRef.current?.on("load", () => {
-        this.renderMapData();
-        this.addMapEvents();
-      });
-    }
+    mapRef.current?.on("load", () => {
+      this.renderMapData();
+      this.addMapEvents();
+    });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -81,10 +41,6 @@ class Map extends React.PureComponent {
       selectedTab: prevSelectedTab,
       inputLocation: prevInputLocation,
     } = prevProps;
-
-    if (!this.state.supported) {
-      return;
-    }
 
     if (prevSelectedTab !== selectedTab) {
       this.callFnIfMapLoaded(this.refreshMapData);
@@ -351,19 +307,8 @@ class Map extends React.PureComponent {
   };
 
   render() {
-    const { t } = this.props;
-    const { supported } = this.state;
-    if (!supported) {
-      return (
-        <div className="center padding" id="error-page">
-          <Trans t={t} i18nKey="deviceMapSupport" />
-          <br />
-          <Trans t={t} i18nKey="ensureUpToDate" />
-        </div>
-      );
-    }
-    return <div id="map" ref={this.mapContainer} className="map-container" />;
+    return null;
   }
 }
 
-export default withTranslation()(Map);
+export default Map;
