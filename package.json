@@ -30,7 +30,7 @@
     "google-polyline": "^1.0.3",
     "i18next": "^23.5.1",
     "lodash": "^4.17.21",
-    "mapbox-gl": "^3.7.0",
+    "maplibre-gl": "^3.6.2",
     "markdown-to-jsx": "^7.3.2",
     "qs": "^6.11.0",
     "react": "^18.2.0",

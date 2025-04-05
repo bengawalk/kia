@@ -22,6 +22,7 @@ button {
   padding: 80px 10px;
   width: 100%;
   overflow: auto;
+
   img {
     width: 100%;
     max-width: 500px;
@@ -31,6 +32,7 @@ button {
 .btn {
   padding: 6px 20px;
   border: 0;
+
   &.primary {
     align-items: center;
     background-color: var(--color-primary);
@@ -154,6 +156,7 @@ h4 {
   align-items: center;
   text-decoration: none;
   color: var(--color-primary);
+
   img {
     width: 18px;
     height: 18px;
@@ -196,13 +199,16 @@ h4 {
   vertical-align: text-top;
   color: var(--color-grey-medium);
   cursor: pointer;
+
   &.kn {
     padding-top: 5px;
   }
+
   &.selected {
     color: var(--color-primary);
     text-decoration: underline;
   }
+
   &:hover {
     color: var(--color-primary);
   }
@@ -236,12 +242,14 @@ h4 {
   width: 10px;
   flex-grow: 1;
   flex-shrink: 1;
+  position: relative;
 }
 
 #tab-arrow {
   width: 15px;
   height: 15px;
   margin-right: 6px;
+
   &.ta {
     transform: rotate(180deg);
   }
@@ -269,17 +277,22 @@ h4 {
   user-select: none;
   margin-bottom: 12px;
   flex-shrink: 0;
+
   &:hover {
     border: 1px solid var(--color-primary);
   }
+
   .text-light {
     color: var(--color-grey-medium);
   }
+
   &.highlighted {
     border: 1px solid var(--color-primary);
+
     .text-light {
       color: var(--color-grey-light);
     }
+
     .route-item-header {
       background-color: var(--color-primary);
       color: #ffffff;
@@ -323,10 +336,12 @@ h4 {
   justify-content: center;
   margin: 0 6px 10px 0;
   cursor: pointer;
+
   &.disabled {
     color: var(--color-grey-light);
     border: 1px solid var(--color-grey-light);
   }
+
   &.selected {
     color: #ffffff;
     border: 1px solid var(--color-primary);
@@ -340,6 +355,7 @@ h4 {
   text-decoration: none;
   color: var(--color-primary);
   margin: 5px 0 14px;
+
   &:hover {
     text-decoration: underline;
   }
@@ -359,6 +375,7 @@ h4 {
     border-radius: 8px 8px 0 0;
     box-shadow: 0px -3px 6px #00000029;
     transition: border-radius 0.3s;
+
     &.sharp-corners {
       border-radius: 0;
     }
@@ -370,6 +387,7 @@ h4 {
 }
 
 .user-location-indicator {
+  position: absolute;
   //backdrop-filter: blur(10px) saturate(200%);
   background-color: #038cfc;
   background-size: 40%;
@@ -390,6 +408,7 @@ h4 {
 }
 
 .input-location-indicator {
+  position: absolute;
   background-image: url(../icon-marker.svg);
   width: 26px;
   height: 33px;
@@ -408,6 +427,7 @@ h4 {
       0 0 0 12px rgba(3, 140, 252, 0.14),
       0 0 0 4px rgba(3, 140, 252, 0.14);
   }
+
   to {
     box-shadow: 0 0 0 5px rgba(3, 140, 252, 0.3);
   }
@@ -437,6 +457,7 @@ h4 {
   background-repeat: no-repeat;
   background-size: 18px;
   background-position: 11px 8px;
+
   &:active,
   &:focus {
     outline: 0;
@@ -448,6 +469,7 @@ h4 {
   #li-wrapper {
     left: 0;
     max-width: initial;
+
     #search-loading {
       margin: -4px 0 0 40px;
     }
@@ -457,8 +479,8 @@ h4 {
     background-image: none;
   }
 
-  .mapboxgl-ctrl-bottom-left,
-  .mapboxgl-ctrl-bottom-right {
+  .maplibregl-ctrl-bottom-left,
+  .maplibregl-ctrl-bottom-right {
     bottom: 60px;
   }
 }
@@ -521,6 +543,7 @@ h4 {
   background-color: transparent;
   padding: 8px 10px;
   cursor: pointer;
+
   img {
     width: 18px;
     height: 18px;
@@ -553,11 +576,14 @@ h4 {
   align-items: center;
   justify-content: center;
 }
+
 #search-powered-by {
   font-size: 0.7rem;
+
   img {
     height: 20px;
   }
+
   display: flex;
   color: var(--color-grey-medium);
   align-items: center;
@@ -572,6 +598,7 @@ h4 {
   background-size: 18px;
   background-position: 16px 12px;
   cursor: pointer;
+
   &:hover {
     background-color: #eaeaea;
   }
@@ -601,6 +628,7 @@ h4 {
   align-items: center;
   justify-content: center;
   padding: 10px 0;
+
   &.left {
     justify-content: flex-start;
   }
@@ -610,10 +638,12 @@ h4 {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
+
 .spin {
   display: block;
   height: 24px;
@@ -640,6 +670,8 @@ h4 {
   height: 48px;
   font-size: 0.8rem;
   text-transform: uppercase;
+  position: relative;
+  z-index: 1000;
 }
 
 #search-marker {
@@ -649,6 +681,7 @@ h4 {
   width: 2px;
   height: 2px;
   z-index: 1000;
+
   img {
     display: block;
     position: absolute;
@@ -674,6 +707,7 @@ h4 {
   padding: 0;
   background-color: transparent;
   margin: 0 0 20px 0;
+
   .icon-back-arrow {
     width: 16px;
     height: 16px;
@@ -702,6 +736,7 @@ h4 {
   font-size: 0.7rem;
   line-height: 1.8;
   margin-bottom: 20px;
+
   .text-light {
     color: var(--color-grey-medium);
   }
@@ -717,6 +752,7 @@ h4 {
 
 .sel-bus-stop-row-container {
   position: relative;
+
   &.start {
     &::after {
       content: "";
@@ -729,6 +765,7 @@ h4 {
       background-color: #1967D3;
     }
   }
+
   &.end {
     &::after {
       content: "";
@@ -741,6 +778,7 @@ h4 {
       background-color: #1967D3;
     }
   }
+
   &.intermediate {
     &::after {
       content: "";
@@ -763,6 +801,7 @@ h4 {
   cursor: pointer;
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0);
+
   &:hover {
     background-color: #fafafa;
     border: 1px solid #1967D3;
@@ -779,6 +818,7 @@ h4 {
   width: 16px;
   height: 16px;
   opacity: 0.4;
+
   &.expanded {
     transform: rotate(90deg);
   }
@@ -807,6 +847,7 @@ h4 {
   padding: 10px 20px;
   border-radius: 4px;
   margin: 10px 0;
+
   img {
     width: 20px;
   }
@@ -814,12 +855,14 @@ h4 {
 
 #bus-stop-timings-table {
   font-size: 0.8rem;
+
   th {
     text-align: left;
     cursor: pointer;
     padding: 10px 5px;
     border-bottom: 2px solid #dddddd;
   }
+
   td {
     padding: 10px 5px;
     border-bottom: 2px solid #f0f0f0;
@@ -829,10 +872,12 @@ h4 {
 
 .selected-stop-table-header {
   display: flex;
+
   img {
     margin-left: 5px;
     transform: rotateX(180deg);
   }
+
   &.reverse {
     img {
       transform: rotateX(0deg);
@@ -847,8 +892,14 @@ h4 {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+
   img {
     width: 30px;
     margin-bottom: -8px;
   }
+}
+
+.maplibregl-ctrl-bottom-left,
+.maplibregl-ctrl-bottom-right {
+  bottom: 60px;
 }

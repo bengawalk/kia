@@ -1,7 +1,6 @@
+import _, { find as lFind } from "lodash";
+import maplibregl from "maplibre-gl";
 import * as React from "react";
-import mapboxgl from "mapbox-gl";
-import { find as lFind } from "lodash";
-import _ from "lodash";
 import STOPS_MAP from "../utils/stops.json";
 
 import { getRoutesGeojson, getStopsGeoJson } from "../utils";
@@ -22,6 +21,7 @@ class Map extends React.PureComponent {
     mapRef.current?.on("load", () => {
       this.renderMapData();
       this.addMapEvents();
+      mapRef.current.on("move", this.positionLocationMarkers);
     });
   }
 
@@ -50,19 +50,14 @@ class Map extends React.PureComponent {
       this.initLocationMarkers();
     }
 
-    if (userLocation && !prevUserLocation) {
-      const el = document.createElement("div");
-      el.className = "location-indicator";
-
-      this.userLocationMarker.setLngLat(userLocation);
+    if (userLocation) {
+      this.positionLocationMarkers();
+      this.centerMapOnUser();
     }
 
-    if (inputLocation && !prevInputLocation) {
-      const el = document.createElement("div");
-      el.className = "input-location-indicator";
-
-      this.inputLocationMarker.setLngLat(inputLocation);
-      this.callFnIfMapLoaded(this.centerMapOnInput);
+    if (inputLocation) {
+      this.positionLocationMarkers();
+      this.centerMapOnInput();
     }
 
     if (selectedBus !== prevSelectedBus) {
@@ -143,6 +138,20 @@ class Map extends React.PureComponent {
     });
   };
 
+  centerMapOnUser = () => {
+    const { userLocation, mapRef } = this.props;
+    if (userLocation) {
+      mapRef.current.flyTo({
+        center: [userLocation.lng, userLocation.lat],
+        zoom: 14,
+        pitch: 0,
+        bearing: 0,
+        duration: 500,
+        essential: true,
+      });
+    }
+  };
+
   callFnIfMapLoaded = (fn) => {
     const { mapRef } = this.props;
     if (mapRef.current._loaded) {
@@ -163,7 +172,16 @@ class Map extends React.PureComponent {
         mapRef.current.removeSource("stops");
       }
       mapRef.current.remove();
+      mapRef.current.off("move", this.positionLocationMarkers);
     }
+    if (this.userLocationMarker) {
+      this.userLocationMarker.remove();
+    }
+    if (this.inputLocationMarker) {
+      this.inputLocationMarker.remove();
+    }
+    this.userLocationMarker = null;
+    this.inputLocationMarker = null;
   }
 
   renderMapData = () => {
@@ -204,35 +222,53 @@ class Map extends React.PureComponent {
     });
 
     if (userLocation) {
-      this.userLocationMarker.setLngLat(userLocation);
+      this.positionLocationMarkers();
     }
 
     if (inputLocation) {
-      this.inputLocationMarker.setLngLat(inputLocation);
       this.centerMapOnInput();
     }
   };
 
   initLocationMarkers = () => {
-    const { mapRef } = this.props;
+    const { mapContainerRef } = this.props;
+
+    // No map container or if location markers already exist
+    if (!mapContainerRef.current || !!this.userLocationMarker) {
+      return;
+    }
+
     // Show user location on the map
-    const el = document.createElement("div");
-    el.className = "user-location-indicator";
-    this.userLocationMarker = new mapboxgl.Marker(el)
-      .setLngLat({ lat: 0, lng: 0 })
-      .addTo(mapRef.current);
+    this.userLocationMarker = document.createElement("div");
+    this.userLocationMarker.className = "user-location-indicator";
+    mapContainerRef.current.appendChild(this.userLocationMarker);
 
     // Show input location on the map
-    const el2 = document.createElement("div");
-    el2.className = "input-location-indicator";
-    this.inputLocationMarker = new mapboxgl.Marker(el2)
-      .setLngLat({ lat: 0, lng: 0 })
-      .addTo(mapRef.current);
+    this.inputLocationMarker = document.createElement("div");
+    this.inputLocationMarker.className = "input-location-indicator";
+    mapContainerRef.current.appendChild(this.inputLocationMarker);
+
+    this.positionLocationMarkers();
+  };
+
+  positionLocationMarkers = () => {
+    const { userLocation, inputLocation, mapRef } = this.props;
+    if (this.userLocationMarker && userLocation) {
+      const point = mapRef.current.project(userLocation);
+      this.userLocationMarker.style.left = `${point.x}px`;
+      this.userLocationMarker.style.top = `${point.y}px`;
+    }
+    if (this.inputLocationMarker && inputLocation) {
+      const point = mapRef.current.project(inputLocation);
+      this.inputLocationMarker.style.left = `${point.x}px`;
+      this.inputLocationMarker.style.top = `${point.y}px`;
+      this.inputLocationMarker.style.transform = "translate(-25%, -25%)";
+    }
   };
 
   addMapEvents = () => {
     const { mapRef } = this.props;
-    const popup = new mapboxgl.Popup({
+    const popup = new maplibregl.Popup({
       closeButton: false,
       closeOnClick: false,
     });
