@@ -1,10 +1,8 @@
 import * as React from "react";
 import { createRoot } from "react-dom/client";
-import { MAP_STYLE_ROUTE, MAPBOX_TOKEN, STOPS_DATA } from "../utils/constants";
-import mapboxgl from "mapbox-gl";
+import { MAP_STYLE_ROUTE, STOPS_DATA } from "../utils/constants";
+import maplibregl from "maplibre-gl";
 import { getRoutesGeojson } from "../utils";
-
-mapboxgl.accessToken = MAPBOX_TOKEN;
 
 const getLineGeoJson = (points) => ({
   type: "geojson",
@@ -69,9 +67,9 @@ class Container extends React.Component {
 
   initMap = () => {
     const { lng, lat, zoom } = this.state;
-    const map = new mapboxgl.Map({
+    const map = new maplibregl.Map({
       container: this.mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
       center: [lng, lat],
       zoom: zoom,
       minZoom: 10,

@@ -11,7 +11,7 @@ import {
 import BusDetailsStop from "./bus-details-stop";
 import IconArrowBack from "../assets/icon-arrow-back";
 import { ALL_BUSES_TIMINGS, getIntermediateStopsGeoJson } from "../utils";
-import mapboxgl from "mapbox-gl";
+import maplibregl from "maplibre-gl";
 
 const SelectedBusDetails = ({
   setSelectedBus,
@@ -27,11 +27,11 @@ const SelectedBusDetails = ({
 
   useEffect(() => {
     const currentRef = mapRef.current;
-    if(!currentRef) {
+    if (!currentRef) {
       return;
     }
 
-    const popup = new mapboxgl.Popup({
+    const popup = new maplibregl.Popup({
       closeButton: false,
       closeOnClick: false,
     });
@@ -109,13 +109,13 @@ const SelectedBusDetails = ({
   }, [mapRef.current]);
 
   useEffect(() => {
-    if(!_.find(selectedTabData, { name: selectedBus })) {
+    if (!_.find(selectedTabData, { name: selectedBus })) {
       setSelectedBus(null);
     }
   }, [selectedTabData, selectedBus]);
 
   const busDetails = _.find(selectedTabData, { name: selectedBus });
-  if(!busDetails) {
+  if (!busDetails) {
     return null;
   }
 

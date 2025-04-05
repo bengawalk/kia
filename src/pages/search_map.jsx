@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
+import maplibregl from "maplibre-gl";
 
 import { APP_SCREENS, STOPS_DATA } from "../utils/constants";
 
@@ -29,9 +29,9 @@ const SearchMap = ({
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
+    map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v12",
+      style: "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
       center: [tempLocation.lng, tempLocation.lat],
       zoom: zoom,
     });
