@@ -11,6 +11,7 @@ import { getSuggestedBus } from "../utils";
 import SideMenu from "../components/side-menu";
 
 import { MAPBOX_TOKEN, STOPS_DATA } from "../utils/constants";
+import { withTranslation, Trans } from "react-i18next";
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -25,6 +26,7 @@ const InitialScreen = ({
   inputLocationMetadata,
   setLang,
   bodyHeight,
+  t,
 }) => {
   const mapRef = useRef();
   const mapContainerRef = useRef();
@@ -123,4 +125,4 @@ const InitialScreen = ({
   );
 };
 
-export default InitialScreen;
+export default withTranslation()(InitialScreen);
