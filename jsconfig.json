@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+      "checkJs": true,
+      "module": "Node16",
+      "moduleResolution": "node16",
+      "jsx": "react"
+    }
+  }

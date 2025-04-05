@@ -1,17 +1,17 @@
-import * as React from "react";
-import mapboxgl from "mapbox-gl";
-import Map from "../components/map";
 import _ from "lodash";
+import mapboxgl from "mapbox-gl";
+import * as React from "react";
 import { useEffect, useRef, useState } from "react";
+import Map from "../components/map";
 
-import { BUS_DATA } from "../utils/constants";
-import Sidebar from "../components/sidebar";
 import MapLocationInput from "../components/map-location-input";
-import { getSuggestedBus } from "../utils";
 import SideMenu from "../components/side-menu";
+import Sidebar from "../components/sidebar";
+import { getSuggestedBus } from "../utils";
+import { BUS_DATA } from "../utils/constants";
 
+import { Trans, withTranslation } from "react-i18next";
 import { MAPBOX_TOKEN, STOPS_DATA } from "../utils/constants";
-import { withTranslation, Trans } from "react-i18next";
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -28,8 +28,8 @@ const InitialScreen = ({
   bodyHeight,
   t,
 }) => {
-  const mapRef = useRef();
-  const mapContainerRef = useRef();
+  const mapRef = useRef(null);
+  const mapContainerRef = useRef(null);
   const [selectedBus, setSelectedBus] = useState(null);
   const [selectedStop, setSelectedStop] = useState(null);
   const [highlightedSuggestion, setHighlightedSuggestion] = useState(null);
@@ -40,7 +40,7 @@ const InitialScreen = ({
   const mapboxSupported = mapboxgl.supported();
 
   useEffect(() => {
-    if (!mapboxSupported) return;
+    if (!mapboxSupported || !mapContainerRef.current) return;
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
