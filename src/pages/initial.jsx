@@ -13,6 +13,10 @@ import { BUS_DATA } from "../utils/constants";
 import { Trans, withTranslation } from "react-i18next";
 import { STOPS_DATA } from "../utils/constants";
 
+// Taken from the OSM liberty style: https://github.com/maputnik/osm-liberty/blob/gh-pages/style.json
+// @ts-ignore
+import mapStyle from "../assets/style/map-style.json";
+
 function isWebglSupported() {
   if (window.WebGLRenderingContext) {
     const canvas = document.createElement("canvas");
@@ -59,7 +63,7 @@ const InitialScreen = ({
 
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
-      style: "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
+      style: mapStyle,
       center: [STOPS_DATA.majestic.loc[1], STOPS_DATA.majestic.loc[0]],
       zoom: 11,
       minZoom: 10,
@@ -118,6 +122,7 @@ const InitialScreen = ({
       {mapRef.current && (
         <Map
           mapRef={mapRef}
+          mapContainerRef={mapContainerRef}
           inputLocation={inputLocation}
           busData={selectedTabData}
           userLocation={userLocation}

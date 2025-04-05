@@ -242,6 +242,7 @@ h4 {
   width: 10px;
   flex-grow: 1;
   flex-shrink: 1;
+  position: relative;
 }
 
 #tab-arrow {
@@ -386,6 +387,7 @@ h4 {
 }
 
 .user-location-indicator {
+  position: absolute;
   //backdrop-filter: blur(10px) saturate(200%);
   background-color: #038cfc;
   background-size: 40%;
@@ -406,6 +408,7 @@ h4 {
 }
 
 .input-location-indicator {
+  position: absolute;
   background-image: url(../icon-marker.svg);
   width: 26px;
   height: 33px;
@@ -667,6 +670,8 @@ h4 {
   height: 48px;
   font-size: 0.8rem;
   text-transform: uppercase;
+  position: relative;
+  z-index: 1000;
 }
 
 #search-marker {
