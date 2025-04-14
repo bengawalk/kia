@@ -15,7 +15,6 @@ import { STOPS_DATA } from "../utils/constants";
 
 // Taken from the OSM liberty style: https://github.com/maputnik/osm-liberty/blob/gh-pages/style.json
 // @ts-ignore
-import mapStyle from "../assets/style/map-style.json";
 
 function isWebglSupported() {
   if (window.WebGLRenderingContext) {
@@ -63,7 +62,7 @@ const InitialScreen = ({
 
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
-      style: mapStyle,
+      style: "https://tiles.openfreemap.org/styles/liberty",
       center: [STOPS_DATA.majestic.loc[1], STOPS_DATA.majestic.loc[0]],
       zoom: 11,
       minZoom: 10,

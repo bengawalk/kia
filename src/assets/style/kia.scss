@@ -189,6 +189,9 @@ h4 {
   width: 408px;
   display: flex;
   flex-direction: column;
+  z-index: 1001;
+  position: relative;
+  background-color: #ffffff;
 }
 
 .lang-btn {
@@ -217,6 +220,8 @@ h4 {
 @media screen and (min-width: 1000px) {
   #sidebar {
     height: 100% !important;
+    top: 0 !important;
+    z-index: 9999;
   }
 
   #sidebar-header {
@@ -405,6 +410,7 @@ h4 {
   animation-duration: 3s;
   animation-iteration-count: infinite;
   animation-name: shadow;
+  z-index: 88;
 }
 
 .input-location-indicator {
@@ -415,6 +421,7 @@ h4 {
   background-repeat: no-repeat;
   overflow: visible;
   margin-top: -15px;
+  z-index: 99;
 }
 
 @keyframes shadow {

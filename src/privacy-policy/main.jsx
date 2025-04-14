@@ -1,12 +1,12 @@
-import * as React from "react";
-import { createRoot } from "react-dom/client";
-import { useEffect, useState } from "react";
 import i18n from "i18next";
 import Markdown from "markdown-to-jsx";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
 
-import "../utils/i18n";
-import { LANGUAGES } from "../utils/constants";
 import SideMenu from "../components/side-menu";
+import { LANGUAGES } from "../utils/constants";
+import "../utils/i18n";
 import appStorage from "../utils/storage";
 
 const content = {
@@ -39,10 +39,7 @@ name of the place. This data is not used for any other inferences, not linked to
   other sites.  
 **Advertisers**: We do not show advertisements in the site nor do we
   work with third-party advertisers. If you notice an ad, it is likely
-  injected by a browser extension and could be malicious.  
-**MapLibre**: The mapping library we use in the website stores two
-  values in the local storage which are sent to their servers. This is
-  anonymous and not linked to the application data in any way.
+  injected by a browser extension and could be malicious.
 
 ### Verification
 To verify the technical implementation of the privacy aspects of the

@@ -3,6 +3,7 @@ import maplibregl from "maplibre-gl";
 import * as React from "react";
 import STOPS_MAP from "../utils/stops.json";
 
+import { getDistance } from "geolib";
 import { getRoutesGeojson, getStopsGeoJson } from "../utils";
 import {
   BUS_DATA,
@@ -52,11 +53,31 @@ class Map extends React.PureComponent {
 
     if (userLocation) {
       this.positionLocationMarkers();
+    }
+
+    if (userLocation && !prevUserLocation) {
       this.centerMapOnUser();
     }
 
     if (inputLocation) {
       this.positionLocationMarkers();
+    }
+
+    if (
+      (inputLocation && !prevInputLocation) ||
+      (inputLocation &&
+        prevInputLocation &&
+        getDistance(
+          {
+            latitude: prevInputLocation.lat,
+            longitude: prevInputLocation.lng,
+          },
+          {
+            latitude: inputLocation.lat,
+            longitude: inputLocation.lng,
+          },
+        ) > 20)
+    ) {
       this.centerMapOnInput();
     }
 
