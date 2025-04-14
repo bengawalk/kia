@@ -1,4 +1,4 @@
-import{p as s,a as e,o,L as n}from"./index-DI9OK4ZD.js";import{i as r,S as c}from"./i18n-DTbY95W1.js";import{M as l}from"./index.modern-DwPJfpab.js";const a={en:`
+import{q as s,a as e,p as o,L as n}from"./index-BSJAhUyF.js";import{i as r,S as c}from"./i18n-CRH4kDXf.js";import{M as l}from"./index.modern-BWKva1Fb.js";const a={en:`
 # Privacy policy
 The purpose of this privacy policy is to be transparent and give an accurate detail of how the website handles the data you provide while using it.
 
@@ -27,10 +27,7 @@ name of the place. This data is not used for any other inferences, not linked to
   other sites.  
 **Advertisers**: We do not show advertisements in the site nor do we
   work with third-party advertisers. If you notice an ad, it is likely
-  injected by a browser extension and could be malicious.  
-**MapLibre**: The mapping library we use in the website stores two
-  values in the local storage which are sent to their servers. This is
-  anonymous and not linked to the application data in any way.
+  injected by a browser extension and could be malicious.
 
 ### Verification
 To verify the technical implementation of the privacy aspects of the
@@ -91,4 +88,4 @@ For any clarification and information regarding privacy, please reach out to [de
 ### ಸಂಪರ್ಕಿಸಿ
 ಗೌಪ್ಯತೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಯಾವುದೇ ಸ್ಪಷ್ಟೀಕರಣ ಮತ್ತು ಮಾಹಿತಿಗಾಗಿ, ದಯವಿಟ್ಟು [deep@euclidxr.com](mailto:deep@euclidxr.com) ಅನ್ನು ಸಂಪರ್ಕಿಸಿ
 `},d=()=>{const[t,i]=e.useState(o.getItem("lang")||n[0].code);return e.useEffect(()=>{o.setItem("lang",t),document.documentElement.setAttribute("lang",t),r.changeLanguage(t)},[t]),e.createElement(e.Fragment,null,e.createElement(c,{setLang:i}),e.createElement(l,null,a[t]||a.en))},h=s.createRoot(document.getElementById("root"));h.render(e.createElement(d,null));
-//# sourceMappingURL=privacy-policy-GuS8CJxz.js.map
+//# sourceMappingURL=privacy-policy-DB1zJ7ST.js.map
