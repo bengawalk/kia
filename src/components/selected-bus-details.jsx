@@ -1,17 +1,13 @@
+import _ from "lodash";
+import maplibregl from "maplibre-gl";
 import React, { useEffect, useState } from "react";
 import { Trans, withTranslation } from "react-i18next";
-import ALL_BUSES_STOPS from "../utils/stops.json";
-import _ from "lodash";
-import IconBusSide from "../assets/icon-bus-side-blue.svg";
-import {
-  MAP_STYLE_INTERMEDIATE_STOP,
-  MAP_STYLE_ROUTE,
-  STOPS_DATA,
-} from "../utils/constants";
-import BusDetailsStop from "./bus-details-stop";
 import IconArrowBack from "../assets/icon-arrow-back";
+import IconBusSide from "../assets/icon-bus-side-blue.svg";
 import { ALL_BUSES_TIMINGS, getIntermediateStopsGeoJson } from "../utils";
-import maplibregl from "maplibre-gl";
+import { MAP_STYLE_INTERMEDIATE_STOP, STOPS_DATA } from "../utils/constants";
+import ALL_BUSES_STOPS from "../utils/stops.json";
+import BusDetailsStop from "./bus-details-stop";
 
 const SelectedBusDetails = ({
   setSelectedBus,
@@ -92,18 +88,23 @@ const SelectedBusDetails = ({
       currentRef.off("click", uniqueName, onStopClick);
       currentRef.off("mouseleave", uniqueName, hidePopup);
 
-      // TODO: Figure out a better way for if check
-      // When user opens details of a bus and clicks on search box, the map component is unmounted, and _canvas property is undefined.
-      // In such cases getLayer and removeLayer throw error.
-      // But when user opens details of a bus and clicks back to all buses, the layer needs to be removed.
-      if (currentRef._canvas) {
-        hidePopup();
-        if (currentRef.getLayer(uniqueName)) {
-          currentRef.removeLayer(uniqueName);
+      try {
+        // TODO: Figure out a better way for if check
+        // When user opens details of a bus and clicks on search box, the map component is unmounted, and _canvas property is undefined.
+        // In such cases getLayer and removeLayer throw error.
+        // But when user opens details of a bus and clicks back to all buses, the layer needs to be removed.
+        console.log("currentRef._canvas", currentRef._canvas);
+        if (currentRef._canvas) {
+          hidePopup();
+          if (currentRef?.getLayer(uniqueName)) {
+            currentRef?.removeLayer(uniqueName);
+          }
+          if (currentRef?.getSource(uniqueName)) {
+            currentRef?.removeSource(uniqueName);
+          }
         }
-        if (currentRef.getSource(uniqueName)) {
-          currentRef?.removeSource(uniqueName);
-        }
+      } catch (error) {
+        console.error("Error removing layer and source", error);
       }
     };
   }, [mapRef.current]);
@@ -127,8 +128,6 @@ const SelectedBusDetails = ({
   const toText = toAirport ? STOPS_DATA.airport.name : end.name;
   const direction = toAirport ? "up" : "down";
   const uniqueName = `${selectedBus}_${direction}_intermediate_stops`;
-
-
 
   return (
     <>

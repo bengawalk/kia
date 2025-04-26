@@ -357,10 +357,14 @@ class Map extends React.PureComponent {
   refreshMapData = () => {
     const { busData, selectedTab, mapRef } = this.props;
 
+    if (!mapRef.current) {
+      return;
+    }
+
     const routeSource = mapRef.current.getSource("routes");
     const stopsSource = mapRef.current.getSource("stops");
-    routeSource.setData(getRoutesGeojson(busData).data);
-    stopsSource.setData(getStopsGeoJson(busData, selectedTab).data);
+    routeSource?.setData(getRoutesGeojson(busData).data);
+    stopsSource?.setData(getStopsGeoJson(busData, selectedTab).data);
   };
 
   render() {

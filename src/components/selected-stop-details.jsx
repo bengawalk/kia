@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react";
-import _ from "lodash";
-import {
+import _, {
   each as lEach,
-  includes as lIncludes,
   find as lFind,
-  sortBy as lSortBy,
+  includes as lIncludes,
   reverse as lReverse,
+  sortBy as lSortBy,
   uniqBy as lUniqBy,
 } from "lodash";
-import BUS_STOPS_MAP from "../utils/stops.json";
-import TIMINGS_MAP from "../utils/timings.json";
+import React, { useEffect, useState } from "react";
+import IconArrowBack from "../assets/icon-arrow-back";
 import {
   getHoursAndMinutes,
   getIntermediateStopsGeoJson,
   timeTextDisplay,
 } from "../utils";
-import IconArrowBack from "../assets/icon-arrow-back";
+import BUS_STOPS_MAP from "../utils/stops.json";
+import TIMINGS_MAP from "../utils/timings.json";
 
 import IconBusStop from "../assets/icon-bus-stop.svg";
 import IconSort from "../assets/icon-sort.svg";
@@ -50,7 +49,7 @@ const SelectedStopDetails = ({
 
   useEffect(() => {
     const currentRef = mapRef.current;
-    if(!currentRef) {
+    if (!currentRef) {
       return;
     }
 
@@ -87,17 +86,21 @@ const SelectedStopDetails = ({
         return;
       }
 
-      // TODO: Figure out a better way for if check
-      // When user opens details of a bus and clicks on search box, the map component is unmounted, and _canvas property is undefined.
-      // In such cases getLayer and removeLayer throw error.
-      // But when user opens details of a bus and clicks back to all buses, the layer needs to be removed.
-      if (currentRef._canvas) {
-        if (currentRef.getLayer(uniqueName)) {
-          currentRef.removeLayer(uniqueName);
+      try {
+        // TODO: Figure out a better way for if check
+        // When user opens details of a bus and clicks on search box, the map component is unmounted, and _canvas property is undefined.
+        // In such cases getLayer and removeLayer throw error.
+        // But when user opens details of a bus and clicks back to all buses, the layer needs to be removed.
+        if (currentRef._canvas) {
+          if (currentRef.getLayer(uniqueName)) {
+            currentRef.removeLayer(uniqueName);
+          }
+          if (currentRef.getSource(uniqueName)) {
+            currentRef.removeSource(uniqueName);
+          }
         }
-        if (currentRef.getSource(uniqueName)) {
-          currentRef.removeSource(uniqueName);
-        }
+      } catch (error) {
+        console.error("Error removing layer and source", error);
       }
     };
   }, [mapRef.current]);
