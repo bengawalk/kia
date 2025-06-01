@@ -6,7 +6,7 @@ import _, {
   sortBy as lSortBy,
   uniqBy as lUniqBy,
 } from "lodash";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import IconArrowBack from "../assets/icon-arrow-back";
 import {
   getHoursAndMinutes,
@@ -24,92 +24,121 @@ import {
   STOPS_DATA,
 } from "../utils/constants";
 
-const SelectedStopDetails = ({
-  selectedBus,
-  selectedStop,
-  selectedTab,
-  setSelectedStop,
-  mapRef,
-}) => {
-  const DIRECTION = selectedTab === "ta" ? "UP" : "DOWN";
+class SelectedStopDetails extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sort: "startTime",
+      sortDirection: 1,
+      directionSortedData: [],
+    };
+    this.uniqueName = `${props.selectedBus}_${props.selectedTab === "ta" ? "UP" : "DOWN"}_selected_stop`;
+  }
 
-  const [sort, setSort] = useState("startTime");
-  const [sortDirection, setSortDirection] = useState(1);
-  const [directionSortedData, setDirectionSortedData] = useState([]);
-
-  const uniqueName = `${selectedBus}_${DIRECTION}_selected_stop`;
-
-  const onHeaderClick = (selectedSort) => {
-    if (sort === selectedSort) {
-      setSortDirection(sortDirection * -1);
-    } else {
-      setSort(selectedSort);
-    }
+  getDirection = () => {
+    return this.props.selectedTab === "ta" ? "UP" : "DOWN";
   };
 
-  useEffect(() => {
+  onHeaderClick = (selectedSort) => {
+    this.setState((prevState) => {
+      if (prevState.sort === selectedSort) {
+        return { sortDirection: prevState.sortDirection * -1 };
+      } else {
+        return { sort: selectedSort };
+      }
+    });
+  };
+
+  addLayerAndEvents = () => {
+    const { mapRef, selectedStop } = this.props;
     const currentRef = mapRef.current;
     if (!currentRef) {
       return;
     }
-
-    const callFnIfMapLoaded = (fn) => {
-      if (mapRef.current._loaded) {
-        fn();
-      } else {
-        mapRef.current.on("load", fn);
-      }
-    };
-
-    const addLayerAndEvents = () => {
-      const ALL_STOPS = _.union(
-        ..._.values(_.mapValues(BUS_STOPS_MAP, "stops")),
-        _.values(STOPS_DATA),
-      );
+    const ALL_STOPS = _.union(
+      ..._.values(_.mapValues(BUS_STOPS_MAP, "stops")),
+      _.values(STOPS_DATA),
+    );
+    if (!currentRef.getSource(this.uniqueName)) {
       currentRef.addSource(
-        uniqueName,
+        this.uniqueName,
         getIntermediateStopsGeoJson([
           _.find(ALL_STOPS, { name: selectedStop }),
         ]),
       );
-      currentRef.addLayer({
-        id: uniqueName,
-        source: uniqueName,
-        ...MAP_STYLE_INTERMEDIATE_STOP,
-      });
-    };
+    }
+    currentRef.addLayer({
+      id: this.uniqueName,
+      source: this.uniqueName,
+      ...MAP_STYLE_INTERMEDIATE_STOP,
+    });
+  };
 
-    callFnIfMapLoaded(addLayerAndEvents);
+  callFnIfMapLoaded = (fn) => {
+    const { mapRef } = this.props;
+    if (mapRef?.current?._loaded) {
+      fn();
+    } else {
+      mapRef.current.on("load", fn);
+    }
+  };
 
-    return () => {
-      if (!currentRef) {
-        return;
-      }
+  componentDidMount() {
+    this.callFnIfMapLoaded(this.addLayerAndEvents);
+    this.updateDirectionSortedData();
+  }
 
-      try {
-        // TODO: Figure out a better way for if check
-        // When user opens details of a bus and clicks on search box, the map component is unmounted, and _canvas property is undefined.
-        // In such cases getLayer and removeLayer throw error.
-        // But when user opens details of a bus and clicks back to all buses, the layer needs to be removed.
-        if (currentRef._canvas) {
-          if (currentRef.getLayer(uniqueName)) {
-            currentRef.removeLayer(uniqueName);
-          }
-          if (currentRef.getSource(uniqueName)) {
-            currentRef.removeSource(uniqueName);
-          }
+  componentWillUnmount() {
+    const { mapRef } = this.props;
+    const currentRef = mapRef.current;
+    if (!currentRef) {
+      return;
+    }
+    try {
+      if (currentRef._canvas) {
+        if (currentRef.getLayer(this.uniqueName)) {
+          currentRef.removeLayer(this.uniqueName);
         }
-      } catch (error) {
-        console.error("Error removing layer and source", error);
+        if (currentRef.getSource(this.uniqueName)) {
+          currentRef.removeSource(this.uniqueName);
+        }
       }
-    };
-  }, [mapRef.current]);
+    } catch (error) {
+      console.error("Error removing layer and source", error);
+    }
+  }
 
-  useEffect(() => {
+  componentDidUpdate(prevProps, prevState) {
+    // If sort, sortDirection, or selectedTab changes, update data
+    if (
+      prevState.sort !== this.state.sort ||
+      prevState.sortDirection !== this.state.sortDirection ||
+      prevProps.selectedTab !== this.props.selectedTab
+    ) {
+      this.updateDirectionSortedData();
+    }
+    // If selectedBus changes, update map layer
+    if (prevProps.selectedBus !== this.props.selectedBus) {
+      this.callFnIfMapLoaded(this.addLayerAndEvents);
+      // Remove previous layer/source
+      const { mapRef } = this.props;
+      if (mapRef?.current) {
+        try {
+          mapRef.current.removeLayer(this.uniqueName);
+          mapRef.current.removeSource(this.uniqueName);
+        } catch (e) {}
+      }
+      // Update uniqueName for new bus
+      this.uniqueName = `${this.props.selectedBus}_${this.getDirection()}_selected_stop`;
+    }
+  }
+
+  updateDirectionSortedData = () => {
+    const { selectedTab, selectedStop, selectedBus } = this.props;
+    const DIRECTION = this.getDirection();
+    const { sort, sortDirection } = this.state;
     const data = [];
     lEach(BUS_STOPS_MAP, ({ stops, totalDistance }, routeName) => {
-      // Only consider routes in the currently selected directions
-      // TODO: Cleanup the logic
       if (lIncludes(routeName, DIRECTION)) {
         const BUS_NAME = routeName.split(" ")[0];
         const busData = lFind(
@@ -133,10 +162,8 @@ const SelectedStopDetails = ({
           }
         }
         const stopsIncludingStart = [...stops, lastStopData];
-        // Check if the bus has a stop with the selected stop name
         const matchingStop = lFind(stopsIncludingStart, { name: selectedStop });
         if (matchingStop) {
-          // TODO: Some timings are repeated. Need to make uniq during the timings.json creation
           const BUS_TIMINGS = lUniqBy(
             TIMINGS_MAP[routeName],
             (t) => `${t.start},${t.duration}`,
@@ -169,70 +196,76 @@ const SelectedStopDetails = ({
     if (sortDirection < 0) {
       lReverse(sortedData);
     }
-    setDirectionSortedData(sortedData);
-  }, [sort, sortDirection, selectedTab]);
+    this.setState({ directionSortedData: sortedData });
+  };
 
-  return (
-    <>
-      <button className="sel-bus-back" onClick={() => setSelectedStop(null)}>
-        <IconArrowBack fill={"#666666"} />
-        Back to {selectedBus || "all buses"}
-      </button>
-      <h3 id="selected-stop-heading">
-        <img src={IconBusStop} alt="" />
-        {selectedStop}
-      </h3>
-      <table id="bus-stop-timings-table" cellSpacing={0}>
-        <thead>
-          <tr>
-            <th onClick={() => onHeaderClick("busName")}>
-              <div
-                className={`selected-stop-table-header ${sortDirection > 0 ? "" : "reverse"}`}
-              >
-                Bus
-                {sort === "busName" && <img src={IconSort} alt="" />}
-              </div>
-            </th>
-            <th onClick={() => onHeaderClick("startTime")}>
-              <div
-                className={`selected-stop-table-header ${sortDirection > 0 ? "" : "reverse"}`}
-              >
-                {DIRECTION === "UP" ? "Stop" : "Airport"} timing
-                {sort === "startTime" && <img src={IconSort} alt="" />}
-              </div>
-            </th>
-            <th onClick={() => onHeaderClick("endTime")}>
-              <div
-                className={`selected-stop-table-header ${sortDirection > 0 ? "" : "reverse"}`}
-              >
-                Reach {DIRECTION === "UP" ? "airport" : "stop"}
-                {sort === "endTime" && <img src={IconSort} alt="" />}
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {directionSortedData.map(({ busName, startTime, endTime }) => {
-            const startFormat = getHoursAndMinutes(startTime);
-            const endFormat = getHoursAndMinutes(endTime);
-            return (
-              <tr key={`${busName}-${startTime}`}>
-                <td>{busName}</td>
-                <td>
-                  {timeTextDisplay(startFormat.hours)}:
-                  {timeTextDisplay(startFormat.minutes)}
-                </td>
-                <td>
-                  {timeTextDisplay(endFormat.hours)}:
-                  {timeTextDisplay(endFormat.minutes)}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </>
-  );
-};
+  render() {
+    const { selectedBus, selectedStop, setSelectedStop, selectedTab, mapRef } =
+      this.props;
+    const { sort, sortDirection, directionSortedData } = this.state;
+    const DIRECTION = this.getDirection();
+    return (
+      <>
+        <button className="sel-bus-back" onClick={() => setSelectedStop(null)}>
+          <IconArrowBack fill={"#666666"} />
+          Back to {selectedBus || "all buses"}
+        </button>
+        <h3 id="selected-stop-heading">
+          <img src={IconBusStop} alt="" />
+          {selectedStop}
+        </h3>
+        <table id="bus-stop-timings-table" cellSpacing={0}>
+          <thead>
+            <tr>
+              <th onClick={() => this.onHeaderClick("busName")}>
+                <div
+                  className={`selected-stop-table-header ${sortDirection > 0 ? "" : "reverse"}`}
+                >
+                  Bus
+                  {sort === "busName" && <img src={IconSort} alt="" />}
+                </div>
+              </th>
+              <th onClick={() => this.onHeaderClick("startTime")}>
+                <div
+                  className={`selected-stop-table-header ${sortDirection > 0 ? "" : "reverse"}`}
+                >
+                  {DIRECTION === "UP" ? "Stop" : "Airport"} timing
+                  {sort === "startTime" && <img src={IconSort} alt="" />}
+                </div>
+              </th>
+              <th onClick={() => this.onHeaderClick("endTime")}>
+                <div
+                  className={`selected-stop-table-header ${sortDirection > 0 ? "" : "reverse"}`}
+                >
+                  Reach {DIRECTION === "UP" ? "airport" : "stop"}
+                  {sort === "endTime" && <img src={IconSort} alt="" />}
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {directionSortedData.map(({ busName, startTime, endTime }) => {
+              const startFormat = getHoursAndMinutes(startTime);
+              const endFormat = getHoursAndMinutes(endTime);
+              return (
+                <tr key={`${busName}-${startTime}`}>
+                  <td>{busName}</td>
+                  <td>
+                    {timeTextDisplay(startFormat.hours)}:
+                    {timeTextDisplay(startFormat.minutes)}
+                  </td>
+                  <td>
+                    {timeTextDisplay(endFormat.hours)}:
+                    {timeTextDisplay(endFormat.minutes)}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </>
+    );
+  }
+}
 
 export default SelectedStopDetails;

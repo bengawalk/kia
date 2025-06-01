@@ -1,12 +1,12 @@
-import React from "react";
 import classNames from "classnames";
 import _ from "lodash";
+import React from "react";
 
-import IconTabArrow from "../assets/icon-tab-arrow.svg";
-import IconCall from "../assets/icon-call.svg";
-import { HELPLINE_NUMBER, TABS } from "../utils/constants";
-import { getCurrentMsm } from "../utils";
 import { Trans, withTranslation } from "react-i18next";
+import IconCall from "../assets/icon-call.svg";
+import IconTabArrow from "../assets/icon-tab-arrow.svg";
+import { getCurrentMsm } from "../utils";
+import { HELPLINE_NUMBER, TABS } from "../utils/constants";
 import BusesList from "./bus-list";
 import SelectedBusDetails from "./selected-bus-details";
 import SelectedStopDetails from "./selected-stop-details";
@@ -224,7 +224,7 @@ class Sidebar extends React.PureComponent {
         <div id="sidebar-content" className="padding">
           {selectedStop && (
             <SelectedStopDetails
-              key={selectedStop}
+              key={`${selectedStop}_${selectedBus}`}
               selectedBus={selectedBus}
               selectedTab={selectedTab}
               selectedStop={selectedStop}
@@ -234,6 +234,7 @@ class Sidebar extends React.PureComponent {
           )}
           {!selectedStop && selectedBus && (
             <SelectedBusDetails
+              key={`${selectedBus}_${selectedTab}`}
               setSelectedBus={setSelectedBus}
               selectedBus={selectedBus}
               setSelectedStop={setSelectedStop}
