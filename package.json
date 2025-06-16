@@ -10,8 +10,7 @@
     "build": "vite build src --config vite.config.js",
     "preview": "vite preview",
     "publish": "gh-pages -d dist",
-    "prettier": "prettier --write '{src,cron}/**/*.{js,jsx}'",
-    "refresh-timings": "env-cmd node cron/get_timings.js"
+    "prettier": "prettier --write '{src,cron}/**/*.{js,jsx}'"
   },
   "engines": {
     "node": "^22.0.0"

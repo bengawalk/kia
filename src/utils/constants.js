@@ -23,7 +23,6 @@ export const LANGUAGES = [
   },
 ];
 
-export const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 export const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 export const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 

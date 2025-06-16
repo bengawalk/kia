@@ -9,12 +9,12 @@ import _, {
 import React from "react";
 import IconArrowBack from "../assets/icon-arrow-back";
 import {
+  ALL_BUSES_TIMINGS,
   getHoursAndMinutes,
   getIntermediateStopsGeoJson,
   timeTextDisplay,
 } from "../utils";
 import BUS_STOPS_MAP from "../utils/stops.json";
-import TIMINGS_MAP from "../utils/timings.json";
 
 import IconBusStop from "../assets/icon-bus-stop.svg";
 import IconSort from "../assets/icon-sort.svg";
@@ -165,7 +165,7 @@ class SelectedStopDetails extends React.PureComponent {
         const matchingStop = lFind(stopsIncludingStart, { name: selectedStop });
         if (matchingStop) {
           const BUS_TIMINGS = lUniqBy(
-            TIMINGS_MAP[routeName],
+            ALL_BUSES_TIMINGS[routeName],
             (t) => `${t.start},${t.duration}`,
           );
           const { distance } = matchingStop;
