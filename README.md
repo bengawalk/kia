@@ -4,6 +4,8 @@ Source code for the Airport Bus UI at https://kia.bengawalk.com/
 
 For additional help/information, please join the [Discord chat](https://discord.gg/XhmvDP4kXp)
 
+![Desktop screenshot](./public/screenshot_desktop.png)
+
 ## Local development
 
 In the repository root, run:
