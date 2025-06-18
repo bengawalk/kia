@@ -37,6 +37,7 @@ VITE_GOOGLE_API_KEY=insert_google_api_key_here
 
 - Add/edit corresponding file for `routename` in `scripts/stops_responses/en`.
 - The json file is taken from the Raw BMTC API data at [Vonter/bmtc-gtfs](https://github.com/Vonter/bmtc-gtfs)
+- Add rows in `scripts/bmtc_api_data.csv` for the routename
 - Run `cd scripts`, and `node get_stops.js`
 
 #### Update map path for a route

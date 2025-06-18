@@ -84,6 +84,10 @@ const PHONE_CONTACTS = {
 };
 
 export const STOPS_DATA = {
+  attibele: {
+    name: "Attibele Bus Stand",
+    loc: [12.779098007497849, 77.7704803814565],
+  },
   majestic: {
     name: "Majestic Bus Stand",
     loc: [12.977529081680132, 77.57247169985196],
@@ -286,6 +290,14 @@ export const BUS_DATA = {
       contact: "",
     },
     {
+      name: "KIA-8H",
+      routename: "KIA-8H UP",
+      start: STOPS_DATA.attibele,
+      end: STOPS_DATA.airport,
+      stops: [],
+      contact: "",
+    },
+    {
       name: "KIA-9",
       routename: "KIA-9 UP",
       start: STOPS_DATA.majestic,
@@ -436,6 +448,14 @@ export const BUS_DATA = {
       routename: "KIA-8E DOWN",
       start: STOPS_DATA.airport,
       end: STOPS_DATA.ecity_wipro,
+      stops: [],
+      contact: "",
+    },
+    {
+      name: "KIA-8H",
+      routename: "KIA-8H DOWN",
+      start: STOPS_DATA.airport,
+      end: STOPS_DATA.attibele,
       stops: [],
       contact: "",
     },
