@@ -910,3 +910,26 @@ h4 {
 .maplibregl-ctrl-bottom-right {
   bottom: 60px;
 }
+
+.beta-bus {
+  display: flex;
+  margin-bottom: 16px;
+  font-size: 0.7rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: var(--color-primary);
+    color: #ffffff;
+  }
+
+  svg {
+    width: 20px;
+    margin-right: 8px;
+  }
+}
