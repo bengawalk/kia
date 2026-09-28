@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
+import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import * as maplibregl from "maplibre-gl";
 
 import { APP_SCREENS, STOPS_DATA } from "../utils/constants";
