@@ -60,7 +60,16 @@ export const getSuggestedBus = (buses, targetLocation) => {
       },
     );
 
-  const busParameters = _.map(buses, (b) => {
+  // Routes missing from the generated bus data (e.g. discontinued upstream) have no route line
+  const busesWithData = _.filter(
+    buses,
+    (b) => _.size(ALL_BUSES_TIMINGS[b.routename]) > 0,
+  );
+  if (busesWithData.length === 0) {
+    return null;
+  }
+
+  const busParameters = _.map(busesWithData, (b) => {
     const pointToCompare =
       buses[0].start === STOPS_DATA.airport ? "end" : "start";
     const routePoints = polyline.decode(decodeURIComponent(allBusesRouteLines[b.routename]));

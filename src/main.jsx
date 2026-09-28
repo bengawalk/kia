@@ -3,15 +3,12 @@ import { sortBy as lSortBy, map as lMap } from "lodash";
 import { createRoot } from "react-dom/client";
 import { useEffect, useRef, useState } from "react";
 import getDistance from "geolib/es/getDistance";
-import { importLibrary, setOptions } from "@googlemaps/js-api-loader";
 import i18n from "i18next";
 import * as Sentry from "@sentry/react";
 
 import InitialScreen from "./pages/initial";
 import {
-  API_CALL_STATUSES,
   APP_SCREENS,
-  GOOGLE_API_KEY,
   LANGUAGES,
   LOCATION_STATES,
   SENTRY_DSN,
@@ -34,9 +31,6 @@ if (SENTRY_DSN) {
 }
 
 const Container = () => {
-  const [googleScriptStatus, setGoogleScriptStatus] = useState(
-    API_CALL_STATUSES.INITIAL,
-  );
   const [currentScreen, setCurrentScreen] = useState(APP_SCREENS.INITIAL);
   const [bodyHeight, setBodyHeight] = useState(null);
   const [selectedTab, setSelectedTab] = useState(TABS[0].id);
@@ -92,25 +86,18 @@ const Container = () => {
     setBodyHeight(window.visualViewport?.height || window.innerHeight);
   };
 
-  const loadGoogleMapsScript = async () => {
-    setGoogleScriptStatus(API_CALL_STATUSES.LOADING);
-    try {
-      setOptions({ key: GOOGLE_API_KEY, v: "weekly" });
-      await importLibrary("places");
-      setGoogleScriptStatus(API_CALL_STATUSES.SUCCESS);
-    } catch (e) {
-      console.log(e);
-      setGoogleScriptStatus(API_CALL_STATUSES.ERROR);
-    }
-  };
-
   useEffect(() => {
     // Fallback for older devices that don't support visualViewport API.
     // visualViewport is still preferred because it gives the size excluding other UI elements like soft keyboards and
     // works well for embeds/split screens
     (window.visualViewport || window).addEventListener("resize", onResize);
     onResize();
-    loadGoogleMapsScript();
+    if ("geolocation" in navigator) {
+      // TODO: Rename. Doesn't actually "get", rather sets the user location state and input location
+      getUserLocation();
+    } else {
+      setUserLocationState(LOCATION_STATES.UNAVAILABLE);
+    }
     return () => {
       (window.visualViewport || window).removeEventListener("resize", onResize);
     };
@@ -121,19 +108,6 @@ const Container = () => {
     document.documentElement.setAttribute("lang", lang);
     i18n.changeLanguage(lang);
   }, [lang]);
-
-  useEffect(() => {
-    // When the Google script loads, try to get user's location
-    if (googleScriptStatus !== API_CALL_STATUSES.SUCCESS) {
-      return;
-    }
-    if ("geolocation" in navigator) {
-      // TODO: Rename. Doesn't actually "get", rather sets the user location state and input location
-      getUserLocation();
-    } else {
-      setUserLocationState(LOCATION_STATES.UNAVAILABLE);
-    }
-  }, [googleScriptStatus]);
 
   useEffect(() => {
     if (!inputLocation) {
@@ -160,19 +134,29 @@ const Container = () => {
       // Get the name of place from input location.
       // This happens if the user selects a lat,lng on the map and adjusts it farther from previously input text or
       // if the user cleared local storage
-      const geocodeInput = async () => {
-        const { Geocoder } = await google.maps.importLibrary("geocoding");
-        const geocoder = new Geocoder();
-        geocoder.geocode({ location: inputLocation })
-          .then(({ results }) => {
-            const { formatted_address, place_id } = results[0] || {};
-            saveLocationMetadata(place_id, formatted_address, [
+      const geocodeInput = () => {
+        const params = new URLSearchParams({
+          lat: inputLocation.lat,
+          lng: inputLocation.lng,
+        });
+        fetch(`/api/reverse-geocode?${params}`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Reverse geocode failed: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(({ placeId, name }) => {
+            if (!placeId) {
+              return;
+            }
+            saveLocationMetadata(placeId, name, [
               inputLocation.lat,
               inputLocation.lng,
             ]);
             setInputLocationMetadata({
-              placeId: place_id,
-              name: formatted_address,
+              placeId,
+              name,
               location: [inputLocation.lat, inputLocation.lng],
             });
           })
@@ -193,8 +177,6 @@ const Container = () => {
       <div id="app-container">
         {currentScreen === APP_SCREENS.INITIAL && (
           <InitialScreen
-            googleScriptStatus={googleScriptStatus}
-            loadGoogleMapsScript={loadGoogleMapsScript}
             userLocation={userLocation}
             selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}

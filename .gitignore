@@ -108,3 +108,8 @@ dist
 dev-dist
 
 .DS_Store
+
+# Cloudflare
+.dev.vars*
+!.dev.vars.example
+.wrangler

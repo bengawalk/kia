@@ -37,8 +37,6 @@ function isWebglSupported() {
 }
 
 const InitialScreen = ({
-  googleScriptStatus,
-  loadGoogleMapsScript,
   selectedTab,
   setSelectedTab,
   userLocation,
@@ -137,8 +135,6 @@ const InitialScreen = ({
         />
       )}
       <MapLocationInput
-        googleScriptStatus={googleScriptStatus}
-        loadGoogleMapsScript={loadGoogleMapsScript}
         setCurrentScreen={setCurrentScreen}
         inputLocation={inputLocation}
         inputLocationMetadata={inputLocationMetadata}

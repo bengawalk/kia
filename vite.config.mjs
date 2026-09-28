@@ -9,6 +9,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   envDir: resolve(__dirname),
   publicDir: resolve(__dirname, "public"),
+  server: {
+    // Google API proxy. Run `yarn start:worker` alongside `yarn start`
+    proxy: {
+      "/api": "http://localhost:8787",
+    },
+  },
   build: {
     sourcemap: true,
     rollupOptions: {
@@ -22,6 +28,8 @@ export default defineConfig({
       },
     },
     outDir: resolve(__dirname, "dist"),
+    // dist is outside the vite root (src), so it isn't emptied by default
+    emptyOutDir: true,
   },
   plugins: [
     VitePluginRadar({

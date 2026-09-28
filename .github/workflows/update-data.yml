@@ -1,0 +1,59 @@
+name: Update bus data from bmtc-gtfs
+on:
+  schedule:
+    # Every 3 days at 23:30 IST
+    - cron: "0 18 */3 * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: "package.json"
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Download GTFS feed
+        run: |
+          curl -fsSL https://github.com/Vonter/bmtc-gtfs/raw/main/gtfs/bmtc.zip -o "$RUNNER_TEMP/bmtc.zip"
+          unzip -q -o "$RUNNER_TEMP/bmtc.zip" -d "$RUNNER_TEMP/gtfs"
+
+      - name: Generate bus data
+        run: |
+          set -o pipefail
+          node scripts/update_from_gtfs.mjs "$RUNNER_TEMP/gtfs" | tee "$RUNNER_TEMP/summary.txt"
+
+      - name: Commit changes
+        id: commit
+        run: |
+          if git diff --quiet -- src/utils; then
+            echo "Bus data unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/utils/timings.tsv src/utils/stops.json src/utils/routelines.json
+          git commit -m "Update bus data from bmtc-gtfs" -m "$(cat "$RUNNER_TEMP/summary.txt")"
+          git push origin HEAD:main
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    needs: update
+    if: needs.update.outputs.sha != ''
+    uses: ./.github/workflows/deploy.yml
+    with:
+      ref: ${{ needs.update.outputs.sha }}
+    secrets: inherit

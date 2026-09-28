@@ -110,7 +110,7 @@ class Map extends React.PureComponent {
       if (selectedStop && mapRef.current.getLayer("routes")) {
         const busesList = selectedTab === "ta" ? BUS_DATA.to : BUS_DATA.from;
         const filteredRoutes = _.filter(busesList, (b) => {
-          const stops = [...STOPS_MAP[b.routename].stops, b.start, b.end];
+          const stops = [...(STOPS_MAP[b.routename]?.stops || []), b.start, b.end];
           return _.some(stops, (s) => s.name === selectedStop);
         });
         const filteredStartPoints = _.map(filteredRoutes, (f) => {

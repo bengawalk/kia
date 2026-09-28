@@ -1,0 +1,50 @@
+name: Build and deploy KIA interface to Cloudflare Workers
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  # Called by update-data.yml after it commits new bus data.
+  # Pushes made with GITHUB_TOKEN don't trigger the push event above.
+  workflow_call:
+    inputs:
+      ref:
+        description: "Commit to deploy"
+        required: true
+        type: string
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    # Job level so it also applies when called from update-data.yml
+    concurrency:
+      group: deploy-prod
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: "package.json"
+          cache: yarn
+
+      - name: Create env file
+        run: |
+          touch .env
+          echo "${{ secrets.KIA_DOT_ENV }}" >> .env
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Deploy 🚀
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy

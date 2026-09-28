@@ -23,7 +23,6 @@ export const LANGUAGES = [
   },
 ];
 
-export const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 export const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 
 export const HELPLINE_NUMBER = "77609 91269";
@@ -39,13 +38,6 @@ export const LOCATION_STATES = {
   UNAVAILABLE: "UNAVAILABLE", // Device doesn't support getting the user's location
   DENIED: "DENIED", // User doesn't want to give location or accidentally clicks deny
   APPROVED: "APPROVED", // Successfully got user's permission
-};
-
-export const API_CALL_STATUSES = {
-  INITIAL: "INITIAL",
-  LOADING: "LOADING",
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
 };
 
 const PHONE_CONTACTS = {

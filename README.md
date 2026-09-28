@@ -15,32 +15,29 @@ yarn install
 yarn start
 ```
 
-The search functionality uses Google maps Places API. For the search to work, create a `.env` file in the root folder of the repo with the below contents:
+The site is served by a Cloudflare Worker (`worker/index.js`) which also proxies the Google Places and Geocoding APIs used by search, so the API key never reaches the browser. For search to work locally, copy `.dev.vars.example` to `.dev.vars`, add a Google API key with Places API (New) and Geocoding API enabled, and run the worker alongside the dev server:
 
-```dotenv
-VITE_GOOGLE_API_KEY=insert_google_api_key_here
+```bash
+yarn start:worker
 ```
 
-## Contributing to data changes
+`yarn start` proxies `/api` requests to the worker on port 8787.
+
+## Deployment
+
+Pushes to `main` build the site and deploy it with `wrangler deploy` (`.github/workflows/deploy.yml`). The Google API key is a Worker secret, set once with `npx wrangler secret put GOOGLE_MAPS_API_KEY`.
+
+## Bus data
+
+Timings, intermediate stops and route lines (`src/utils/timings.tsv`, `stops.json`, `routelines.json`) are generated from the BMTC GTFS feed at [Vonter/bmtc-gtfs](https://github.com/Vonter/bmtc-gtfs). `.github/workflows/update-data.yml` regenerates them every 3 days, and commits and deploys when anything changed. To regenerate locally, run:
+
+```bash
+yarn data:update
+```
+
+Don't edit the generated files by hand. The next update overwrites them.
 
 #### Add a new route
 
-- Add an entry to `BUS_DATA` array in `utils/constants.js`
-- Follow the below steps to add the timings, intermediate stops and map path
-
-#### Update timings for a route
-
-- Add/edit corresponding row for `routename` in `src/utils/timings.tsv`
-- These are `HH:mm` entries for timings at the starting point
-
-#### Update intermediate stops for a route
-
-- Add/edit corresponding file for `routename` in `scripts/stops_responses/en`.
-- The json file is taken from the Raw BMTC API data at [Vonter/bmtc-gtfs](https://github.com/Vonter/bmtc-gtfs)
-- Add rows in `scripts/bmtc_api_data.csv` for the routename
-- Run `cd scripts`, and `node get_stops.js`
-
-#### Update map path for a route
-
-- Add/edit corresponding geojson file for `routename` in `scripts/routeline_data`
-- Run `cd scripts`, and `node get_routelines.mjs`
+- Add an entry to `BUS_DATA` in `src/utils/constants.js`. The `routename` is `<route> UP` for trips to the airport and `<route> DOWN` for trips from the airport
+- The route shows up in the app once the feed has data for it

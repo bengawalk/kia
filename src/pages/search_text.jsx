@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from "react";
-import usePlacesAutocomplete, {
-  getDetails as getPlaceDetails,
-} from "use-places-autocomplete";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { debounce as lDebounce } from "lodash";
 
 import { Trans, withTranslation } from "react-i18next";
@@ -21,6 +18,18 @@ import { saveLocationMetadata } from "../utils";
 import appStorage from "../utils/storage";
 
 const RECENT_LOCATION_COUNT = 5;
+const SEARCH_DEBOUNCE_MS = 1000;
+
+const newSessionToken = () =>
+  window.crypto?.randomUUID?.() || Math.random().toString(36).slice(2);
+
+const fetchJson = async (path, params) => {
+  const response = await fetch(`${path}?${new URLSearchParams(params)}`);
+  if (!response.ok) {
+    throw new Error(`${path} failed: ${response.status}`);
+  }
+  return response.json();
+};
 
 const SearchText = ({
   selectedTab,
@@ -30,25 +39,46 @@ const SearchText = ({
   bodyHeight,
 }) => {
   const [recentLocations, setRecentLocations] = useState([]);
-  const [showDebounceLoading, setShowDebounceLoading] = useState(false);
+  const [value, setValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  // Groups the autocomplete requests and the place details request of one search for Google billing
+  const sessionToken = useRef(newSessionToken());
+  // Used to ignore responses for text that has since changed
+  const latestInput = useRef("");
 
-  const {
-    suggestions = {},
-    value = "",
-    setValue,
-    clearSuggestions,
-  } = usePlacesAutocomplete({
-    requestOptions: {
-      locationBias: new google.maps.LatLngBounds(
-        new google.maps.LatLng(12.789201188889859, 77.39869888194104), // South west point. Somewhere near Bidadi
-        new google.maps.LatLng(13.230422232290332, 77.78540557324757), // North east point. Above hoskote and airport
-      ),
-      componentRestrictions: {
-        country: "in",
-      },
-    },
-    debounce: 1000,
-  });
+  const fetchSuggestions = useMemo(
+    () =>
+      lDebounce(async (input) => {
+        try {
+          const data = await fetchJson("/api/autocomplete", {
+            input,
+            session: sessionToken.current,
+          });
+          if (latestInput.current === input) {
+            setSuggestions(data.suggestions);
+          }
+        } catch (e) {
+          console.log(e);
+          if (latestInput.current === input) {
+            setSuggestions([]);
+          }
+        } finally {
+          if (latestInput.current === input) {
+            setLoading(false);
+          }
+        }
+      }, SEARCH_DEBOUNCE_MS),
+    [],
+  );
+
+  useEffect(() => () => fetchSuggestions.cancel(), [fetchSuggestions]);
+
+  const clearSuggestions = () => {
+    fetchSuggestions.cancel();
+    setSuggestions([]);
+    setLoading(false);
+  };
 
   useEffect(() => {
     const locations = lTakeRight(
@@ -62,35 +92,33 @@ const SearchText = ({
     setRecentLocations(locations);
   }, []);
 
-  const hideDebounceLoading = () => {
-    setShowDebounceLoading(false);
-  };
-  const debouncedHideLoading = lDebounce(hideDebounceLoading, 1000);
-
   useEffect(() => {
-    if (value) {
+    const input = value.trim();
+    latestInput.current = input;
+    if (input.length < 2) {
       // Prevents showing the loader if the search text is empty
-      setShowDebounceLoading(true);
-      debouncedHideLoading();
+      clearSuggestions();
+      return;
     }
+    setLoading(true);
+    fetchSuggestions(input);
   }, [value]);
 
   const onPlaceSelect = async (placeId) => {
-    const {
-      geometry: {
-        location: { lat, lng },
-      },
-      name,
-    } = await getPlaceDetails({ placeId });
-    saveLocationMetadata(placeId, name, [lat(), lng()]);
-    setInputLocation({
-      lat: lat(),
-      lng: lng(),
-    });
-    setCurrentScreen(APP_SCREENS.LOCATION_MAP);
+    try {
+      const { name, lat, lng } = await fetchJson("/api/place", {
+        id: placeId,
+        session: sessionToken.current,
+      });
+      // The session ends with a place details call. Start a new one for any further searches
+      sessionToken.current = newSessionToken();
+      saveLocationMetadata(placeId, name, [lat, lng]);
+      setInputLocation({ lat, lng });
+      setCurrentScreen(APP_SCREENS.LOCATION_MAP);
+    } catch (e) {
+      console.log(e);
+    }
   };
-
-  const showLoading = showDebounceLoading || suggestions.loading;
 
   return (
     <div id="search-page" style={{ height: `${bodyHeight}px` }}>
@@ -152,29 +180,27 @@ const SearchText = ({
             ))}
           </div>
         )}
-        {showLoading && (
+        {loading && (
           <div id="search-loading">
             <div className="spin" />
             <Trans t={t} i18nKey="Loading" />
             ...
           </div>
         )}
-        {!showLoading &&
-          suggestions.data.map((item) => (
+        {!loading &&
+          suggestions.map((item) => (
             <div
               className="search-result-item"
-              key={item.place_id}
-              onClick={() => onPlaceSelect(item.place_id)}
+              key={item.placeId}
+              onClick={() => onPlaceSelect(item.placeId)}
             >
-              <p className="search-result-main-text">
-                {item.structured_formatting.main_text}
-              </p>
+              <p className="search-result-main-text">{item.mainText}</p>
               <p className="search-result-secondary-text">
-                {item.structured_formatting.secondary_text}
+                {item.secondaryText}
               </p>
             </div>
           ))}
-        {!showLoading && value && suggestions.data.length < 1 && (
+        {!loading && value && suggestions.length < 1 && (
           <div>
             <Trans t={t} i18nKey="No results found" />
           </div>
