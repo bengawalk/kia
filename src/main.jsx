@@ -3,10 +3,9 @@ import { sortBy as lSortBy, map as lMap } from "lodash";
 import { createRoot } from "react-dom/client";
 import { useEffect, useRef, useState } from "react";
 import getDistance from "geolib/es/getDistance";
-import { Loader as GoogleMapsLoader } from "@googlemaps/js-api-loader";
+import { importLibrary, setOptions } from "@googlemaps/js-api-loader";
 import i18n from "i18next";
 import * as Sentry from "@sentry/react";
-import { BrowserTracing } from "@sentry/tracing";
 
 import InitialScreen from "./pages/initial";
 import {
@@ -29,7 +28,7 @@ import appStorage from "./utils/storage";
 if (SENTRY_DSN) {
   Sentry.init({
     dsn: SENTRY_DSN,
-    integrations: [new BrowserTracing()],
+    integrations: [Sentry.browserTracingIntegration()],
     tracesSampleRate: 0.5,
   });
 }
@@ -96,12 +95,8 @@ const Container = () => {
   const loadGoogleMapsScript = async () => {
     setGoogleScriptStatus(API_CALL_STATUSES.LOADING);
     try {
-      const loader = new GoogleMapsLoader({
-        apiKey: GOOGLE_API_KEY,
-        version: 'weekly',
-        libraries: ['places'],
-      });
-      await loader.load();
+      setOptions({ key: GOOGLE_API_KEY, v: "weekly" });
+      await importLibrary("places");
       setGoogleScriptStatus(API_CALL_STATUSES.SUCCESS);
     } catch (e) {
       console.log(e);

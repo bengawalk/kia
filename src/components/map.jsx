@@ -1,5 +1,5 @@
 import _, { find as lFind } from "lodash";
-import maplibregl from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
 import * as React from "react";
 import STOPS_MAP from "../utils/stops.json";
 

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import maplibregl from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
 import React from "react";
 import { Trans, withTranslation } from "react-i18next";
 import IconArrowBack from "../assets/icon-arrow-back";

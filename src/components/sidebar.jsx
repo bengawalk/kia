@@ -258,9 +258,9 @@ class Sidebar extends React.PureComponent {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   className="lucide lucide-bus-front-icon lucide-bus-front"
                 >
                   <path d="M4 6 2 7" />

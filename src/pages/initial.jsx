@@ -1,5 +1,6 @@
 import _ from "lodash";
-import maplibregl from "maplibre-gl";
+import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
+import * as maplibregl from "maplibre-gl";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import Map from "../components/map";
@@ -13,14 +14,16 @@ import { BUS_DATA } from "../utils/constants";
 import { Trans, withTranslation } from "react-i18next";
 import { STOPS_DATA } from "../utils/constants";
 
+maplibregl.setWorkerUrl(maplibreWorkerUrl);
+
 // Taken from the OSM liberty style: https://github.com/maputnik/osm-liberty/blob/gh-pages/style.json
 // @ts-ignore
 
 function isWebglSupported() {
-  if (window.WebGLRenderingContext) {
+  if (window.WebGL2RenderingContext) {
     const canvas = document.createElement("canvas");
     try {
-      const context = canvas.getContext("webgl2") || canvas.getContext("webgl");
+      const context = canvas.getContext("webgl2");
       if (context && typeof context.getParameter == "function") {
         return true;
       }
@@ -67,7 +70,8 @@ const InitialScreen = ({
       zoom: 11,
       minZoom: 10,
       maxZoom: 18,
-      preserveDrawingBuffer: true, // Optimize for static maps
+      canvasContextAttributes: { preserveDrawingBuffer: true }, // Optimize for static maps
+      zoomLevelsToOverscale: undefined,
     });
 
     map.dragRotate.disable();

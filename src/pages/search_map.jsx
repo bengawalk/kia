@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import maplibregl from "maplibre-gl";
+import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
+import * as maplibregl from "maplibre-gl";
 
 import { APP_SCREENS, STOPS_DATA } from "../utils/constants";
 
 import IconMarker from "../assets/icon-marker.svg";
 import IconBack from "../assets/icon-back.svg";
 import { Trans, withTranslation } from "react-i18next";
+
+maplibregl.setWorkerUrl(maplibreWorkerUrl);
 
 const SearchMap = ({
   selectedTab,
@@ -34,6 +37,7 @@ const SearchMap = ({
       style: "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
       center: [tempLocation.lng, tempLocation.lat],
       zoom: zoom,
+      zoomLevelsToOverscale: undefined,
     });
 
     // Cleanup function

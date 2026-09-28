@@ -1,8 +1,12 @@
 import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { MAP_STYLE_ROUTE, STOPS_DATA } from "../utils/constants";
-import maplibregl from "maplibre-gl";
+import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
+import * as maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 import { getRoutesGeojson } from "../utils";
+
+maplibregl.setWorkerUrl(maplibreWorkerUrl);
 
 const getLineGeoJson = (points) => ({
   type: "geojson",
@@ -74,6 +78,7 @@ class Container extends React.Component {
       zoom: zoom,
       minZoom: 10,
       maxZoom: 18,
+      zoomLevelsToOverscale: undefined,
     });
     map.dragRotate.disable();
     map.touchZoomRotate.disableRotation();
